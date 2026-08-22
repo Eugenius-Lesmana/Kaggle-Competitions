@@ -105,6 +105,34 @@ Unit suites green ×4 modes · aicomp validate ✅ ×3 · local stub e2e ✅ ×3
   illusory, revert to exact S3a bytes and redesign around replay-noise
   (best-of repeated submissions).
 
+## S8 UPLOADS — ALL THREE VARIANTS SUBMITTED (~2026-08-23 00:30–01:00 UTC)
+
+User uploaded **S8A_SCALE + S8B_ARMSPLIT + S8C_BAREONLY** back-to-back.
+Refs TBD (Kaggle CLI auth expired; run `kaggle auth login`, then
+`kaggle competitions submissions -c ai-agent-security-multi-step-tool-attacks`
+to fill these in). All three PENDING at write time.
+
+This is a deliberate **3-point measurement sweep**, not three shots at the
+same config. The S7/S6 decodes pick which rows matter:
+
+| Sub | Isolates | Read against |
+|---|---|---|
+| S6 (wording) | persuasion axis ≈ neutral? | banked 33.18 |
+| S7 (forge mixed pool) | injection latency lever | 33.18 |
+| S8A (scale) | drips + short-URL + overpack **on top of forge** | S7's score |
+| S8B (armsplit) | per-model specialization vs S7's mixed pools | S7's score |
+| S8C (bare-only) | everything EXCEPT injections (fill discipline alone) | 33.18 and S7 |
+
+Joint-decode rules (LB noise band ±8–20% CV — only trust large deltas):
+- S7 high AND S8A > S7 → forge + scaling both live; S9 = depth-to-ceiling
+  drips + generation-budget-max verifies (see S8A decode).
+- S7 low BUT S8C clearly > 33 → injections dead hosted; packing/fill is real;
+  stay on bare-only chassis, drop all forge families permanently.
+- S8B ≈ max(S7, others) → adopt split pools as default; else re-admit the
+  excluded "junk" shapes (they fired somewhere).
+- Everything ≤ 35 → revert to exact S3a bytes (v1 branch tag), re-bank,
+  redesign around replay-noise best-of.
+
 ## Template
 
 - **Date**:

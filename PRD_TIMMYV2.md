@@ -5,6 +5,11 @@ https://www.kaggle.com/competitions/ai-agent-security-multi-step-tool-attacks/
 **Date:** 2026-08-22 · **Owner:** tim + ox-alpha
 **Goal:** TOP 10 on the leaderboard (currently ≈115+; #1 = 138.25). Banked best = 33.180.
 
+> **STATUS (2026-08-23): pivot shipped.** S7_FORGE + all three S8 variants
+> (S8A_SCALE / S8B_ARMSPLIT / S8C_BAREONLY) uploaded, PENDING. Operational
+> state lives in `HANDOFF.md`; submission-by-submission state in
+> `dev_notes/submissions.md`. This PRD holds the strategy constitution.
+
 ---
 
 ## 0. Why this reset exists
