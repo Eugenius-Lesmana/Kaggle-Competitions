@@ -5,21 +5,28 @@
 (submission log + decode tables), `docs/history/` (v1 branch archive: v1
 HANDOFF/FINDINGS/submissions log; v1 code on git branch `timmy`).
 
-## Current status (2026-08-23 ~01:00 UTC)
+## Current status (2026-08-23 ~08:15 UTC)
 
-- **BANKED BEST: 33.180** (S3a, v1 branch). Top-10 ≈ 115+; #1 ≈ 138.
-- **5 submissions in flight / awaiting scores**:
-  | Sub | Ref | Lever |
-  |---|---|---|
-  | S6_WORDING | 55684788 | persuasion wording search (v1 branch build) — predicted ≈neutral |
-  | S7_FORGE | 55695708 | harmony/gemma turn-injection forges + bare shapes + session routing + overpack 700 |
-  | S8A_SCALE | TBD | forged drips (16/24 posts/cand) + short-URL + N_MAX 1100 |
-  | S8B_ARMSPLIT | TBD | per-model pools (gpt_oss=forge-only arm, gemma=bare-only arm) |
-  | S8C_BAREONLY | TBD | zero-injection bare+terse overpack (isolate fill-discipline gains) |
-- All three S8 variants uploaded by the user back-to-back (~00:30–01:00 UTC).
-- **FIRST JOB**: `kaggle auth login`, then pull all five scores and run the
-  joint-decode table in `dev_notes/submissions.md` (S8 UPLOADS section).
-  Log every score in that file BEFORE deciding anything.
+- **BANKED BEST: 43.000** (S8A_SCALE, ref 55696437). Top-10 ≈ 116.6; #1 = 138.25.
+- **All sweep scores IN except S8C** (full decode in `dev_notes/submissions.md`):
+  | Sub | Ref | LB | Read |
+  |---|---|---|---|
+  | S6_WORDING | 55684788 | 27.455 | wording dead, confirmed |
+  | S7_FORGE | 55695708 | 31.400 | forge ≈ neutral hosted (noise band) |
+  | S8A_SCALE | 55696437 | **43.000** | +30% real — drips+short-URL+N_MAX1100 stack works |
+  | S8B_ARMSPLIT | 55696465 | 42.355 | ≈ S8A; specialization neutral |
+  | S8C_BAREONLY | 55696455 | PENDING | decides bare-only vs injection-retained chassis |
+- Gain attribution: throughput mechanics (drip amortization, short-URL tokens,
+  window fill), NOT injections (S7 neutral). Injection text likely inert hosted.
+- **S9 family BUILT & GATED (2026-08-23 ~09:00 UTC)**: S9A_BARESWAP (matched-
+  pair injection strip vs S8A, ceiling 1100), S9B_BARESCALE (bare short-URL
+  drip ladder fs2–fs5 + N_MAX_S9 1400), S9C_FORGEMAX (H2 hedge: forged stack +
+  deep forged drips + 1400). attack.py sha `b65eb198…`; notebooks
+  `submission_S9{A,B,C}_*.ipynb` baked. Gates: units ✅ ×7 modes · validate ✅ ·
+  stub e2e ✅ ×3. Hypotheses + decode rules in `dev_notes/submissions.md`
+  (S9 section). Upload order: S8C lands → S9A + S9B together; S9C only if the
+  H2 branch decodes live.
+- Consider one byte-identical S8A re-ship for noise calibration around the new best.
 
 ## Decode shortcuts (full tables in dev_notes/submissions.md)
 

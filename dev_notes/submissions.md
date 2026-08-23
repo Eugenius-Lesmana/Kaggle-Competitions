@@ -133,6 +133,88 @@ Joint-decode rules (LB noise band ±8–20% CV — only trust large deltas):
 - Everything ≤ 35 → revert to exact S3a bytes (v1 branch tag), re-bank,
   redesign around replay-noise best-of.
 
+## SCORES LANDED (2026-08-23 ~08:00 UTC) — joint decode
+
+Pulled via `kaggle competitions submissions`. Mapping per upload order/user:
+
+| Sub | Ref | LB | Δ vs banked 33.180 | Verdict |
+|---|---|---|---|---|
+| S6_WORDING | 55684788 | **27.455** | −17% | wording axis dead, confirmed (predicted ≈neutral-central; came in negative side) |
+| S7_FORGE | 55695708 | **31.400** | −5% | INSIDE noise band → forge mixed pool ≈ **neutral hosted** (floor outcome 33±2; injections did not transfer — escaping/stripping suspect stands) |
+| S8A_SCALE | 55696437 | **43.000** | **+30%** | OUTSIDE noise (>20%) → real gain. NEW BANKED BEST. Driver must be the non-S7 deltas: drips (16/24 posts/cand) + short-URL + N_MAX 1100 |
+| S8B_ARMSPLIT | 55696465 | **42.355** | +28% | ≈ S8A (Δ1.5%, noise) → per-model specialization neutral; do not invest more here |
+| S8C_BAREONLY | 55696455 | pending | — | THE remaining leg: decides if injections can be dropped permanently |
+
+**Joint read:** S7-neutral + S8A/S8B +30% ⇒ the gain is throughput mechanics
+(posts-per-candidate amortization, short-URL token cut, fuller replay window),
+NOT injection content — injection text is plausibly inert hosted (stripped or
+mis-rendered). If so, trimming injection strings saves history tokens = pure win.
+
+**Leaderboard context (2026-08-23):** #10 ≈ 116.6, #1 = 138.25. Best 43.000 ⇒
+need ≈2.7× for top-10.
+
+**Next-build decision rules (execute when S8C lands):**
+- S8C ≥ ~40 → fill/pack discipline alone strong → **S9_BARESCALE**: zero
+  injection text anywhere, bare multi-message drips + short-URL everywhere +
+  N_MAX→1400 (generation-budget ceiling). Drop ALL forge families permanently.
+- S8C 36–40 → ambiguous attribution → still build S9_BARESCALE (cheap test of
+  dominant hypothesis) AND burn one slot on byte-identical S8A re-ship (noise
+  calibration around 43).
+- S8C ≤ 35 → drips/scale entangled with injection text → S9 = S8A re-tune
+  (N_MAX→1400, prune weakest families, drip depth toward ctx ceiling 5 msgs).
+- Either way: S9 candidates must pass gate ritual ×all modes before upload.
+
+## S9 family — BUILT & GATED (2026-08-23, upload after/with S8C decode)
+
+One attack.py (sha `b65eb198ad8f53ff…`), MODE via `ATTACK_MODE`, baked per
+notebook by `make_notebook.py`. Unit suites green ×7 modes · aicomp validate ✅
+×3 S9 modes · local stub e2e ✅ ×3 (S9A: 1100 cands raw 421,912; S9B: 1400 /
+889,968; S9C: 1400 / 888,816 — NOT hosted-predictive) · sync check ✅.
+New builders: `fb3_bare` (bare 3-drip), `fs_min8` + `fs2..fs5_short`
+(short-URL bare singles/drips, depth 5 = ctx-guard ceiling ~7.0k tok),
+`fj4_min`/`fj5_min` (forged deep short drips). Ship ceilings: S8A/S9A=1100,
+S9B/S9C=1400 (`_ship_ceiling()`). Static fallback injection-free in bare modes.
+
+### S9A_BARESWAP — hypothesis: injections are inert dead weight
+
+- Notebook `submission_S9A_BARESWAP.ipynb`. Matched-pair vs S8A: bare twins
+  of every S8A shape (fh_bare8↔fj_close8, fs_min8↔fj_min8, fb2_bare↔fj2_close,
+  fb3_bare↔fj3_close) + fh_terse8 control; SAME ceiling (1100); zero control-
+  token text anywhere (incl. fallback).
+- **Predicted**: central ≈ S8A ± 10% (43 ± 4). Decode vs S8A's 43.000:
+  - ≥ 45 → stripping helped (tokens saved per hop) → bare chassis permanent.
+  - 39–47 → inert (noise band) → decide by simplicity + S8C corroboration.
+  - ≤ 39 → injection text was EARNING its keep somewhere → H2 revives;
+    S9C path becomes primary.
+
+### S9B_BARESCALE — hypothesis: depth + generation-scale still buy score
+
+- Notebook `submission_S9B_BARESCALE.ipynb`. Zero injections; short-URL drip
+  ladder fs2→fs5 lets stages B/C find the compliance knee; controls fh_bare8
+  (long-vs-short single comparison), fh_terse8, fb2_bare, fb3_bare; N_MAX_S9
+  = 1400 (replay truncation graceful post-refresh; synthesis free; bigger
+  n_target spends more generation budget verifying).
+- **Predicted**: central 45–55 if depth amortizes like S8A drips did;
+  floor ≈ S9A − noise (deep drips flop → floor keeps shallow winners).
+- Decode vs max(S8A, S9A): ≥ +15% → depth knee ≥ 4, freeze chassis = S9B;
+  flat/negative → depth knee ≈ 2–3, ship fs2/fs3-heavy mix next round.
+
+### S9C_FORGEMAX — hedge: H2 scaled (only ships if bare branch flops)
+
+- Notebook `submission_S9C_FORGEMAX.ipynb`. Exact S8A forged stack + fj4_min/
+  fj5_min deep forged short drips + N_MAX_S9. One-lever rule bent deliberately:
+  this is the pre-built contingency for "S8C low AND S9A < S8A" (injections
+  live). Do NOT upload before S8C + S9A decodes unless both point at H2.
+
+**Joint-decode rules for the S9 round** (trust only >20% deltas):
+- S9A ≥ S8A − noise AND S9B > both → adopt S9B as freeze chassis; drop ALL
+  forge families permanently; next: N_MAX→2000 probe + private lottery tail.
+- S9A ≈ S8A AND S9B ≈ S9A → everything-in-the-middle plateau ⇒ shift budget
+  to best-of re-ships of best config (ride upper tail) + start private-row
+  diversification earlier than Aug 30.
+- S9C > S9B by >20% → H2 confirmed live hosted; revert bare-only plans;
+  next lever = forge-only pools at N_MAX 2000.
+
 ## Template
 
 - **Date**:
