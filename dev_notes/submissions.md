@@ -340,6 +340,22 @@ replay truncation graceful).
 - Hard stop: no S11 unless S10 ≥ 50 AND a specific mechanism demands it.
   From Aug 27 the calendar belongs to re-ships of the best decoded bytes.
 
+## S11_TOPTIER — BUILT & GATED (2026-08-24, Colab-informed)
+
+Built after the real-model battery (`dev_notes/colab_battery_2026-08-24.md`).
+Pool = tier-1 throughput families ONLY: fj3_close (10.3 raw/s), fj2_close
+(10.1), fj_min8 (10.0) + fh_terse8 anchor. Ceiling 2000. Ordering unchanged.
+
+- **One lever**: pool purity by measured rate (removes deep-drip + bare
+  dilution that S9C/S10 carry).
+- **Predicted** (hosted): central 48–58 if T4→hosted latency ratios hold;
+  floor ≈ 42 (tier-1 measurement was T4-local noise).
+- **Decode vs S9C 45.530 and S10 draws**: S11 mean > both by >15% → freeze
+  chassis; within noise of S9C → freeze S9C bytes (simpler proven set);
+  below → the Colab transfer failed, freeze best LB draw regardless.
+- Upload protocol: ONE slot today (slot 3 of 5); hold slots 4–5 for a second
+  S11 draw tomorrow morning so the freeze decision reads 2-draw means.
+
 ## Template
 
 - **Date**:

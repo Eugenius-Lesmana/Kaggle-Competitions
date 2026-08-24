@@ -293,6 +293,18 @@ elif MODE == "S10_SHORTALL":
         "fj_min8", "fj2_min", "fj3_min", "fj4_min", "fj5_min",
         "fh_terse8",
     )
+elif MODE == "S11_TOPTIER":
+    # Colab-measured (real gpt-oss-20b GGUF, seed 123, OptimalGuardrail,
+    # dev_notes/colab_battery_2026-08-24.md): only three families clear
+    # ~10 raw/s incl. replay overhead -- fj3_close 10.3, fj2_close 10.1,
+    # fj_min8 10.0; deep short drips measure 6.2-6.3 raw/s (high raw per
+    # candidate, poor window throughput) and fh_bare8 measures 0.13 posts/s
+    # (the forge injection is worth 3.5x firing on the real model).
+    # Pool = tier-1 only + terse anchor. Ordering untouched (raw-desc):
+    # with near-equal family rates, raw-desc IS rate-desc.
+    FIREHOSE_FAMILIES = (
+        "fj3_close", "fj2_close", "fj_min8", "fh_terse8",
+    )
 else:
     FIREHOSE_FAMILIES = _S3A_FAMILIES
 LOTTERY_FAMILIES = ("lot_page", "lot_dw", "lot_seed")
@@ -1185,7 +1197,7 @@ def _ship_ceiling() -> int:
         return N_MAX_SCALE
     if MODE in ("S9B_BARESCALE", "S9C_FORGEMAX"):
         return N_MAX_S9
-    if MODE == "S10_SHORTALL":
+    if MODE in ("S10_SHORTALL", "S11_TOPTIER"):
         return N_MAX_S10
     return N_MAX
 

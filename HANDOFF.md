@@ -5,28 +5,36 @@
 (submission log + decode tables), `docs/history/` (v1 branch archive: v1
 HANDOFF/FINDINGS/submissions log; v1 code on git branch `timmy`).
 
-## Current status (2026-08-24 ~03:45 UTC)
+## Current status (2026-08-24 ~12:00 UTC)
 
-- **BANKED BEST: 43.000** (S8A_SCALE, ref 55696437). Top-10 ≈ 116.6; #1 = 138.25.
-- **Sweep complete except S9** (full decode in `dev_notes/submissions.md`):
+- **BANKED BEST: 45.530** (S9C_FORGEMAX, ref 55722286). Top-10 ≈ 116.6; #1 = 138.25.
+- **Sweep decoded** (full tables in `dev_notes/submissions.md`):
   | Sub | Ref | LB | Read |
   |---|---|---|---|
   | S6_WORDING | 55684788 | 27.455 | wording dead |
-  | S7_FORGE | 55695708 | 31.400 | forge ≈ neutral hosted |
-  | S8A_SCALE | 55696437 | **43.000** | BEST: forged drips+short-URL+1100 |
+  | S7_FORGE | 55695708 | 31.400 | forge ≈ neutral in verbose pool |
+  | S8A_SCALE | 55696437 | 43.000 | forged drips+short-URL+1100 |
   | S8B_ARMSPLIT | 55696465 | 42.355 | ≈ S8A |
-  | S8C_BAREONLY | 55714249 | 29.425 | bare-minimal FAILS (orig ref 55696455 = zombie, never scored) |
-- **S9 triple PENDING** (user uploaded Aug 23): 55718167=S9A_BARESWAP,
-  55719976=S9B_BARESCALE, 55722286=S9C_FORGEMAX (build order; confirm on
-  inconsistency). Scores expected ~midday UTC Aug 24.
-- **S9A/S9B IN — both failed (H2 confirmed)**: S9A 24.650 (−43% vs S8A;
-  stripping injections is catastrophic), S9B 29.160. Bare-only configs are
-  DEAD across three proofs (S8C 29.4 / S9A 24.7 / S9B 29.2). Full decode +
-  post-S9C decision tree in `dev_notes/submissions.md` (S9A/S9B DECODE).
-- **S9C_FORGEMAX PENDING** (55722286) — the only sub that can move the
-  chassis now; central prior 46–52, floor 40.
-- **55731599** (Aug 24 03:30) pending — presumed byte-identical S8A reship
-  (noise calibration); confirm mapping when it scores.
+  | S8C_BAREONLY | 55714249 | 29.425 | bare-minimal FAILS |
+  | S9A_BARESWAP | 55718167 | 24.650 | stripping injections = −43%, H2 confirmed |
+  | S9B_BARESCALE | 55719976 | 29.160 | bare dead, third proof |
+  | **S9C_FORGEMAX** | 55722286 | **45.530** | BEST: forged stack + deep drips + 1400 |
+- **Colab real-model battery DONE (gpt_oss side)** — read
+  `dev_notes/colab_battery_2026-08-24.md`. Headlines: forge injection = 3.5×
+  firing multiplier on real gpt-oss; tier-1 rate families = {fj3_close,
+  fj2_close, fj_min8} at ~10.0–10.3 raw/s; deep short drips are throughput
+  traps (6.2–6.3 raw/s); fh_bare8 nearly inert (2/8 posts). **S11_TOPTIER
+  built** on the tier-1 pool, ceiling 2000, gates green ×9 modes, notebook
+  `submission_S11_TOPTIER.ipynb`.
+- **In flight**: S8A reship (55731599), S10_SHORTALL draw 1 (55739883;
+  predicted BELOW S9C — its pool concentrates low-rate deep-short families).
+  Gemma mini-battery queued on Colab VM (bonus; VM fragile, results pulled
+  to /tmp/opencode locally).
+- **FIRST JOB**: when scores land, decode per `dev_notes/submissions.md`
+  (S11 section): freeze chassis = best pooled-draw mean of {S11, S9C, S8A};
+  then Aug 26–31 = pure re-ships of the winner's exact bytes.
+- Upload guidance: today ship S11 once (slot 3 of 5); tomorrow morning one
+  more S11 draw so the freeze decision reads 2-draw means.
 
 ## Decode shortcuts (full tables in dev_notes/submissions.md)
 
