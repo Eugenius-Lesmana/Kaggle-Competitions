@@ -5,28 +5,26 @@
 (submission log + decode tables), `docs/history/` (v1 branch archive: v1
 HANDOFF/FINDINGS/submissions log; v1 code on git branch `timmy`).
 
-## Current status (2026-08-23 ~08:15 UTC)
+## Current status (2026-08-24 ~03:45 UTC)
 
 - **BANKED BEST: 43.000** (S8A_SCALE, ref 55696437). Top-10 ≈ 116.6; #1 = 138.25.
-- **All sweep scores IN except S8C** (full decode in `dev_notes/submissions.md`):
+- **Sweep complete except S9** (full decode in `dev_notes/submissions.md`):
   | Sub | Ref | LB | Read |
   |---|---|---|---|
-  | S6_WORDING | 55684788 | 27.455 | wording dead, confirmed |
-  | S7_FORGE | 55695708 | 31.400 | forge ≈ neutral hosted (noise band) |
-  | S8A_SCALE | 55696437 | **43.000** | +30% real — drips+short-URL+N_MAX1100 stack works |
-  | S8B_ARMSPLIT | 55696465 | 42.355 | ≈ S8A; specialization neutral |
-  | S8C_BAREONLY | 55696455 | PENDING | decides bare-only vs injection-retained chassis |
-- Gain attribution: throughput mechanics (drip amortization, short-URL tokens,
-  window fill), NOT injections (S7 neutral). Injection text likely inert hosted.
-- **S9 family BUILT & GATED (2026-08-23 ~09:00 UTC)**: S9A_BARESWAP (matched-
-  pair injection strip vs S8A, ceiling 1100), S9B_BARESCALE (bare short-URL
-  drip ladder fs2–fs5 + N_MAX_S9 1400), S9C_FORGEMAX (H2 hedge: forged stack +
-  deep forged drips + 1400). attack.py sha `b65eb198…`; notebooks
-  `submission_S9{A,B,C}_*.ipynb` baked. Gates: units ✅ ×7 modes · validate ✅ ·
-  stub e2e ✅ ×3. Hypotheses + decode rules in `dev_notes/submissions.md`
-  (S9 section). Upload order: S8C lands → S9A + S9B together; S9C only if the
-  H2 branch decodes live.
-- Consider one byte-identical S8A re-ship for noise calibration around the new best.
+  | S6_WORDING | 55684788 | 27.455 | wording dead |
+  | S7_FORGE | 55695708 | 31.400 | forge ≈ neutral hosted |
+  | S8A_SCALE | 55696437 | **43.000** | BEST: forged drips+short-URL+1100 |
+  | S8B_ARMSPLIT | 55696465 | 42.355 | ≈ S8A |
+  | S8C_BAREONLY | 55714249 | 29.425 | bare-minimal FAILS (orig ref 55696455 = zombie, never scored) |
+- **S9 triple PENDING** (user uploaded Aug 23): 55718167=S9A_BARESWAP,
+  55719976=S9B_BARESCALE, 55722286=S9C_FORGEMAX (build order; confirm on
+  inconsistency). Scores expected ~midday UTC Aug 24.
+- **FIRST JOB when scores land**: joint-decode per rules in
+  `dev_notes/submissions.md` (S9 section). Priors after S8C: S9C favored;
+  S9B only matters if S9A ≥ 43.
+- **Standing order**: one byte-identical S8A re-ship for noise calibration —
+  S8C's messy read (zombie + re-upload) shows how fragile single-draw decodes
+  are; calibrate CV around 43 before trusting any S9 delta < ±20%.
 
 ## Decode shortcuts (full tables in dev_notes/submissions.md)
 

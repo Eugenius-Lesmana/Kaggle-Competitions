@@ -215,6 +215,56 @@ S9B/S9C=1400 (`_ship_ceiling()`). Static fallback injection-free in bare modes.
 - S9C > S9B by >20% → H2 confirmed live hosted; revert bare-only plans;
   next lever = forge-only pools at N_MAX 2000.
 
+## S8C DECODE + S9 TRIPLE UPLOAD (2026-08-24 ~03:30 UTC)
+
+Corrections vs earlier assumptions:
+- **Original S8C upload (ref 55696455, Aug 22 trio) NEVER SCORED** — status
+  COMPLETE with blank publicScore after 34h. Treat as zombie; cause unknown
+  (scoring-side anomaly; the identical config re-uploaded fine). Watch for
+  recurrence with any tiny-pool config.
+- **S8C true score comes from the user's re-upload**: ref 55714249 (Aug 23
+  12:07 UTC) = **29.425**.
+- User also uploaded all three S9 variants Aug 23: refs 55718167 (15:09),
+  55719976 (16:38), 55722286 (18:17) = S9A/S9B/S9C in build order (assumed;
+  confirm against descriptions if any decode looks inconsistent). PENDING at
+  write time (~9–12h elapsed; S8 trio took ~14h to land).
+
+### Updated sweep table
+
+| Sub | Ref | LB | Verdict |
+|---|---|---|---|
+| S6_WORDING | 55684788 | 27.455 | wording axis dead |
+| S7_FORGE | 55695708 | 31.400 | forge mixed pool ≈ neutral |
+| S8A_SCALE | 55696437 | **43.000** | BEST — forged drips + short-URL + 1100 |
+| S8B_ARMSPLIT | 55696465 | 42.355 | ≈ S8A |
+| S8C_BAREONLY | 55714249 | **29.425** | bare-minimal pool FAILS (below banked) |
+
+### S8C decode (29.425)
+
+- vs banked 33.18: −11% → inside the ±8–20% noise band, but on the wrong
+  side of EVERY comparator (banked, S7, S8A, S8B). No positive evidence for
+  fill/packing discipline alone.
+- S8C pool was bare/terse singles + fb2_bare + fg_turn8 @ N_MAX 700. It
+  lacked: forged drips, short-URL, ceiling raise, verbose exact/persona
+  controls. Its collapse ⇒ those removed pieces carry the score; the
+  "injections inert" prior gets NO support. H2 (injection text live) or
+  "drips+short-URL+scale are load-bearing regardless of text" both remain
+  alive; bare-only chassis is DEAD as a freeze candidate.
+- Caveat: impure isolation — S8C kept fg_turn8 (gemma turn tokens) and ran
+  at 700, not 1100. And the zombie first attempt means we never got a clean
+  second read. Confidence: moderate, not high.
+
+### Standing orders while S9 scores land
+
+1. **Noise calibration is now urgent**: burn one slot on a byte-identical
+   S8A re-ship (`submission_S8A_SCALE.ipynb` unchanged). If identical bytes
+   swing ±30% like the S6→S8C gap suggests, EVERY small delta decode this
+   week is unreliable and the endgame becomes pure best-of riding.
+2. S9 joint-decode rules stand (see S9 section above); priors shifted:
+   S9C_FORGEMAX favored, S9B needs S9A ≥ 43 to matter.
+3. Add to dead branches: bare-only minimal pools without forged/drip/scale
+   stack (S8C-class configs).
+
 ## Template
 
 - **Date**:
