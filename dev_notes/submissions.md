@@ -272,7 +272,7 @@ Corrections vs earlier assumptions:
 | S9A_BARESWAP | 55718167 | **24.650** | **−43%** |
 | S9B_BARESCALE | 55719976 | **29.160** | −32% |
 | S9C_FORGEMAX | 55722286 | PENDING | decides freeze chassis |
-| (S8A reship?) | 55731599 (Aug 24 03:30, unmapped) | PENDING | noise calibration |
+| S8A reship (confirmed by user) | 55731599, Aug 24 03:30 | PENDING | noise calibration around 43 |
 
 **Decode:** the matched-pair came back DECISIVELY negative. Stripping
 control-token text from the full throughput stack (same drip/short-URL/ceiling
