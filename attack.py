@@ -135,9 +135,9 @@ N_MAX = 700               # ship overshoot: replay truncation is graceful AND
                           # S8A_SCALE raises this to N_MAX_SCALE (1100).
 SHIP_UNCAPPED = True      # n_target = N_MAX, bypassing the tbar clamp.
 MODE = os.environ.get("ATTACK_MODE", "S7_FORGE")
-# "S9C_FORGEMAX" | "S9B_BARESCALE" | "S9A_BARESWAP" | "S8A_SCALE"
-# | "S8B_ARMSPLIT" | "S8C_BAREONLY" | "S7_FORGE" | "S6_WORDING"
-# | "S5_KNEE" | "S4A_LADDER" | "S3A_DENSITY" | "S3B_VOLUME"
+# "S10_SHORTALL" | "S9C_FORGEMAX" | "S9B_BARESCALE" | "S9A_BARESWAP"
+# | "S8A_SCALE" | "S8B_ARMSPLIT" | "S8C_BAREONLY" | "S7_FORGE"
+# | "S6_WORDING" | "S5_KNEE" | "S4A_LADDER" | "S3A_DENSITY" | "S3B_VOLUME"
 # (env override is a build/test convenience; the hosted rerun never sets it)
 SIBLING_FLOOR_FRAC = 0.5  # sibling fill admits families with mean raw >=
                           # this fraction of the best firehose family's mean
@@ -157,6 +157,10 @@ N_MAX_S9 = 1400           # S9B/S9C ship ceiling: replay truncation stays
                           # and a larger n_target lets stage C/UCB spend the
                           # full generation budget verifying instead of
                           # stopping at the S8A ceiling (S8A decode step).
+N_MAX_S10 = 2000          # S10 ship ceiling = evaluator cap (MAX_REPLAY_
+                          # FINDINGS). Free upside: extra entries are
+                          # synthesized siblings; public truncation keeps
+                          # the best-first prefix either way.
 _PROBE_HEADROOM_S = 90.0  # constant headroom before starting a possibly-slow op
 
 # -- S4a ladder tuning --------------------------------------------------------
@@ -221,7 +225,7 @@ _S7_FAMILIES = (
 _S8_DRIP_FAMILIES = ("fj2_close", "fj3_close")
 _FORGE_ROUTE = frozenset({
     "fj_close8", "fj_last8", "fj_min8", "fj2_close", "fj3_close",
-    "fj4_min", "fj5_min",
+    "fj4_min", "fj5_min", "fj2_min", "fj3_min",
 })
 _BARE_ROUTE = frozenset({
     "fh_bare8", "fg_turn8", "fb2_bare", "fb3_bare",
@@ -280,6 +284,14 @@ elif MODE == "S9C_FORGEMAX":
         ("fj_close8", "fj_last8") + ("fj_min8",) + tuple(_S8_DRIP_FAMILIES)
         + ("fj4_min", "fj5_min")
         + ("fh_bare8",) + ("fh_terse8",)
+    )
+elif MODE == "S10_SHORTALL":
+    # Every forged shape on short-URL bodies (S9C still shipped 4 long-URL
+    # shapes whose URLs re-prefill into history each hop), ceiling at the
+    # evaluator cap. fh_terse8 stays as the verbose anchor control.
+    FIREHOSE_FAMILIES = (
+        "fj_min8", "fj2_min", "fj3_min", "fj4_min", "fj5_min",
+        "fh_terse8",
     )
 else:
     FIREHOSE_FAMILIES = _S3A_FAMILIES
@@ -653,6 +665,8 @@ def _make_fj_deep(depth: int) -> Callable[[int], tuple[str, ...]]:
 
 _fj4_min = _make_fj_deep(4)
 _fj5_min = _make_fj_deep(5)
+_fj2_min = _make_fj_deep(2)
+_fj3_min = _make_fj_deep(3)
 
 
 # ---------------------------------------------------------------------------
@@ -975,6 +989,8 @@ FAMILY_BUILDERS.update({
     "fs5_short": _fs5_short,
     "fj4_min": _fj4_min,
     "fj5_min": _fj5_min,
+    "fj2_min": _fj2_min,
+    "fj3_min": _fj3_min,
 })
 
 
@@ -1169,6 +1185,8 @@ def _ship_ceiling() -> int:
         return N_MAX_SCALE
     if MODE in ("S9B_BARESCALE", "S9C_FORGEMAX"):
         return N_MAX_S9
+    if MODE == "S10_SHORTALL":
+        return N_MAX_S10
     return N_MAX
 
 

@@ -166,6 +166,7 @@ def test_mirror_and_length_all_families():
 def test_s3_family_modes():
     # Mode switch selects the active firehose set; builders exist either way.
     assert attack.MODE in (
+        "S10_SHORTALL",
         "S9C_FORGEMAX", "S9B_BARESCALE", "S9A_BARESWAP",
         "S8A_SCALE", "S8B_ARMSPLIT", "S8C_BAREONLY",
         "S7_FORGE", "S6_WORDING", "S5_KNEE", "S4A_LADDER", "S3A_DENSITY",
@@ -227,6 +228,20 @@ def test_s3_family_modes():
         )
         assert any(f in attack._FORGE_ROUTE for f in attack.FIREHOSE_FAMILIES)
         assert attack._ship_ceiling() == attack.N_MAX_S9
+    elif attack.MODE == "S10_SHORTALL":
+        assert attack.FIREHOSE_FAMILIES == (
+            "fj_min8", "fj2_min", "fj3_min", "fj4_min", "fj5_min",
+            "fh_terse8",
+        )
+        assert all(f in attack._FORGE_ROUTE for f in
+                   attack.FIREHOSE_FAMILIES[:-1])
+        # every forged shape in the pool is short-URL (no long-band shapes)
+        for name in attack.FIREHOSE_FAMILIES[:-1]:
+            text = FAMILY_BUILDERS[name](3)[0]
+            assert "/p" in text, name  # compact path marker
+            assert 'example.com/ping' not in text and \
+                'example.com/beat' not in text, name
+        assert attack._ship_ceiling() == attack.N_MAX_S10 == 2000
     elif attack.MODE == "S6_WORDING":
         assert attack.FIREHOSE_FAMILIES == (
             attack._S3A_FAMILIES + attack._S6_WORDING_FAMILIES + ("fh2_terse",)
@@ -520,12 +535,14 @@ def test_s9_scaling_families():
         assert len(msgs) == 3 and _mirror_valid(msgs) and attack._ctx_ok(msgs)
         assert all("http.post url=" in m for m in msgs)
     # forged deep drips: injection byte-pinned on EVERY message
-    for name, depth in (("fj4_min", 4), ("fj5_min", 5)):
+    for name, depth in (("fj2_min", 2), ("fj3_min", 3),
+                        ("fj4_min", 4), ("fj5_min", 5)):
         for idx in (0, 7, 123, 999):
             msgs = FAMILY_BUILDERS[name](idx)
             assert len(msgs) == depth, (name, idx)
             for m in msgs:
                 assert m.endswith(attack._HARMONY_INJ_CLOSE), (name, idx)
+                assert "/p" in m, (name, idx)  # short-URL body
             assert _mirror_valid(msgs) and attack._ctx_ok(msgs), (name, idx)
     # band disjointness across depths AND vs the primary long band.
     # Distinct BASE index per family (mirrors live flow: screen/verify/sibling
@@ -552,6 +569,7 @@ def test_s9_scaling_families():
         "S9A_BARESWAP": attack.N_MAX_SCALE,
         "S9B_BARESCALE": attack.N_MAX_S9,
         "S9C_FORGEMAX": attack.N_MAX_S9,
+        "S10_SHORTALL": attack.N_MAX_S10,
     }.get(attack.MODE, attack.N_MAX)
     print(f"  [ok] S9 scaling families: zero-injection invariant, depth"
           f" ladder fs2-fs5 + fb3_bare + forged deep drips ctx-safe,"

@@ -303,7 +303,51 @@ replay, or it materially raises firing/compliance. Either way:
 - **S9C < 39**: deep drips/1400 actively hurt → exact-S8A bytes are the
   freeze chassis; remaining slots = S8A re-ships only.
 
+## S9C DECODE (2026-08-24 ~08:40 UTC) — NEW BEST 45.530
+
+| Sub | Ref | LB |
+|---|---|---|
+| **S9C_FORGEMAX** | 55722286 | **45.530** ← BANKED BEST |
+| S8A reship | 55731599 | PENDING |
+
+- +5.9% vs S8A 43.000 — inside noise; treat as "deep forged drips + 1400 ≥
+  S8A stack, probably slightly better". Chassis for the final week lives on
+  the forge path regardless.
+- Decision-tree outcome: landed in the 39–48 plateau band ⇒ building is
+  ALMOST over. One exception granted: a single untested mechanism-backed
+  lever remains (see S10).
+
+## S10_SHORTALL — BUILT & GATED (2026-08-24, hypotheses pre-upload)
+
+**The lever:** in S9C's pool, short-URL bodies existed ONLY on fj_min8/
+fj4_min/fj5_min; fj_close8/fj_last8/fj2_close/fj3_close still carried ~40%
+longer URLs that re-prefill into history on EVERY hop. S10 converts the whole
+forged stack to short bodies (NEW fj2_min/fj3_min via `_make_fj_deep`) and
+raises the ship ceiling to N_MAX_S10 = 2000 (evaluator cap; synthesis free,
+replay truncation graceful).
+
+- Notebook `submission_S10_SHORTALL.ipynb`. Pool: fj_min8, fj2_min, fj3_min,
+  fj4_min, fj5_min + fh_terse8 anchor control. No long-URL shape ships.
+- **Predicted**: central 50–58 if hop-latency scales with URL tokens the way
+  the cleanorlabs table says (short ≈ −25% per-hop); floor ≈ 43 (short twins
+  fire worse than long — would falsify the token-latency model itself).
+- **Decode vs 45.530**: ≥ 50 → real gain, freeze chassis = S10; 41–49 →
+  indistinguishable ⇒ BUILDING STOPS permanently, alternate S9C/S10 bytes;
+  ≤ 40 → short bodies hurt compliance on some shape, freeze exact S9C bytes.
+- **Shipping protocol (variance control)**: upload the SAME notebook twice
+  today (slots 3–4 of 5) so tomorrow reads a 2-draw mean against S9C's
+  single draw; reship score (55731599) gives the S8A-side CV.
+- Hard stop: no S11 unless S10 ≥ 50 AND a specific mechanism demands it.
+  From Aug 27 the calendar belongs to re-ships of the best decoded bytes.
+
 ## Template
+
+- **Date**:
+- **attack.py sha256**:
+- **One lever changed**:
+- **Predicted**:
+- **Result / r**:
+- **Decision**:
 
 - **Date**:
 - **attack.py sha256**:
