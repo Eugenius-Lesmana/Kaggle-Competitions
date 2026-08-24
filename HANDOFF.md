@@ -36,6 +36,22 @@ HANDOFF/FINDINGS/submissions log; v1 code on git branch `timmy`).
 - Upload guidance: today ship S11 once (slot 3 of 5); tomorrow morning one
   more S11 draw so the freeze decision reads 2-draw means.
 
+## Google Colab real-model testing (USE THIS FIRST for pool questions)
+
+We have a **proven workflow** for measuring real hosted-equivalent behavior
+(real GGUF agents + OptimalGuardrail + SandboxEnv seed 123) on a free Colab
+T4 in minutes, instead of burning a submission per blind A/B. Full guide:
+**`dev_notes/colab/SETUP.md`** (SSH/ngrok setup, VM gotchas, bootstrap,
+checkpoint discipline). Scripts mirrored at `dev_notes/colab/bootstrap.sh`
+and `dev_notes/colab/probe_battery.py`. First battery's output +
+methodology: `dev_notes/colab_battery_2026-08-24.md` (this is how
+S11_TOPTIER's tier-1 pool was chosen: fj3_close/fj2_close/fj_min8 ≈ 10 raw/s;
+forge injection = 3.5× firing multiplier; deep short drips = throughput traps).
+
+Rule of thumb: any new family/shape/pool hypothesis gets a Colab battery
+BEFORE a submission slot, unless the LB question is specifically about
+hosted-vs-local transfer. VMs die hourly → pull results.jsonl to local often.
+
 ## Decode shortcuts (full tables in dev_notes/submissions.md)
 
 - S7 ≥ 60 → forge works; best-of(S8*) is the new chassis.
