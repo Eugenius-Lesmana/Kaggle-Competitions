@@ -19,12 +19,14 @@ HANDOFF/FINDINGS/submissions log; v1 code on git branch `timmy`).
 - **S9 triple PENDING** (user uploaded Aug 23): 55718167=S9A_BARESWAP,
   55719976=S9B_BARESCALE, 55722286=S9C_FORGEMAX (build order; confirm on
   inconsistency). Scores expected ~midday UTC Aug 24.
-- **FIRST JOB when scores land**: joint-decode per rules in
-  `dev_notes/submissions.md` (S9 section). Priors after S8C: S9C favored;
-  S9B only matters if S9A ≥ 43.
-- **Standing order**: one byte-identical S8A re-ship for noise calibration —
-  S8C's messy read (zombie + re-upload) shows how fragile single-draw decodes
-  are; calibrate CV around 43 before trusting any S9 delta < ±20%.
+- **S9A/S9B IN — both failed (H2 confirmed)**: S9A 24.650 (−43% vs S8A;
+  stripping injections is catastrophic), S9B 29.160. Bare-only configs are
+  DEAD across three proofs (S8C 29.4 / S9A 24.7 / S9B 29.2). Full decode +
+  post-S9C decision tree in `dev_notes/submissions.md` (S9A/S9B DECODE).
+- **S9C_FORGEMAX PENDING** (55722286) — the only sub that can move the
+  chassis now; central prior 46–52, floor 40.
+- **55731599** (Aug 24 03:30) pending — presumed byte-identical S8A reship
+  (noise calibration); confirm mapping when it scores.
 
 ## Decode shortcuts (full tables in dev_notes/submissions.md)
 

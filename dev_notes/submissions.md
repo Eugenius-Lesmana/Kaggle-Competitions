@@ -265,6 +265,44 @@ Corrections vs earlier assumptions:
 3. Add to dead branches: bare-only minimal pools without forged/drip/scale
    stack (S8C-class configs).
 
+## S9A/S9B DECODE (2026-08-24 ~04:45 UTC) — H2 CONFIRMED
+
+| Sub | Ref | LB | Δ vs S8A 43.000 |
+|---|---|---|---|
+| S9A_BARESWAP | 55718167 | **24.650** | **−43%** |
+| S9B_BARESCALE | 55719976 | **29.160** | −32% |
+| S9C_FORGEMAX | 55722286 | PENDING | decides freeze chassis |
+| (S8A reship?) | 55731599 (Aug 24 03:30, unmapped) | PENDING | noise calibration |
+
+**Decode:** the matched-pair came back DECISIVELY negative. Stripping
+control-token text from the full throughput stack (same drip/short-URL/ceiling
+class) cost ~43% — far outside any noise band. Injection text is LOAD-BEARING
+hosted: either the forge genuinely collapses gpt_oss generation latency in
+replay, or it materially raises firing/compliance. Either way:
+
+- **NEVER ship injection-stripped variants again.** Bare-only joins wording,
+  ladders, batch-k<8 in the dead branch list — now proven across three configs
+  (S8C 29.4, S9A 24.7, S9B 29.2).
+- The earlier "S7 ≈ neutral" read was real but misleading: forges alone in a
+  verbose-control pool don't beat S3a; forges INSIDE the drip/scale package
+  are what compounds. The winning unit is **forged-drip + short-URL + high
+  ceiling**, not any single piece.
+- S9B > S9A by +18% says depth/ceiling helped even in the doomed bare regime;
+  neutral w.r.t. the forge path. No action.
+- Revised priors for tonight: S9C central ≈ 46–52 IF deep forged drips scale
+  like fj2/fj3 did; floor ≈ 40 (depth knee < 4). It is now the ONLY sub that
+  can move the chassis. Everything else waits for it.
+
+### Post-S9C decision tree (final week, deadline Sep 1)
+
+- **S9C ≥ 48**: forge-depth-scale confirmed → build S10 = S9C pruned to its
+  winner depth band (screening stats unobservable, so prune by LB delta:
+  try N_MAX→2000 + drop shallow singles) while re-shipping S9C bytes.
+- **39 ≤ S9C < 48**: plateau → STOP building; all remaining slots become
+  best-of re-ships alternating S8A/S9C bytes (ride upper-tail draws).
+- **S9C < 39**: deep drips/1400 actively hurt → exact-S8A bytes are the
+  freeze chassis; remaining slots = S8A re-ships only.
+
 ## Template
 
 - **Date**:
