@@ -21,8 +21,16 @@ HANDOFF/FINDINGS/submissions log; v1 code on git branch `timmy`).
   ⚠ submission_S11_TOPTIER.ipynb stays frozen on scoring bytes — never rebuild.
 - **TODAY's uploads**: slot 1 = S12_BIFROST d1; slot 2 = S11_TOPTIER d2
   (freeze-decision data + upper-tail >50 shot). Tomorrow: S12 d2.
-- Deadline Sep 1. If S12 decode lands ≥52 → one more gemma-depth probe;
-  otherwise Aug 27+ = pure best-of re-ships of {S11,S12} winner bytes.
+- **S13_DEEPGEMMA BUILT & GATED** (sha `ee116be77378…`): gemma depth battery
+  found yield LINEAR to depth 10 (fd8 6.37 raw/s vs fb3 5.05); compact k=4
+  bodies make depth 8 ctx-legal (CTX_HOP_CHARS_COMPACT=170, margins unit-
+  pinned). Source audit PROVED predicate stacking impossible publicly
+  (UTA window 2 vs taint window 5; all SHARE tools guardrail-denied) — that
+  dead branch is closed with certainty. Gates ×6 modes green.
+- Upload order today: slot 1 = S12_BIFROST d1 · slot 2 = S13_DEEPGEMMA d1 ·
+  slot 3 = S11_TOPTIER d2. Decode rules in submissions.md.
+- Colab VM #3 died after the depth battery; fd8c4's k=4 yield assumption
+  (~1 post/msg regardless of list length) rides on stage-B probe-gating.
 
 ## Google Colab real-model testing (USE THIS FIRST for pool questions)
 
