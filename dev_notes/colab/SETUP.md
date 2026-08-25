@@ -93,3 +93,22 @@ Edit `FAMILIES`/`INDICES` at the top per question. Gemma runs need the
 - Absolute latencies differ from hosted (T4 vs their GPUs); RELATIVE family
   rankings and compliance counts transfer because decoding is deterministic
   given identical prompts/weights.
+
+## 2026-08-25 addendum (round-2 lessons)
+
+- **/tmp gets wiped between sessions** → the SSH key now lives at
+  `~/.ssh/opencode-colab_key` (backup of /tmp/opencode/colab_key). Regenerate
+  only if BOTH are gone; user must re-authorize the new pubkey (Cell 1).
+- **nvidia-smi "couldn't find libnvidia-ml"** on some images: libs live in
+  `/usr/lib64-nvidia` — `ldconfig /usr/lib64-nvidia /usr/local/cuda-12.8/compat`
+  or export LD_LIBRARY_PATH (bootstrap_q3.sh does this).
+- **libggml-cpu invalid-opcode crash**: prebuilt cu124 wheel's CPU kernels die
+  when tensor ops run on CPU (partial offload). Round 1 (gemma Q4_K_M,
+  16.9 GB) crashed at ngl≤24. Fix: **smaller quant + FULL offload** —
+  gemma Q3_K_XL (12.9 GB) fits the T4 whole and never touches the broken
+  path. Behavioral fidelity cost accepted; hosted stays Q4_K_M.
+- **probe_gemma.py has resume support**: scp partial results back to
+  /content/results.jsonl before relaunching; completed (family, idx) pairs
+  are skipped.
+- **One-shot redeploy script**: `run_round2.sh <host> <port>` does
+  connectivity, push, bootstrap (download ∥ pip), extract, launch.

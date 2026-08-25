@@ -5,36 +5,24 @@
 (submission log + decode tables), `docs/history/` (v1 branch archive: v1
 HANDOFF/FINDINGS/submissions log; v1 code on git branch `timmy`).
 
-## Current status (2026-08-24 ~12:00 UTC)
+## Current status (2026-08-25 ~13:00 UTC)
 
-- **BANKED BEST: 45.530** (S9C_FORGEMAX, ref 55722286). Top-10 ≈ 116.6; #1 = 138.25.
-- **Sweep decoded** (full tables in `dev_notes/submissions.md`):
-  | Sub | Ref | LB | Read |
-  |---|---|---|---|
-  | S6_WORDING | 55684788 | 27.455 | wording dead |
-  | S7_FORGE | 55695708 | 31.400 | forge ≈ neutral in verbose pool |
-  | S8A_SCALE | 55696437 | 43.000 | forged drips+short-URL+1100 |
-  | S8B_ARMSPLIT | 55696465 | 42.355 | ≈ S8A |
-  | S8C_BAREONLY | 55714249 | 29.425 | bare-minimal FAILS |
-  | S9A_BARESWAP | 55718167 | 24.650 | stripping injections = −43%, H2 confirmed |
-  | S9B_BARESCALE | 55719976 | 29.160 | bare dead, third proof |
-  | **S9C_FORGEMAX** | 55722286 | **45.530** | BEST: forged stack + deep drips + 1400 |
-- **Colab real-model battery DONE (gpt_oss side)** — read
-  `dev_notes/colab_battery_2026-08-24.md`. Headlines: forge injection = 3.5×
-  firing multiplier on real gpt-oss; tier-1 rate families = {fj3_close,
-  fj2_close, fj_min8} at ~10.0–10.3 raw/s; deep short drips are throughput
-  traps (6.2–6.3 raw/s); fh_bare8 nearly inert (2/8 posts). **S11_TOPTIER
-  built** on the tier-1 pool, ceiling 2000, gates green ×9 modes, notebook
-  `submission_S11_TOPTIER.ipynb`.
-- **In flight**: S8A reship (55731599), S10_SHORTALL draw 1 (55739883;
-  predicted BELOW S9C — its pool concentrates low-rate deep-short families).
-  Gemma mini-battery queued on Colab VM (bonus; VM fragile, results pulled
-  to /tmp/opencode locally).
-- **FIRST JOB**: when scores land, decode per `dev_notes/submissions.md`
-  (S11 section): freeze chassis = best pooled-draw mean of {S11, S9C, S8A};
-  then Aug 26–31 = pure re-ships of the winner's exact bytes.
-- Upload guidance: today ship S11 once (slot 3 of 5); tomorrow morning one
-  more S11 draw so the freeze decision reads 2-draw means.
+- **BANKED BEST: 48.650** (S11_TOPTIER d1, ref 55743607). Top-10 ≈ 116.6; #1 = 138.25.
+- **Aug-24 triple decoded**: S8A reship 40.785 ⇒ draw noise ≈ ±5%; S10_SHORTALL
+  43.615 (URL axis closed); S11_TOPTIER 48.650 = NEW BEST. Full read in
+  `dev_notes/submissions.md`.
+- **GEMMA BATTERY DONE** (`dev_notes/colab/results_gemma_2026-08-25.jsonl`):
+  fh_terse8 — the ONLY gemma shape S11 ships — measured WORST on real
+  gemma-4 (1 post/cand); bare 3-drips fire 4; injection text inert on gemma.
+  MoE hops are genuinely fast (~0.3–1 s local). The gemma row is our weak row.
+- **S12_BIFROST BUILT & GATED** (arm-split: gpt_oss tier-1 trio × gemma
+  bare-drip winners, ceiling 2000, sha `433d033bcc42…`). Predicted central
+  54–62; decode rules in submissions.md. `submission_S12_BIFROST.ipynb`.
+  ⚠ submission_S11_TOPTIER.ipynb stays frozen on scoring bytes — never rebuild.
+- **TODAY's uploads**: slot 1 = S12_BIFROST d1; slot 2 = S11_TOPTIER d2
+  (freeze-decision data + upper-tail >50 shot). Tomorrow: S12 d2.
+- Deadline Sep 1. If S12 decode lands ≥52 → one more gemma-depth probe;
+  otherwise Aug 27+ = pure best-of re-ships of {S11,S12} winner bytes.
 
 ## Google Colab real-model testing (USE THIS FIRST for pool questions)
 

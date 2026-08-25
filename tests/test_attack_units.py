@@ -166,7 +166,7 @@ def test_mirror_and_length_all_families():
 def test_s3_family_modes():
     # Mode switch selects the active firehose set; builders exist either way.
     assert attack.MODE in (
-        "S11_TOPTIER", "S10_SHORTALL",
+        "S12_BIFROST", "S11_TOPTIER", "S10_SHORTALL",
         "S9C_FORGEMAX", "S9B_BARESCALE", "S9A_BARESWAP",
         "S8A_SCALE", "S8B_ARMSPLIT", "S8C_BAREONLY",
         "S7_FORGE", "S6_WORDING", "S5_KNEE", "S4A_LADDER", "S3A_DENSITY",
@@ -252,6 +252,21 @@ def test_s3_family_modes():
         assert "fj5_min" not in attack.FIREHOSE_FAMILIES
         assert all(f in attack._FORGE_ROUTE
                    for f in attack.FIREHOSE_FAMILIES[:3])
+        assert attack._ship_ceiling() == attack.N_MAX_S10
+    elif attack.MODE == "S12_BIFROST":
+        # explicit per-model arms from the 2026-08-25 gemma battery
+        assert attack.FIREHOSE_FAMILIES == (
+            attack._S12_GPT_ARM + attack._S12_GEMMA_ARM
+        )
+        assert attack._S12_GPT_ARM == ("fj3_close", "fj2_close", "fj_min8")
+        assert attack._S12_GEMMA_ARM == (
+            "fb3_bare", "fb2_bare", "fg3_close", "fg_min8", "fh_bare8"
+        )
+        assert "fh_terse8" not in attack._S12_GEMMA_ARM  # measured worst
+        assert all(f not in attack._FORGE_ROUTE for f in attack._S12_GEMMA_ARM)
+        assert attack.ARM_SPLIT is True
+        assert attack._session_families(1) == attack._S12_GPT_ARM
+        assert attack._session_families(2) == attack._S12_GEMMA_ARM
         assert attack._ship_ceiling() == attack.N_MAX_S10
     elif attack.MODE == "S6_WORDING":
         assert attack.FIREHOSE_FAMILIES == (
@@ -582,6 +597,7 @@ def test_s9_scaling_families():
         "S9C_FORGEMAX": attack.N_MAX_S9,
         "S10_SHORTALL": attack.N_MAX_S10,
         "S11_TOPTIER": attack.N_MAX_S10,
+        "S12_BIFROST": attack.N_MAX_S10,
     }.get(attack.MODE, attack.N_MAX)
     print(f"  [ok] S9 scaling families: zero-injection invariant, depth"
           f" ladder fs2-fs5 + fb3_bare + forged deep drips ctx-safe,"

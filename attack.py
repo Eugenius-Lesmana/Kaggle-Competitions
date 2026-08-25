@@ -230,11 +230,17 @@ _FORGE_ROUTE = frozenset({
 _BARE_ROUTE = frozenset({
     "fh_bare8", "fg_turn8", "fb2_bare", "fb3_bare",
     "fs_min8", "fs2_short", "fs3_short", "fs4_short", "fs5_short",
+    "fg3_close", "fg_min8",
 })
 _ARM_SHARED_CONTROL = "fh_terse8"   # ships on BOTH arms (noise reference)
 _GPT_ARM_EXCLUDE = ("fg_turn8",)    # gemma-only junk text on the gpt_oss arm
 _GEMMA_ARM_EXCLUDE = tuple(sorted(_FORGE_ROUTE))  # harmony junk on gemma arm
-ARM_SPLIT = False                   # set True by S8B_ARMSPLIT
+ARM_SPLIT = False                   # set True by S8B_ARMSPLIT / S12_BIFROST
+# S12_BIFROST explicit per-model arms (2026-08-25 gemma battery): measured
+# winners only, no shared control -- fh_terse8 measured WORST on real gemma
+# and is dilution on the tier-1 gpt_oss arm as well.
+_S12_GPT_ARM = ("fj3_close", "fj2_close", "fj_min8")
+_S12_GEMMA_ARM = ("fb3_bare", "fb2_bare", "fg3_close", "fg_min8", "fh_bare8")
 # S7-era aliases (tests + exact rebuilds).
 _FORGE_FAMILIES = ("fj_close8", "fj_last8")
 _BARE_FAMILIES = ("fh_bare8", "fg_turn8", "fb2_bare")
@@ -305,6 +311,21 @@ elif MODE == "S11_TOPTIER":
     FIREHOSE_FAMILIES = (
         "fj3_close", "fj2_close", "fj_min8", "fh_terse8",
     )
+elif MODE == "S12_BIFROST":
+    # Gemma-row overhaul (dev_notes/colab/gemma battery 2026-08-25): the
+    # gemma arm of S11 shipped only fh_terse8, measured WORST on the real
+    # gemma-4-26B-A4B (1 post/cand vs 4 for bare drips; injection text
+    # inert on gemma -- fg3_close == fb3_bare exactly).  Arm-split pools:
+    #   gpt_oss arm = Colab gpt-oss tier-1 (10.0-10.3 raw/s local)
+    #   gemma arm   = bare drip winners (fb3 5.29 / fb2 5.27 / fg3 5.47
+    #                 raw/s local; fh_bare8 kept as cheap single + control)
+    # Ceiling at the evaluator cap; screening order routes each session to
+    # its own arm's families first.
+    FIREHOSE_FAMILIES = (
+        ("fj3_close", "fj2_close", "fj_min8")            # gpt_oss arm
+        + ("fb3_bare", "fb2_bare", "fg3_close", "fg_min8", "fh_bare8")
+    )
+    ARM_SPLIT = True
 else:
     FIREHOSE_FAMILIES = _S3A_FAMILIES
 LOTTERY_FAMILIES = ("lot_page", "lot_dw", "lot_seed")
@@ -560,6 +581,22 @@ def _fj_last8(i: int) -> tuple[str, ...]:
 def _fg_turn8(i: int) -> tuple[str, ...]:
     """Gemma-native turn-open injection (probe-gated; junk text elsewhere)."""
     return (_bare_body(i) + _GEMMA_INJ_TURN,)
+
+
+def _fg3_close(i: int) -> tuple[str, ...]:
+    """Gemma turn-forged 3-message drip (2026-08-25 battery: identical
+    firing to fb3_bare on real gemma -- injection inert there; kept as a
+    hedge in case hosted gemma renders turns differently)."""
+    return (
+        _bare_body(i) + _GEMMA_INJ_TURN,
+        _bare_body(i + 8192) + _GEMMA_INJ_TURN,
+        _bare_body(i + 16384) + _GEMMA_INJ_TURN,
+    )
+
+
+def _fg_min8(i: int) -> tuple[str, ...]:
+    """Gemma turn-forged short-URL single (battery: neutral vs plain bare)."""
+    return (_short_body(i) + _GEMMA_INJ_TURN,)
 
 
 def _fb2_bare(i: int) -> tuple[str, ...]:
@@ -994,6 +1031,8 @@ FAMILY_BUILDERS.update({
 # S9 scaling families (bare/short drips + forged deep drips).
 FAMILY_BUILDERS.update({
     "fb3_bare": _fb3_bare,
+    "fg3_close": _fg3_close,
+    "fg_min8": _fg_min8,
     "fs_min8": _fs_min8,
     "fs2_short": _fs2_short,
     "fs3_short": _fs3_short,
@@ -1153,14 +1192,15 @@ def _family_mean_raw(family: str) -> float:
 def _session_families(session: int) -> tuple[str, ...]:
     """Active firehose set for this session.
 
-    ARM_SPLIT modes (S8B) ship disjoint per-model pools: the gpt_oss arm
-    drops gemma-only junk shapes and the gemma arm drops harmony-junk forges.
-    The shared control (_ARM_SHARED_CONTROL) stays on both arms so its
-    per-session mean raw doubles as a cross-session noise reference.  Without
-    ARM_SPLIT every family is screened on every session and measured raw
-    alone decides (S7 semantics).
+    S12_BIFROST ships explicit measured arms (Colab batteries 2026-08-24/25):
+    session 1 (gpt_oss) gets the harmony tier-1 trio, session 2 (gemma) the
+    bare-drip winners.  ARM_SPLIT modes otherwise filter the shared pool via
+    exclude lists; without ARM_SPLIT every family is screened on every
+    session and measured raw alone decides (S7 semantics).
     """
     fams = FIREHOSE_FAMILIES
+    if MODE == "S12_BIFROST":
+        return _S12_GPT_ARM if session % 2 == 1 else _S12_GEMMA_ARM
     if not ARM_SPLIT:
         return fams
     if session % 2 == 1:  # gpt_oss arm: keep forges, drop gemma-only junk
@@ -1197,7 +1237,7 @@ def _ship_ceiling() -> int:
         return N_MAX_SCALE
     if MODE in ("S9B_BARESCALE", "S9C_FORGEMAX"):
         return N_MAX_S9
-    if MODE in ("S10_SHORTALL", "S11_TOPTIER"):
+    if MODE in ("S10_SHORTALL", "S11_TOPTIER", "S12_BIFROST"):
         return N_MAX_S10
     return N_MAX
 
