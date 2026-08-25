@@ -543,6 +543,22 @@ dominated by fd6c4). Hosted stage-B screening picks k=2 vs k=4 live.
   < 46 → regression; freeze exact S11 bytes permanently.
 - Upload order today: S12 d1 → S13 d1 → S11 d2 (slots 1–3 of 5).
 
+### COMMENTARY-DIRECT FORGE (round 4b, gpt-oss) — DEAD
+
+`dev_notes/colab/results_gptdir_2026-08-25.jsonl`: closing into
+`commentary to=functions.http.post` collapses firing (fjc_to3 = 3 posts,
+2.87 raw/s vs anchor fj3_close 15.5 posts / 10.82); bare commentary close
+is worse (fjc_dir3 = 56 s ramble, 1.62 raw/s). Empty-analysis close remains
+optimal for gpt_oss; anchors re-measured within ±5% of round 1. S14's gpt-
+arm lever falsified for one battery's cost — no submission spent.
+
+## Final pre-decode state (2026-08-25 evening)
+
+- Ready to ship: S12_BIFROST d1, S13_DEEPGEMMA rev2 d1, S11_TOPTIER d2.
+- Measured local rates now: gpt arm ≈ 10.6–10.8 raw/s; gemma arm up to
+  7.78 raw/s (fd8k2). If hosted transfer holds at any fixed ratio, S13 >
+  S12 > S11 should be the ordering; decode rules above decide freeze.
+
 ## Template
 
 - **Date**:

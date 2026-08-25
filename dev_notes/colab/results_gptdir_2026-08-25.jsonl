@@ -1,0 +1,18 @@
+{"model": "gemma", "family": "fd8c4", "idx": 1, "raw": 128.0, "posts": 8, "lat_s": 15.77, "n_msgs": 8, "k": 4, "err": null}
+{"model": "gemma", "family": "fd8c4", "idx": 2, "raw": 128.0, "posts": 8, "lat_s": 14.1, "n_msgs": 8, "k": 4, "err": null}
+{"model": "gemma", "family": "fd8k2", "idx": 1, "raw": 128.0, "posts": 8, "lat_s": 13.76, "n_msgs": 8, "k": 2, "err": null}
+{"model": "gemma", "family": "fd8k2", "idx": 2, "raw": 128.0, "posts": 8, "lat_s": 13.13, "n_msgs": 8, "k": 2, "err": null}
+{"model": "gemma", "family": "fd6c4", "idx": 1, "raw": 96.0, "posts": 6, "lat_s": 11.4, "n_msgs": 6, "k": 4, "err": null}
+{"model": "gemma", "family": "fd6c4", "idx": 2, "raw": 96.0, "posts": 6, "lat_s": 11.51, "n_msgs": 6, "k": 4, "err": null}
+{"model": "gemma", "family": "fs5_short", "idx": 1, "raw": 96.0, "posts": 6, "lat_s": 13.92, "n_msgs": 5, "k": 8, "err": null}
+{"model": "gemma", "family": "fs5_short", "idx": 2, "raw": 96.0, "posts": 6, "lat_s": 13.77, "n_msgs": 5, "k": 8, "err": null}
+{"model": "gemma", "family": "fb3_bare", "idx": 1, "raw": 64.0, "posts": 4, "lat_s": 9.27, "n_msgs": 3, "k": 8, "err": null}
+{"model": "gemma", "family": "fb3_bare", "idx": 2, "raw": 64.0, "posts": 4, "lat_s": 8.81, "n_msgs": 3, "k": 8, "err": null}
+{"model": "gpt_oss", "family": "fj3_close", "idx": 1, "raw": 208.0, "posts": 13, "lat_s": 18.82, "n_msgs": 3, "err": null}
+{"model": "gpt_oss", "family": "fj3_close", "idx": 2, "raw": 288.0, "posts": 18, "lat_s": 21.0, "n_msgs": 3, "err": null}
+{"model": "gpt_oss", "family": "fjc_to3", "idx": 1, "raw": 48.0, "posts": 3, "lat_s": 11.58, "n_msgs": 3, "err": null}
+{"model": "gpt_oss", "family": "fjc_to3", "idx": 2, "raw": 48.0, "posts": 3, "lat_s": 15.88, "n_msgs": 3, "err": null}
+{"model": "gpt_oss", "family": "fjc_dir3", "idx": 1, "raw": 192.0, "posts": 12, "lat_s": 37.11, "n_msgs": 3, "err": null}
+{"model": "gpt_oss", "family": "fjc_dir3", "idx": 2, "raw": 0.0, "posts": 0, "lat_s": 75.43, "n_msgs": 3, "err": null}
+{"model": "gpt_oss", "family": "fj2_close", "idx": 1, "raw": 176.0, "posts": 11, "lat_s": 15.61, "n_msgs": 2, "err": null}
+{"model": "gpt_oss", "family": "fj2_close", "idx": 2, "raw": 256.0, "posts": 16, "lat_s": 19.04, "n_msgs": 2, "err": null}
