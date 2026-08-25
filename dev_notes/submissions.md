@@ -505,12 +505,30 @@ the margins. Residual risk: hosted gemma behaving wildly differently from
 local (firing many more posts/msg) — mitigated by stage-B/C probe-gating;
 downside bounded to one slot, upside +26% on the gemma row.
 
-## S13_DEEPGEMMA — BUILT & GATED (2026-08-25)
+### K-SWEEP VALIDATION (round 4, VM #4) — prior CONFIRMED and BEATEN
 
-- attack.py sha256 `ee116be773789949…`, notebook `submission_S13_DEEPGEMMA
-  .ipynb` (baked). New: `_short_body_k`, `_make_fd(depth,k)`, families
-  fd6c4/fd8c4, CTX_HOP_CHARS_COMPACT, explicit arms `_S13_GPT_ARM`(=tier-1
-  trio)/`_S13_GEMMA_ARM`=({fd8c4, fd6c4, fs5_short, fb3_bare}).
+`dev_notes/colab/results_ksweep_2026-08-25.jsonl`: yield pins at EXACTLY
+1 post/message regardless of list length; shorter lists are pure prefill
+savings. fd8c4 7.14 raw/s (validated) — and **fd8k2 = 8.0 posts @ 7.78
+raw/s**, +54% over fb3_bare, the best gemma family measured. fd8k2 worst-
+case ctx render ≈6436 tok — safer than fd8c4's 6796.
+
+| family | k | posts | raw/s |
+|---|---|---|---|
+| fd8k2 | 2 | 8.0 | **7.78** |
+| fd8c4 | 4 | 8.0 | 7.14 |
+| fd6c4 | 4 | 6.0 | 6.64 |
+| fs5_short | 8 | 5.0 | 5.70 |
+| fb3_bare | 8 | 4.0 | 5.32 |
+
+⇒ Gemma arm updated to {fd8k2, fd8c4, fd6c4, fb3_bare} (fs5_short dropped:
+dominated by fd6c4). Hosted stage-B screening picks k=2 vs k=4 live.
+
+## S13_DEEPGEMMA — BUILT & GATED (2026-08-25, rev2 sha `330225ae486cb44b…`)
+
+- New: `_short_body_k`, `_make_fd(depth,k)`, families fd6c4/fd8c4/fd8k2,
+  CTX_HOP_CHARS_COMPACT, explicit arms `_S13_GPT_ARM`(=tier-1 trio) /
+  `_S13_GEMMA_ARM`=({fd8k2, fd8c4, fd6c4, fb3_bare}).
 - Gates: units ✅ ×6 modes · validate ✅ · gateway relay ✅ (1000.0) ·
   local_check stub e2e ✅ ×2 guardrails (2000 ships; stub fires ALL worst-case
   hops through fd8c4 — no overflow) · sync ✅.

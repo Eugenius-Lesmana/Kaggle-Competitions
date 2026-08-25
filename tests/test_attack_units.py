@@ -257,9 +257,9 @@ def test_s3_family_modes():
         # compact deep ladders on the gemma arm; ctx margins pinned
         assert attack._session_families(1) == attack._S13_GPT_ARM
         assert attack._session_families(2) == attack._S13_GEMMA_ARM
-        assert attack._session_families(2)[0] == "fd8c4"
-        for fam, cap in (("fd8c4", 6900), ("fd6c4", 6000),
-                         ("fs5_short", 7168), ("fb3_bare", 5500)):
+        assert attack._session_families(2)[0] == "fd8k2"
+        for fam, cap in (("fd8k2", 6500), ("fd8c4", 6900), ("fd6c4", 6000),
+                         ("fb3_bare", 5500)):
             msgs = attack.FAMILY_BUILDERS[fam](1)
             toks = attack._ctx_tokens(msgs)
             assert attack._ctx_ok(msgs), fam

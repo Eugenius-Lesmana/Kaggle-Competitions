@@ -1,0 +1,10 @@
+{"model": "gemma", "family": "fd8c4", "idx": 1, "raw": 128.0, "posts": 8, "lat_s": 15.77, "n_msgs": 8, "k": 4, "err": null}
+{"model": "gemma", "family": "fd8c4", "idx": 2, "raw": 128.0, "posts": 8, "lat_s": 14.1, "n_msgs": 8, "k": 4, "err": null}
+{"model": "gemma", "family": "fd8k2", "idx": 1, "raw": 128.0, "posts": 8, "lat_s": 13.76, "n_msgs": 8, "k": 2, "err": null}
+{"model": "gemma", "family": "fd8k2", "idx": 2, "raw": 128.0, "posts": 8, "lat_s": 13.13, "n_msgs": 8, "k": 2, "err": null}
+{"model": "gemma", "family": "fd6c4", "idx": 1, "raw": 96.0, "posts": 6, "lat_s": 11.4, "n_msgs": 6, "k": 4, "err": null}
+{"model": "gemma", "family": "fd6c4", "idx": 2, "raw": 96.0, "posts": 6, "lat_s": 11.51, "n_msgs": 6, "k": 4, "err": null}
+{"model": "gemma", "family": "fs5_short", "idx": 1, "raw": 96.0, "posts": 6, "lat_s": 13.92, "n_msgs": 5, "k": 8, "err": null}
+{"model": "gemma", "family": "fs5_short", "idx": 2, "raw": 96.0, "posts": 6, "lat_s": 13.77, "n_msgs": 5, "k": 8, "err": null}
+{"model": "gemma", "family": "fb3_bare", "idx": 1, "raw": 64.0, "posts": 4, "lat_s": 9.27, "n_msgs": 3, "k": 8, "err": null}
+{"model": "gemma", "family": "fb3_bare", "idx": 2, "raw": 64.0, "posts": 4, "lat_s": 8.81, "n_msgs": 3, "k": 8, "err": null}

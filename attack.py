@@ -236,7 +236,7 @@ _FORGE_ROUTE = frozenset({
 _BARE_ROUTE = frozenset({
     "fh_bare8", "fg_turn8", "fb2_bare", "fb3_bare",
     "fs_min8", "fs2_short", "fs3_short", "fs4_short", "fs5_short",
-    "fg3_close", "fg_min8", "fd6c4", "fd8c4",
+    "fg3_close", "fg_min8", "fd6c4", "fd8c4", "fd8k2",
 })
 _ARM_SHARED_CONTROL = "fh_terse8"   # ships on BOTH arms (noise reference)
 _GPT_ARM_EXCLUDE = ("fg_turn8",)    # gemma-only junk text on the gpt_oss arm
@@ -253,7 +253,7 @@ _S12_GEMMA_ARM = ("fb3_bare", "fb2_bare", "fg3_close", "fg_min8", "fh_bare8")
 # ctx guard (worst-case render, not observed behavior). Gemma arm = compact
 # deep ladders + shippable anchors so hosted screening still picks a knee.
 _S13_GPT_ARM = _S12_GPT_ARM
-_S13_GEMMA_ARM = ("fd8c4", "fd6c4", "fs5_short", "fb3_bare")
+_S13_GEMMA_ARM = ("fd8k2", "fd8c4", "fd6c4", "fb3_bare")
 # S7-era aliases (tests + exact rebuilds).
 _FORGE_FAMILIES = ("fj_close8", "fj_last8")
 _BARE_FAMILIES = ("fh_bare8", "fg_turn8", "fb2_bare")
@@ -752,11 +752,14 @@ _fs3_short = _make_fs(3)
 _fs4_short = _make_fs(4)
 _fs5_short = _make_fs(5)
 
-# S13 compact deep ladders (k=4 short-URL bodies; ctx-guard legal, see
-# CTX_HOP_CHARS_COMPACT). Yield class measured 2026-08-25: fd8_short
-# (k=8 twin) = 9.0 posts / 6.37 raw/s locally.
+# S13 compact deep ladders (k<=4 short-URL bodies; ctx-guard legal, see
+# CTX_HOP_CHARS_COMPACT). Yield class measured 2026-08-25 (rounds 3+4):
+# fd8_short(k8) 9.0 posts / 6.37 raw/s -> fd8c4 8.0 / 7.14 -> fd8k2 8.0 /
+# 7.78 raw/s (yield pins at 1 post/message regardless of list length;
+# shorter lists are pure prefill savings).
 _fd6c4 = _make_fd(6, k=4)
 _fd8c4 = _make_fd(8, k=4)
+_fd8k2 = _make_fd(8, k=2)
 
 
 def _make_fj_deep(depth: int) -> Callable[[int], tuple[str, ...]]:
@@ -1098,6 +1101,7 @@ FAMILY_BUILDERS.update({
     "fs5_short": _fs5_short,
     "fd6c4": _fd6c4,
     "fd8c4": _fd8c4,
+    "fd8k2": _fd8k2,
     "fj4_min": _fj4_min,
     "fj5_min": _fj5_min,
     "fj2_min": _fj2_min,
