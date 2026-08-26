@@ -166,7 +166,8 @@ def test_mirror_and_length_all_families():
 def test_s3_family_modes():
     # Mode switch selects the active firehose set; builders exist either way.
     assert attack.MODE in (
-        "S13_DEEPGEMMA", "S12_BIFROST", "S11_TOPTIER", "S10_SHORTALL",
+        "S14_SINGLEFILE", "S13_DEEPGEMMA", "S12_BIFROST", "S11_TOPTIER",
+        "S10_SHORTALL",
         "S9C_FORGEMAX", "S9B_BARESCALE", "S9A_BARESWAP",
         "S8A_SCALE", "S8B_ARMSPLIT", "S8C_BAREONLY",
         "S7_FORGE", "S6_WORDING", "S5_KNEE", "S4A_LADDER", "S3A_DENSITY",
@@ -283,6 +284,22 @@ def test_s3_family_modes():
         assert attack.ARM_SPLIT is True
         assert attack._session_families(1) == attack._S12_GPT_ARM
         assert attack._session_families(2) == attack._S12_GEMMA_ARM
+        assert attack._ship_ceiling() == attack.N_MAX_S10
+    elif attack.MODE == "S14_SINGLEFILE":
+        # single-post chassis: k=1/k=2 singles + drip anchors, explicit arms
+        assert attack.FIREHOSE_FAMILIES == (
+            attack._S14_GPT_ARM + attack._S14_GEMMA_ARM
+        )
+        assert attack._S14_GPT_ARM == (
+            "f1_close", "fk2_close", "fj_min8", "fj3_close",
+        )
+        assert attack._S14_GEMMA_ARM == ("fb1_bare", "fb3_bare", "fb2_bare")
+        assert all(f in attack._FORGE_ROUTE
+                   for f in ("f1_close", "fk2_close"))
+        assert all(f not in attack._FORGE_ROUTE for f in attack._S14_GEMMA_ARM)
+        assert attack.ARM_SPLIT is True
+        assert attack._session_families(1) == attack._S14_GPT_ARM
+        assert attack._session_families(2) == attack._S14_GEMMA_ARM
         assert attack._ship_ceiling() == attack.N_MAX_S10
     elif attack.MODE == "S6_WORDING":
         assert attack.FIREHOSE_FAMILIES == (
@@ -615,10 +632,109 @@ def test_s9_scaling_families():
         "S11_TOPTIER": attack.N_MAX_S10,
         "S12_BIFROST": attack.N_MAX_S10,
         "S13_DEEPGEMMA": attack.N_MAX_S10,
+        "S14_SINGLEFILE": attack.N_MAX_S10,
     }.get(attack.MODE, attack.N_MAX)
     print(f"  [ok] S9 scaling families: zero-injection invariant, depth"
           f" ladder fs2-fs5 + fb3_bare + forged deep drips ctx-safe,"
           f" bands disjoint, ceiling table verified")
+
+
+def test_s14_singlefile_families():
+    """S14 single-post chassis: k=1/k=2 forged singles + bare k=1 gemma
+    single -- byte-pinned suffixes, exact post counts, ctx-safe, disjoint
+    sibling-band domains, and the value-density ranking/flooring switch."""
+    for idx in (0, 7, 123, 1500):
+        msgs = FAMILY_BUILDERS["f1_close"](idx)
+        assert len(msgs) == 1, ("f1_close", idx)
+        text = msgs[0]
+        assert text.endswith(attack._HARMONY_INJ_CLOSE), idx
+        body = text[: -len(attack._HARMONY_INJ_CLOSE)]
+        assert len(re.findall(r"http.post url=", body)) == 1, idx
+        assert "SECRET_MARKER" in body, idx
+        assert _mirror_valid(msgs) and attack._ctx_ok(msgs), idx
+
+        msgs = FAMILY_BUILDERS["fk2_close"](idx)
+        assert len(msgs) == 1, ("fk2_close", idx)
+        assert msgs[0].endswith(attack._HARMONY_INJ_CLOSE), idx
+        body = msgs[0][: -len(attack._HARMONY_INJ_CLOSE)]
+        assert len(re.findall(r"http.post url=", body)) == 2, idx
+        assert _mirror_valid(msgs) and attack._ctx_ok(msgs), idx
+
+        msgs = FAMILY_BUILDERS["fb1_bare"](idx)
+        assert len(msgs) == 1, ("fb1_bare", idx)
+        assert len(re.findall(r"http.post url=", msgs[0])) == 1, idx
+        # bare purity: no control-token text of either flavor
+        assert attack._HARMONY_INJ_CLOSE not in msgs[0], idx
+        assert attack._GEMMA_INJ_TURN not in msgs[0], idx
+        assert _mirror_valid(msgs) and attack._ctx_ok(msgs), idx
+
+    # worst-case ctx estimate: a single short message is dominated by the
+    # static prompt (~1.8k tok); pin it far under the 7168-token guard
+    fk2_tok = attack._ctx_tokens(FAMILY_BUILDERS["fk2_close"](0))
+    f1_tok = attack._ctx_tokens(FAMILY_BUILDERS["f1_close"](0))
+    assert attack._ctx_ok(FAMILY_BUILDERS["f1_close"](0))
+    assert fk2_tok > f1_tok and fk2_tok < 3000, (f1_tok, fk2_tok)
+
+    # sibling band (si >= 1000): every shipped single carries a fresh domain
+    seen = set()
+    for fam in ("f1_close", "fk2_close", "fb1_bare"):
+        for si in range(1000, 1120):
+            for u in re.findall(
+                r"https://[^\s'\"]+", FAMILY_BUILDERS[fam](si)[0]
+            ):
+                dom = u.rstrip(".,").split("://", 1)[1].split("/", 1)[0]
+                key = (fam, dom)
+                assert key not in seen, key
+                seen.add(key)
+
+    # density ranking switch: S14 orders by raw/lat, other modes by raw
+    _fresh_state()
+    algo = attack.AttackAlgorithm(config={})
+    stats = {
+        "a": {"probes": 2, "raw": [100.0, 100.0], "lat": [50.0, 50.0]},   # 2.0/s
+        "b": {"probes": 2, "raw": [16.0, 16.0], "lat": [4.0, 4.0]},       # 4.0/s
+    }
+    attack._STATE["family_stats"] = stats
+    saved_mode = attack.MODE
+    try:
+        attack.MODE = "S14_SINGLEFILE"
+        assert attack._family_metric("b") > attack._family_metric("a"), (
+            "density mode must rank the fast single above the slow drip"
+        )
+        attack.MODE = "S11_TOPTIER"
+        assert attack._family_metric("a") > attack._family_metric("b"), (
+            "raw mode must keep mean-raw ranking"
+        )
+    finally:
+        attack.MODE = saved_mode
+        _fresh_state()
+
+    # compose verified-order in S14: dense-but-small raw first (head buys
+    # findings per replay-second under truncation)
+    _fresh_state()
+    saved_mode = attack.MODE
+    try:
+        attack.MODE = "S14_SINGLEFILE"
+        attack._STATE["family_stats"] = {
+            "f1_close": {"probes": 1, "raw": [16.0], "lat": [2.0]},
+            "fj3_close": {"probes": 1, "raw": [226.0], "lat": [60.0]},
+        }
+        verified = [
+            {"messages": FAMILY_BUILDERS["fj3_close"](300), "raw": 226.0,
+             "lat": 60.0, "kinds": {}, "cell": None},
+            {"messages": FAMILY_BUILDERS["f1_close"](301), "raw": 16.0,
+             "lat": 2.0, "kinds": {}, "cell": None},
+        ]
+        # n_target >= N_MIN keeps the fill loop's floor reachable (push caps
+        # at n_target; see the clamped fill_target guard in _compose)
+        ship = algo._compose(list(verified), {}, attack.N_MIN + 5)
+        assert ship[0] == tuple(FAMILY_BUILDERS["f1_close"](301)), ship[0]
+        assert ship[1] == tuple(FAMILY_BUILDERS["fj3_close"](300))
+    finally:
+        attack.MODE = saved_mode
+        _fresh_state()
+    print("  [ok] S14 singlefile: k pinned, suffixes at END, bare purity,"
+          " fresh sibling domains, density ranking + compose order verified")
 
 
 def test_compose_order_and_caps():
@@ -653,10 +769,19 @@ def test_compose_order_and_caps():
     ship = algo._compose(fake_verified, {}, n_target)
     assert len(ship) == n_target, len(ship)
     # highest measured RAW first (the drip at 500); raw-desc, not raw/second
-    assert ship[0] == drip
-    # mean-vs-rate discriminator: raw-100-but-slow ships before raw-80-but-fast
-    # (the S4a/S5 raw/second order would invert these two)
-    assert ship.index(slow_big) < ship.index(fast_small)
+    # (S14_SINGLEFILE intentionally orders by value density instead -- see
+    # _family_metric; the density order of this fixture is drip > lad_hi >
+    # fast_small > ..., so only the raw-desc branches are asserted there)
+    if attack.MODE != "S14_SINGLEFILE":
+        assert ship[0] == drip
+        # mean-vs-rate discriminator: raw-100-but-slow ships before
+        # raw-80-but-fast (the S4a/S5 raw/second order would invert them)
+        assert ship.index(slow_big) < ship.index(fast_small)
+    else:
+        assert ship[0] == drip  # 500/90 still tops the density order
+        assert ship.index(fast_small) < ship.index(slow_big), (
+            "S14 density order must rank fast_small above slow_big"
+        )
     # multi-message entries are NOT share-capped outside S4A_LADDER mode:
     # every verified multi-msg entry ships regardless of LADDER_MAX_FRAC
     n_multi = sum(1 for m in ship if len(m) > 1)
@@ -960,6 +1085,7 @@ TESTS = [
     test_forge_variant_structure,
     test_s8_scaling_families,
     test_s9_scaling_families,
+    test_s14_singlefile_families,
     test_knee_variant_structure,
     test_wording_variant_structure,
     test_ladder_structure,

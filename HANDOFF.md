@@ -5,9 +5,34 @@
 (submission log + decode tables), `docs/history/` (v1 branch archive: v1
 HANDOFF/FINDINGS/submissions log; v1 code on git branch `timmy`).
 
-## Current status (2026-08-25 ~13:00 UTC)
+## Current status (2026-08-26 evening UTC) — S14_SINGLEFILE READY
 
-- **BANKED BEST: 48.650** (S11_TOPTIER d1, ref 55743607). Top-10 ≈ 116.6; #1 = 138.25.
+- **BANKED BEST: 51.265** (S11_TOPTIER d2, ref 55765054). Top-10 ≈ 122.6;
+  #1 = 138.89.
+- **RIVAL AUTOPSY** (`dev_notes/rival_v11/`): a public ~80-LB notebook ships
+  ONE url per candidate, keep-only-fired, measured replay-cost packing —
+  alone in our census's empty band (57–92.5). Thesis: hosted replay is
+  fixed-overhead + history-re-prefill dominated ⇒ value density (findings/
+  replay-second) favors single-post candidates; multi-post drips plateaued
+  us at 43–51 for four consecutive draws.
+- **S14_SINGLEFILE BUILT & GATED** (`submission_S14_SINGLEFILE.ipynb`,
+  attack.py sha `46f24cef07ea…`): k=1/k=2 forged singles + anchors on both
+  arms, ceiling 2000, **density ranking/flooring in S14 only**
+  (`_family_metric`), fill_target clamp guard. Gates: units ✅ ×12 modes,
+  validate ✅, local_check ✅ ×2, relay ✅ 551.77, sync ✅. Colab batteries
+  round 7 (`results_s14_{gpt,gemma}_2026-08-26.jsonl`, n=3/family,
+  fire 100%): gpt arm fj3_close 11.60 / fk2_close 6.54 / f1_close **3.42**
+  vs rival_plain clone 2.45 raw/s (forge = 1.4 s vs his 3.4 s per finding);
+  gemma arm fb3_bare 5.69 / fb1_bare 3.19. Local says drips; the rival's LB
+  says singles — hosted stage-B/C/D screening + density ranking arbitrate
+  live on the VM. Pre-registration + decode rules: `dev_notes/submissions.md`
+  § S14. Predicted central 70–90; floor ≈ plateau ≈ S11 bytes class.
+- ⚠ submission_S11_TOPTIER.ipynb stays frozen on scoring bytes — never rebuild.
+- Watch for the COMPLETE-with-blank-score zombie anomaly → immediate re-upload.
+
+## Historical status (2026-08-25 ~13:00 UTC)
+
+- Banked was 48.650 (S11_TOPTIER d1, ref 55743607).
 - **Aug-24 triple decoded**: S8A reship 40.785 ⇒ draw noise ≈ ±5%; S10_SHORTALL
   43.615 (URL axis closed); S11_TOPTIER 48.650 = NEW BEST. Full read in
   `dev_notes/submissions.md`.

@@ -1,0 +1,12 @@
+{"model": "gpt_oss", "family": "fj3_close", "idx": 1, "raw": 224.0, "posts": 14, "lat_s": 19.31, "n_msgs": 3, "k": 8, "err": null}
+{"model": "gpt_oss", "family": "fj3_close", "idx": 2, "raw": 224.0, "posts": 14, "lat_s": 19.44, "n_msgs": 3, "k": 8, "err": null}
+{"model": "gpt_oss", "family": "fj_min8", "idx": 1, "raw": 128.0, "posts": 8, "lat_s": 10.72, "n_msgs": 1, "k": 8, "err": null}
+{"model": "gpt_oss", "family": "fj_min8", "idx": 2, "raw": 128.0, "posts": 8, "lat_s": 9.16, "n_msgs": 1, "k": 8, "err": null}
+{"model": "gpt_oss", "family": "fj5_min", "idx": 1, "raw": 384.0, "posts": 24, "lat_s": 32.66, "n_msgs": 5, "k": 8, "err": null}
+{"model": "gpt_oss", "family": "fj5_min", "idx": 2, "raw": 400.0, "posts": 25, "lat_s": 31.22, "n_msgs": 5, "k": 8, "err": null}
+{"model": "gpt_oss", "family": "fdj6k4", "idx": 1, "raw": 320.0, "posts": 20, "lat_s": 26.43, "n_msgs": 6, "k": 4, "err": null}
+{"model": "gpt_oss", "family": "fdj6k4", "idx": 2, "raw": 336.0, "posts": 21, "lat_s": 27.91, "n_msgs": 6, "k": 4, "err": null}
+{"model": "gpt_oss", "family": "fdj8k4", "idx": 1, "raw": 384.0, "posts": 24, "lat_s": 33.38, "n_msgs": 8, "k": 4, "err": null}
+{"model": "gpt_oss", "family": "fdj8k4", "idx": 2, "raw": 448.0, "posts": 28, "lat_s": 41.01, "n_msgs": 8, "k": 4, "err": null}
+{"model": "gpt_oss", "family": "fdj8k2", "idx": 1, "raw": 240.0, "posts": 15, "lat_s": 18.8, "n_msgs": 8, "k": 2, "err": null}
+{"model": "gpt_oss", "family": "fdj8k2", "idx": 2, "raw": 240.0, "posts": 15, "lat_s": 19.23, "n_msgs": 8, "k": 2, "err": null}

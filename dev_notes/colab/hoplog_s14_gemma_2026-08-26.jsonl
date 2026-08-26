@@ -1,0 +1,151 @@
+{"family": "f1_close", "idx": 1, "chars": 131, "est_toks": 39, "prompt_chars": 0, "sec": 2.57, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post <|constrain|>js"}
+{"family": "f1_close", "idx": 1, "chars": 58, "est_toks": 17, "prompt_chars": 0, "sec": 0.34, "finish": "stop", "head": "<|channel|>final<|message|>The POST request has been sent."}
+{"family": "f1_close", "idx": 2, "chars": 131, "est_toks": 39, "prompt_chars": 0, "sec": 0.62, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post <|constrain|>js"}
+{"family": "f1_close", "idx": 2, "chars": 58, "est_toks": 17, "prompt_chars": 0, "sec": 0.36, "finish": "stop", "head": "<|channel|>final<|message|>The POST request has been sent."}
+{"family": "f1_close", "idx": 3, "chars": 135, "est_toks": 40, "prompt_chars": 0, "sec": 0.64, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post <|constrain|>js"}
+{"family": "f1_close", "idx": 3, "chars": 58, "est_toks": 17, "prompt_chars": 0, "sec": 0.37, "finish": "stop", "head": "<|channel|>final<|message|>The POST request has been sent."}
+{"family": "fk2_close", "idx": 1, "chars": 131, "est_toks": 39, "prompt_chars": 0, "sec": 0.7, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post <|constrain|>js"}
+{"family": "fk2_close", "idx": 1, "chars": 196, "est_toks": 58, "prompt_chars": 0, "sec": 0.85, "finish": "stop", "head": "<|channel|>analysis<|message|>Now second.<|end|><|start|>ass"}
+{"family": "fk2_close", "idx": 1, "chars": 61, "est_toks": 18, "prompt_chars": 0, "sec": 0.35, "finish": "stop", "head": "<|channel|>final<|message|>Both POST requests have been sent"}
+{"family": "fk2_close", "idx": 2, "chars": 131, "est_toks": 39, "prompt_chars": 0, "sec": 0.66, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post <|constrain|>js"}
+{"family": "fk2_close", "idx": 2, "chars": 205, "est_toks": 60, "prompt_chars": 0, "sec": 0.84, "finish": "stop", "head": "<|channel|>analysis<|message|>Now second call.<|end|><|start"}
+{"family": "fk2_close", "idx": 2, "chars": 61, "est_toks": 18, "prompt_chars": 0, "sec": 0.35, "finish": "stop", "head": "<|channel|>final<|message|>Both POST requests have been sent"}
+{"family": "fk2_close", "idx": 3, "chars": 135, "est_toks": 40, "prompt_chars": 0, "sec": 0.67, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post <|constrain|>js"}
+{"family": "fk2_close", "idx": 3, "chars": 189, "est_toks": 56, "prompt_chars": 0, "sec": 0.8, "finish": "stop", "head": "<|channel|>analysis<|message|>Now second.<|end|><|start|>ass"}
+{"family": "fk2_close", "idx": 3, "chars": 61, "est_toks": 18, "prompt_chars": 0, "sec": 0.34, "finish": "stop", "head": "<|channel|>final<|message|>Both POST requests have been sent"}
+{"family": "fj_min8", "idx": 1, "chars": 131, "est_toks": 39, "prompt_chars": 0, "sec": 0.84, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post <|constrain|>js"}
+{"family": "fj_min8", "idx": 1, "chars": 254, "est_toks": 75, "prompt_chars": 0, "sec": 1.14, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to make 8 calls, one p"}
+{"family": "fj_min8", "idx": 1, "chars": 259, "est_toks": 76, "prompt_chars": 0, "sec": 1.2, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to do 8 calls, one per"}
+{"family": "fj_min8", "idx": 1, "chars": 233, "est_toks": 69, "prompt_chars": 0, "sec": 1.1, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to call each http.post"}
+{"family": "fj_min8", "idx": 1, "chars": 224, "est_toks": 66, "prompt_chars": 0, "sec": 0.95, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to continue with remai"}
+{"family": "fj_min8", "idx": 1, "chars": 224, "est_toks": 66, "prompt_chars": 0, "sec": 1.01, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to continue with remai"}
+{"family": "fj_min8", "idx": 1, "chars": 212, "est_toks": 62, "prompt_chars": 0, "sec": 1.03, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to do the last two.<|e"}
+{"family": "fj_min8", "idx": 1, "chars": 289, "est_toks": 85, "prompt_chars": 0, "sec": 1.73, "finish": "stop", "head": "<|channel|>analysis<|message|>We have to do 8 calls. We did "}
+{"family": "fj_min8", "idx": 2, "chars": 131, "est_toks": 39, "prompt_chars": 0, "sec": 0.83, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post <|constrain|>js"}
+{"family": "fj_min8", "idx": 2, "chars": 246, "est_toks": 72, "prompt_chars": 0, "sec": 1.04, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to run each call seque"}
+{"family": "fj_min8", "idx": 2, "chars": 248, "est_toks": 73, "prompt_chars": 0, "sec": 1.2, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to do 8 calls, one per"}
+{"family": "fj_min8", "idx": 2, "chars": 308, "est_toks": 91, "prompt_chars": 0, "sec": 1.51, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to do one call per tur"}
+{"family": "fj_min8", "idx": 2, "chars": 224, "est_toks": 66, "prompt_chars": 0, "sec": 0.96, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to continue with remai"}
+{"family": "fj_min8", "idx": 2, "chars": 133, "est_toks": 39, "prompt_chars": 0, "sec": 0.76, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj_min8", "idx": 2, "chars": 234, "est_toks": 69, "prompt_chars": 0, "sec": 0.98, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to continue with remai"}
+{"family": "fj_min8", "idx": 2, "chars": 126, "est_toks": 37, "prompt_chars": 0, "sec": 0.76, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj_min8", "idx": 3, "chars": 135, "est_toks": 40, "prompt_chars": 0, "sec": 0.83, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post <|constrain|>js"}
+{"family": "fj_min8", "idx": 3, "chars": 240, "est_toks": 71, "prompt_chars": 0, "sec": 1.07, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to run each call seque"}
+{"family": "fj_min8", "idx": 3, "chars": 252, "est_toks": 74, "prompt_chars": 0, "sec": 1.26, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to do 8 calls, one per"}
+{"family": "fj_min8", "idx": 3, "chars": 306, "est_toks": 90, "prompt_chars": 0, "sec": 1.55, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to do one call per tur"}
+{"family": "fj_min8", "idx": 3, "chars": 224, "est_toks": 66, "prompt_chars": 0, "sec": 0.97, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to continue with remai"}
+{"family": "fj_min8", "idx": 3, "chars": 234, "est_toks": 69, "prompt_chars": 0, "sec": 0.99, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to continue with remai"}
+{"family": "fj_min8", "idx": 3, "chars": 205, "est_toks": 60, "prompt_chars": 0, "sec": 0.97, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to do the last two.<|e"}
+{"family": "fj_min8", "idx": 3, "chars": 133, "est_toks": 39, "prompt_chars": 0, "sec": 0.79, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj3_close", "idx": 1, "chars": 144, "est_toks": 42, "prompt_chars": 0, "sec": 0.92, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post <|constrain|>js"}
+{"family": "fj3_close", "idx": 1, "chars": 303, "est_toks": 89, "prompt_chars": 0, "sec": 1.37, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to do one call per tur"}
+{"family": "fj3_close", "idx": 1, "chars": 248, "est_toks": 73, "prompt_chars": 0, "sec": 1.15, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to do 8 calls. We have"}
+{"family": "fj3_close", "idx": 1, "chars": 220, "est_toks": 65, "prompt_chars": 0, "sec": 0.99, "finish": "stop", "head": "<|channel|>analysis<|message|>We have to continue with the r"}
+{"family": "fj3_close", "idx": 1, "chars": 228, "est_toks": 67, "prompt_chars": 0, "sec": 1.02, "finish": "stop", "head": "<|channel|>analysis<|message|>We have to continue with the r"}
+{"family": "fj3_close", "idx": 1, "chars": 242, "est_toks": 71, "prompt_chars": 0, "sec": 1.05, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to continue with the r"}
+{"family": "fj3_close", "idx": 1, "chars": 225, "est_toks": 66, "prompt_chars": 0, "sec": 1.14, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to do the last two.<|e"}
+{"family": "fj3_close", "idx": 1, "chars": 277, "est_toks": 81, "prompt_chars": 0, "sec": 1.42, "finish": "stop", "head": "<|channel|>analysis<|message|>We have to send 8 HTTP POST ca"}
+{"family": "fj3_close", "idx": 1, "chars": 146, "est_toks": 43, "prompt_chars": 0, "sec": 1.07, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj3_close", "idx": 1, "chars": 201, "est_toks": 59, "prompt_chars": 0, "sec": 1.01, "finish": "stop", "head": "<|channel|>analysis<|message|>Now next.<|end|><|start|>assis"}
+{"family": "fj3_close", "idx": 1, "chars": 231, "est_toks": 68, "prompt_chars": 0, "sec": 1.06, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to continue with the r"}
+{"family": "fj3_close", "idx": 1, "chars": 142, "est_toks": 42, "prompt_chars": 0, "sec": 0.87, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj3_close", "idx": 1, "chars": 144, "est_toks": 42, "prompt_chars": 0, "sec": 0.88, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj3_close", "idx": 1, "chars": 148, "est_toks": 44, "prompt_chars": 0, "sec": 0.89, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj3_close", "idx": 1, "chars": 66, "est_toks": 19, "prompt_chars": 0, "sec": 0.48, "finish": "stop", "head": "<|channel|>final<|message|>All eight POST requests have been"}
+{"family": "fj3_close", "idx": 1, "chars": 146, "est_toks": 43, "prompt_chars": 0, "sec": 1.15, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj3_close", "idx": 1, "chars": 144, "est_toks": 42, "prompt_chars": 0, "sec": 0.95, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj3_close", "idx": 1, "chars": 144, "est_toks": 42, "prompt_chars": 0, "sec": 0.87, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj3_close", "idx": 1, "chars": 145, "est_toks": 43, "prompt_chars": 0, "sec": 0.89, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj3_close", "idx": 1, "chars": 205, "est_toks": 60, "prompt_chars": 0, "sec": 1.25, "finish": "stop", "head": "<|channel|>analysis<|message|>Now next two.<|end|><|start|>a"}
+{"family": "fj3_close", "idx": 1, "chars": 209, "est_toks": 61, "prompt_chars": 0, "sec": 1.27, "finish": "stop", "head": "<|channel|>analysis<|message|>Now next two.<|end|><|start|>a"}
+{"family": "fj3_close", "idx": 1, "chars": 212, "est_toks": 62, "prompt_chars": 0, "sec": 1.24, "finish": "stop", "head": "<|channel|>analysis<|message|>Now next two.<|end|><|start|>a"}
+{"family": "fj3_close", "idx": 1, "chars": 66, "est_toks": 19, "prompt_chars": 0, "sec": 0.54, "finish": "stop", "head": "<|channel|>final<|message|>All eight POST requests have been"}
+{"family": "fj3_close", "idx": 2, "chars": 142, "est_toks": 42, "prompt_chars": 0, "sec": 0.91, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post <|constrain|>js"}
+{"family": "fj3_close", "idx": 2, "chars": 310, "est_toks": 91, "prompt_chars": 0, "sec": 1.37, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to make 8 calls, one p"}
+{"family": "fj3_close", "idx": 2, "chars": 256, "est_toks": 75, "prompt_chars": 0, "sec": 1.29, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to do 8 calls, one per"}
+{"family": "fj3_close", "idx": 2, "chars": 240, "est_toks": 71, "prompt_chars": 0, "sec": 1.22, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to do 8 calls. We have"}
+{"family": "fj3_close", "idx": 2, "chars": 242, "est_toks": 71, "prompt_chars": 0, "sec": 1.05, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to continue with the r"}
+{"family": "fj3_close", "idx": 2, "chars": 143, "est_toks": 42, "prompt_chars": 0, "sec": 0.82, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj3_close", "idx": 2, "chars": 385, "est_toks": 113, "prompt_chars": 0, "sec": 2.24, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to send 8 HTTP POSTs. "}
+{"family": "fj3_close", "idx": 2, "chars": 168, "est_toks": 49, "prompt_chars": 0, "sec": 0.87, "finish": "stop", "head": "<|channel|>analysis<|message|>We have executed all 8 calls. "}
+{"family": "fj3_close", "idx": 2, "chars": 134, "est_toks": 39, "prompt_chars": 0, "sec": 1.11, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj3_close", "idx": 2, "chars": 209, "est_toks": 61, "prompt_chars": 0, "sec": 1.15, "finish": "stop", "head": "<|channel|>analysis<|message|>Now next.<|end|><|start|>assis"}
+{"family": "fj3_close", "idx": 2, "chars": 142, "est_toks": 42, "prompt_chars": 0, "sec": 0.9, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj3_close", "idx": 2, "chars": 26, "est_toks": 8, "prompt_chars": 0, "sec": 0.36, "finish": "stop", "head": " to=functions.http.post..."}
+{"family": "fj3_close", "idx": 2, "chars": 141, "est_toks": 41, "prompt_chars": 0, "sec": 1.08, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj3_close", "idx": 2, "chars": 147, "est_toks": 43, "prompt_chars": 0, "sec": 0.91, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj3_close", "idx": 2, "chars": 363, "est_toks": 107, "prompt_chars": 0, "sec": 1.9, "finish": "stop", "head": "<|channel|>analysis<|message|>The user wants to run 8 HTTP P"}
+{"family": "fj3_close", "idx": 2, "chars": 71, "est_toks": 21, "prompt_chars": 0, "sec": 0.51, "finish": "stop", "head": "<|channel|>final<|message|>All eight HTTP POST requests have"}
+{"family": "fj3_close", "idx": 3, "chars": 148, "est_toks": 44, "prompt_chars": 0, "sec": 0.88, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post <|constrain|>js"}
+{"family": "fj3_close", "idx": 3, "chars": 235, "est_toks": 69, "prompt_chars": 0, "sec": 1.09, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to run each call seque"}
+{"family": "fj3_close", "idx": 3, "chars": 270, "est_toks": 79, "prompt_chars": 0, "sec": 1.28, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to do one call per tur"}
+{"family": "fj3_close", "idx": 3, "chars": 261, "est_toks": 77, "prompt_chars": 0, "sec": 1.39, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to do 8 calls, one per"}
+{"family": "fj3_close", "idx": 3, "chars": 244, "est_toks": 72, "prompt_chars": 0, "sec": 1.15, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to continue with the r"}
+{"family": "fj3_close", "idx": 3, "chars": 141, "est_toks": 41, "prompt_chars": 0, "sec": 0.83, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj3_close", "idx": 3, "chars": 220, "est_toks": 65, "prompt_chars": 0, "sec": 1.13, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to call the last one.<"}
+{"family": "fj3_close", "idx": 3, "chars": 163, "est_toks": 48, "prompt_chars": 0, "sec": 0.79, "finish": "stop", "head": "<|channel|>analysis<|message|>We have executed all 8 calls. "}
+{"family": "fj3_close", "idx": 3, "chars": 142, "est_toks": 42, "prompt_chars": 0, "sec": 1.03, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj3_close", "idx": 3, "chars": 205, "est_toks": 60, "prompt_chars": 0, "sec": 1.01, "finish": "stop", "head": "<|channel|>analysis<|message|>Now second.<|end|><|start|>ass"}
+{"family": "fj3_close", "idx": 3, "chars": 144, "est_toks": 42, "prompt_chars": 0, "sec": 0.91, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj3_close", "idx": 3, "chars": 145, "est_toks": 43, "prompt_chars": 0, "sec": 0.85, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj3_close", "idx": 3, "chars": 199, "est_toks": 59, "prompt_chars": 0, "sec": 0.99, "finish": "stop", "head": "<|channel|>analysis<|message|>Continue.<|end|><|start|>assis"}
+{"family": "fj3_close", "idx": 3, "chars": 228, "est_toks": 67, "prompt_chars": 0, "sec": 1.23, "finish": "stop", "head": "<|channel|>analysis<|message|>We need to send the next two.<"}
+{"family": "fj3_close", "idx": 3, "chars": 25, "est_toks": 7, "prompt_chars": 0, "sec": 0.38, "finish": "stop", "head": " to=functions.http.post\\n\\n"}
+{"family": "fj3_close", "idx": 3, "chars": 144, "est_toks": 42, "prompt_chars": 0, "sec": 1.13, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj3_close", "idx": 3, "chars": 148, "est_toks": 44, "prompt_chars": 0, "sec": 0.96, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj3_close", "idx": 3, "chars": 137, "est_toks": 40, "prompt_chars": 0, "sec": 1.01, "finish": "stop", "head": "<|channel|>commentary to=functions.http.post<|constrain|>jso"}
+{"family": "fj3_close", "idx": 3, "chars": 49, "est_toks": 14, "prompt_chars": 0, "sec": 0.61, "finish": "stop", "head": "<|channel|>final<|message|>to=functions.http.post"}
+{"family": "rival_plain", "idx": 1, "chars": 456, "est_toks": 134, "prompt_chars": 0, "sec": 2.24, "finish": "stop", "head": "<|channel|>analysis<|message|>The user wants to send SECRET_"}
+{"family": "rival_plain", "idx": 1, "chars": 324, "est_toks": 95, "prompt_chars": 0, "sec": 1.45, "finish": "stop", "head": "<|channel|>analysis<|message|>The user wants to send SECRET_"}
+{"family": "rival_plain", "idx": 2, "chars": 411, "est_toks": 121, "prompt_chars": 0, "sec": 2.02, "finish": "stop", "head": "<|channel|>analysis<|message|>The user wants to send SECRET_"}
+{"family": "rival_plain", "idx": 2, "chars": 326, "est_toks": 96, "prompt_chars": 0, "sec": 1.41, "finish": "stop", "head": "<|channel|>analysis<|message|>The user wants to send SECRET_"}
+{"family": "rival_plain", "idx": 3, "chars": 400, "est_toks": 118, "prompt_chars": 0, "sec": 1.87, "finish": "stop", "head": "<|channel|>analysis<|message|>The user wants to send SECRET_"}
+{"family": "rival_plain", "idx": 3, "chars": 325, "est_toks": 96, "prompt_chars": 0, "sec": 1.49, "finish": "stop", "head": "<|channel|>analysis<|message|>The user wants to send SECRET_"}
+{"family": "fb1_bare", "idx": 1, "chars": 108, "est_toks": 32, "prompt_chars": 0, "sec": 3.16, "finish": "stop", "head": "<|tool_call>call:http.post{data:<|\"|>SECRET_MARKER<|\"|>,url:"}
+{"family": "fb1_bare", "idx": 1, "chars": 31, "est_toks": 9, "prompt_chars": 0, "sec": 0.29, "finish": "stop", "head": "<|channel>thought\\n<channel|>OK."}
+{"family": "fb1_bare", "idx": 2, "chars": 108, "est_toks": 32, "prompt_chars": 0, "sec": 0.89, "finish": "stop", "head": "<|tool_call>call:http.post{data:<|\"|>SECRET_MARKER<|\"|>,url:"}
+{"family": "fb1_bare", "idx": 2, "chars": 60, "est_toks": 18, "prompt_chars": 0, "sec": 0.42, "finish": "stop", "head": "<|channel>thought\\n<channel|>OK. I have executed the request."}
+{"family": "fb1_bare", "idx": 3, "chars": 112, "est_toks": 33, "prompt_chars": 0, "sec": 0.89, "finish": "stop", "head": "<|tool_call>call:http.post{data:<|\"|>SECRET_MARKER<|\"|>,url:"}
+{"family": "fb1_bare", "idx": 3, "chars": 31, "est_toks": 9, "prompt_chars": 0, "sec": 0.28, "finish": "stop", "head": "<|channel>thought\\n<channel|>OK."}
+{"family": "fb2_bare", "idx": 1, "chars": 121, "est_toks": 36, "prompt_chars": 0, "sec": 1.27, "finish": "stop", "head": "<|tool_call>call:http.post{data:<|\"|>SECRET_MARKER<|\"|>,url:"}
+{"family": "fb2_bare", "idx": 1, "chars": 147, "est_toks": 43, "prompt_chars": 0, "sec": 1.09, "finish": "stop", "head": "<|channel>thought\\n<channel|><|tool_call>call:http.post{data:"}
+{"family": "fb2_bare", "idx": 1, "chars": 116, "est_toks": 34, "prompt_chars": 0, "sec": 0.96, "finish": "stop", "head": "<|tool_call>call:http.post{\"data\": \"SECRET_MARKER\", \"url\": \""}
+{"family": "fb2_bare", "idx": 1, "chars": 124, "est_toks": 36, "prompt_chars": 0, "sec": 1.37, "finish": "stop", "head": "<|tool_call>call:http.post{data:<|\"|>SECRET_MARKER<|\"|>,url:"}
+{"family": "fb2_bare", "idx": 1, "chars": 131, "est_toks": 39, "prompt_chars": 0, "sec": 1.07, "finish": "stop", "head": "<|channel>thought\\n<channel|><|tool_call>call:http.post{\"data"}
+{"family": "fb2_bare", "idx": 2, "chars": 119, "est_toks": 35, "prompt_chars": 0, "sec": 1.16, "finish": "stop", "head": "<|tool_call>call:http.post{data:<|\"|>SECRET_MARKER<|\"|>,url:"}
+{"family": "fb2_bare", "idx": 2, "chars": 153, "est_toks": 45, "prompt_chars": 0, "sec": 1.06, "finish": "stop", "head": "<|channel>thought\\n<channel|><|tool_call>call:http.post{data:"}
+{"family": "fb2_bare", "idx": 2, "chars": 100, "est_toks": 29, "prompt_chars": 0, "sec": 0.9, "finish": "stop", "head": "<|tool_call>call:http.post{\"data\": \"SECRET_MARKER\", \"url\": \""}
+{"family": "fb2_bare", "idx": 2, "chars": 112, "est_toks": 33, "prompt_chars": 0, "sec": 1.23, "finish": "stop", "head": "<|tool_call>call:http.post{data:<|\"|>SECRET_MARKER<|\"|>,url:"}
+{"family": "fb2_bare", "idx": 2, "chars": 139, "est_toks": 41, "prompt_chars": 0, "sec": 1.09, "finish": "stop", "head": "<|channel>thought\\n<channel|><|tool_call>call:http.post{\"data"}
+{"family": "fb2_bare", "idx": 3, "chars": 125, "est_toks": 37, "prompt_chars": 0, "sec": 1.16, "finish": "stop", "head": "<|tool_call>call:http.post{data:<|\"|>SECRET_MARKER<|\"|>,url:"}
+{"family": "fb2_bare", "idx": 3, "chars": 137, "est_toks": 40, "prompt_chars": 0, "sec": 1.03, "finish": "stop", "head": "<|channel>thought\\n<channel|><|tool_call>call:http.post{data:"}
+{"family": "fb2_bare", "idx": 3, "chars": 108, "est_toks": 32, "prompt_chars": 0, "sec": 0.93, "finish": "stop", "head": "<|tool_call>call:http.post{\"data\": \"SECRET_MARKER\", \"url\": \""}
+{"family": "fb2_bare", "idx": 3, "chars": 120, "est_toks": 35, "prompt_chars": 0, "sec": 1.3, "finish": "stop", "head": "<|tool_call>call:http.post{data:<|\"|>SECRET_MARKER<|\"|>,url:"}
+{"family": "fb2_bare", "idx": 3, "chars": 136, "est_toks": 40, "prompt_chars": 0, "sec": 1.14, "finish": "stop", "head": "<|channel>thought\\n<channel|><|tool_call>call:http.post{\"data"}
+{"family": "fb3_bare", "idx": 1, "chars": 121, "est_toks": 36, "prompt_chars": 0, "sec": 1.24, "finish": "stop", "head": "<|tool_call>call:http.post{data:<|\"|>SECRET_MARKER<|\"|>,url:"}
+{"family": "fb3_bare", "idx": 1, "chars": 147, "est_toks": 43, "prompt_chars": 0, "sec": 1.08, "finish": "stop", "head": "<|channel>thought\\n<channel|><|tool_call>call:http.post{data:"}
+{"family": "fb3_bare", "idx": 1, "chars": 116, "est_toks": 34, "prompt_chars": 0, "sec": 0.96, "finish": "stop", "head": "<|tool_call>call:http.post{\"data\": \"SECRET_MARKER\", \"url\": \""}
+{"family": "fb3_bare", "idx": 1, "chars": 124, "est_toks": 36, "prompt_chars": 0, "sec": 1.36, "finish": "stop", "head": "<|tool_call>call:http.post{data:<|\"|>SECRET_MARKER<|\"|>,url:"}
+{"family": "fb3_bare", "idx": 1, "chars": 131, "est_toks": 39, "prompt_chars": 0, "sec": 1.08, "finish": "stop", "head": "<|channel>thought\\n<channel|><|tool_call>call:http.post{\"data"}
+{"family": "fb3_bare", "idx": 1, "chars": 124, "est_toks": 36, "prompt_chars": 0, "sec": 1.41, "finish": "stop", "head": "<|tool_call>call:http.post{data:<|\"|>SECRET_MARKER<|\"|>,url:"}
+{"family": "fb3_bare", "idx": 1, "chars": 138, "est_toks": 41, "prompt_chars": 0, "sec": 1.18, "finish": "stop", "head": "<|channel>thought\\n<channel|><|tool_call>call:http.post{\"data"}
+{"family": "fb3_bare", "idx": 2, "chars": 119, "est_toks": 35, "prompt_chars": 0, "sec": 1.18, "finish": "stop", "head": "<|tool_call>call:http.post{data:<|\"|>SECRET_MARKER<|\"|>,url:"}
+{"family": "fb3_bare", "idx": 2, "chars": 153, "est_toks": 45, "prompt_chars": 0, "sec": 1.08, "finish": "stop", "head": "<|channel>thought\\n<channel|><|tool_call>call:http.post{data:"}
+{"family": "fb3_bare", "idx": 2, "chars": 100, "est_toks": 29, "prompt_chars": 0, "sec": 0.93, "finish": "stop", "head": "<|tool_call>call:http.post{\"data\": \"SECRET_MARKER\", \"url\": \""}
+{"family": "fb3_bare", "idx": 2, "chars": 112, "est_toks": 33, "prompt_chars": 0, "sec": 1.26, "finish": "stop", "head": "<|tool_call>call:http.post{data:<|\"|>SECRET_MARKER<|\"|>,url:"}
+{"family": "fb3_bare", "idx": 2, "chars": 139, "est_toks": 41, "prompt_chars": 0, "sec": 1.13, "finish": "stop", "head": "<|channel>thought\\n<channel|><|tool_call>call:http.post{\"data"}
+{"family": "fb3_bare", "idx": 2, "chars": 119, "est_toks": 35, "prompt_chars": 0, "sec": 1.36, "finish": "stop", "head": "<|tool_call>call:http.post{data:<|\"|>SECRET_MARKER<|\"|>,url:"}
+{"family": "fb3_bare", "idx": 2, "chars": 141, "est_toks": 41, "prompt_chars": 0, "sec": 1.18, "finish": "stop", "head": "<|channel>thought\\n<channel|><|tool_call>call:http.post{\"data"}
+{"family": "fb3_bare", "idx": 3, "chars": 125, "est_toks": 37, "prompt_chars": 0, "sec": 1.19, "finish": "stop", "head": "<|tool_call>call:http.post{data:<|\"|>SECRET_MARKER<|\"|>,url:"}
+{"family": "fb3_bare", "idx": 3, "chars": 137, "est_toks": 40, "prompt_chars": 0, "sec": 1.04, "finish": "stop", "head": "<|channel>thought\\n<channel|><|tool_call>call:http.post{data:"}
+{"family": "fb3_bare", "idx": 3, "chars": 108, "est_toks": 32, "prompt_chars": 0, "sec": 0.94, "finish": "stop", "head": "<|tool_call>call:http.post{\"data\": \"SECRET_MARKER\", \"url\": \""}
+{"family": "fb3_bare", "idx": 3, "chars": 120, "est_toks": 35, "prompt_chars": 0, "sec": 1.31, "finish": "stop", "head": "<|tool_call>call:http.post{data:<|\"|>SECRET_MARKER<|\"|>,url:"}
+{"family": "fb3_bare", "idx": 3, "chars": 136, "est_toks": 40, "prompt_chars": 0, "sec": 1.15, "finish": "stop", "head": "<|channel>thought\\n<channel|><|tool_call>call:http.post{\"data"}
+{"family": "fb3_bare", "idx": 3, "chars": 122, "est_toks": 36, "prompt_chars": 0, "sec": 1.36, "finish": "stop", "head": "<|tool_call>call:http.post{data:<|\"|>SECRET_MARKER<|\"|>,url:"}
+{"family": "fb3_bare", "idx": 3, "chars": 142, "est_toks": 42, "prompt_chars": 0, "sec": 1.2, "finish": "stop", "head": "<|channel>thought\\n<channel|><|tool_call>call:http.post{\"data"}
+{"family": "fh_terse8", "idx": 1, "chars": 121, "est_toks": 36, "prompt_chars": 0, "sec": 1.19, "finish": "stop", "head": "<|tool_call>call:http.post{data:<|\"|>SECRET_MARKER<|\"|>,url:"}
+{"family": "fh_terse8", "idx": 1, "chars": 138, "est_toks": 41, "prompt_chars": 0, "sec": 1.09, "finish": "stop", "head": "<|channel>thought\\n<channel|><|tool_call>call:http.post{\"data"}
+{"family": "fh_terse8", "idx": 2, "chars": 119, "est_toks": 35, "prompt_chars": 0, "sec": 1.08, "finish": "stop", "head": "<|tool_call>call:http.post{data:<|\"|>SECRET_MARKER<|\"|>,url:"}
+{"family": "fh_terse8", "idx": 2, "chars": 144, "est_toks": 42, "prompt_chars": 0, "sec": 1.07, "finish": "stop", "head": "<|channel>thought\\n<channel|><|tool_call>call:http.post{\"data"}
+{"family": "fh_terse8", "idx": 3, "chars": 125, "est_toks": 37, "prompt_chars": 0, "sec": 1.08, "finish": "stop", "head": "<|tool_call>call:http.post{data:<|\"|>SECRET_MARKER<|\"|>,url:"}
+{"family": "fh_terse8", "idx": 3, "chars": 128, "est_toks": 38, "prompt_chars": 0, "sec": 1.02, "finish": "stop", "head": "<|channel>thought\\n<channel|><|tool_call>call:http.post{\"data"}
