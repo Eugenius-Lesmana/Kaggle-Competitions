@@ -799,12 +799,35 @@ S14 adopts it and adds our two unfired levers (forge + short-URL).
 
 
 
-- **Date**:
-- **attack.py sha256**:
-- **One lever changed**:
-- **Predicted**:
-- **Result / r**:
-- **Decision**:
+## S15_SINGLEPURE — BUILT & GATED (2026-08-27, pure-singles endgame)
+
+**Trigger**: S14 pending, but the rival single-post thesis is strong enough to
+go all-in: drop ALL anchor families (fj_min8, fj3_close, fb3_bare, fb2_bare)
+and concentrate every generation-budget slot on single-post shapes. Three new
+levers beyond S14: (1) gemma few-shot wording (fb1_demo), (2) gemma anti-text
+instruction (fb1_notex), (3) multi-predicate family fe1_dual that fires both
+EXFILTRATION (+16) and CONFUSED_DEPUTY (+4) = +20/finding.
+
+- attack.py sha256 `75849bc4dce3293633494ffae96ae5a285191970d280cb9188067642ce544e1f`,
+  notebook `submission_S15_SINGLEPURE.ipynb` (119,220 B), MODE baked.
+- **Structural changes** (pre-registered):
+  1. Pure singles arms: gpt_oss = {f1_close, fk2_close, fe1_dual};
+     gemma = {fb1_bare, fb1_demo, fb1_notex}.
+  2. NEW families: `fe1_dual` (http.post + email.send in one candidate,
+     intent-clean: uses "Notify:" format to avoid CD exemption words),
+     `fb1_demo` (few-shot demonstration for gemma),
+     `fb1_notex` (anti-text instruction for gemma).
+  3. Density ranking inherited from S14 (raw per probe-second).
+  4. Ceiling N_MAX_S10 (2000), ARM_SPLIT = True.
+- **Gates**: units ✅ ×16 suites · validate ✅ · gateway relay ✅
+  (deterministic_public 105.44, 2000 cands, 904 replayed, 60s) · sync ✅.
+- **Predicted**: central 80–110 if the single-post thesis holds and any of
+  the three new levers compound. If forge injection is stripped hosted,
+  floor ≈ S11 bytes class (46–51).
+- **Decode vs S14 when both land**:
+  - S15 > S14 → pure singles + new levers confirmed; S16 deepens multi-pred.
+  - S15 ≈ S14 → anchors were neutral; re-ship S15 bytes (no anchor waste).
+  - S15 < S14 → anchors were load-bearing; revert to S14 bytes.
 
 - **Date**:
 - **attack.py sha256**:

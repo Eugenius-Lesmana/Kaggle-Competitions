@@ -166,7 +166,7 @@ def test_mirror_and_length_all_families():
 def test_s3_family_modes():
     # Mode switch selects the active firehose set; builders exist either way.
     assert attack.MODE in (
-        "S14_SINGLEFILE", "S13_DEEPGEMMA", "S12_BIFROST", "S11_TOPTIER",
+        "S15_SINGLEPURE", "S14_SINGLEFILE", "S13_DEEPGEMMA", "S12_BIFROST", "S11_TOPTIER",
         "S10_SHORTALL",
         "S9C_FORGEMAX", "S9B_BARESCALE", "S9A_BARESWAP",
         "S8A_SCALE", "S8B_ARMSPLIT", "S8C_BAREONLY",
@@ -300,6 +300,21 @@ def test_s3_family_modes():
         assert attack.ARM_SPLIT is True
         assert attack._session_families(1) == attack._S14_GPT_ARM
         assert attack._session_families(2) == attack._S14_GEMMA_ARM
+        assert attack._ship_ceiling() == attack.N_MAX_S10
+    elif attack.MODE == "S15_SINGLEPURE":
+        # pure-singles: no anchors, new gemma variants, multi-predicate
+        assert attack.FIREHOSE_FAMILIES == (
+            attack._S15_GPT_ARM + attack._S15_GEMMA_ARM
+        )
+        assert attack._S15_GPT_ARM == (
+            "f1_close", "fk2_close", "fe1_dual",
+        )
+        assert attack._S15_GEMMA_ARM == ("fb1_bare", "fb1_demo", "fb1_notex")
+        assert all(f in attack._FORGE_ROUTE for f in ("f1_close", "fk2_close"))
+        assert "fe1_dual" not in attack._FORGE_ROUTE
+        assert attack.ARM_SPLIT is True
+        assert attack._session_families(1) == attack._S15_GPT_ARM
+        assert attack._session_families(2) == attack._S15_GEMMA_ARM
         assert attack._ship_ceiling() == attack.N_MAX_S10
     elif attack.MODE == "S6_WORDING":
         assert attack.FIREHOSE_FAMILIES == (
@@ -633,6 +648,7 @@ def test_s9_scaling_families():
         "S12_BIFROST": attack.N_MAX_S10,
         "S13_DEEPGEMMA": attack.N_MAX_S10,
         "S14_SINGLEFILE": attack.N_MAX_S10,
+        "S15_SINGLEPURE": attack.N_MAX_S10,
     }.get(attack.MODE, attack.N_MAX)
     print(f"  [ok] S9 scaling families: zero-injection invariant, depth"
           f" ladder fs2-fs5 + fb3_bare + forged deep drips ctx-safe,"
@@ -772,7 +788,7 @@ def test_compose_order_and_caps():
     # (S14_SINGLEFILE intentionally orders by value density instead -- see
     # _family_metric; the density order of this fixture is drip > lad_hi >
     # fast_small > ..., so only the raw-desc branches are asserted there)
-    if attack.MODE != "S14_SINGLEFILE":
+    if attack.MODE not in ("S14_SINGLEFILE", "S15_SINGLEPURE"):
         assert ship[0] == drip
         # mean-vs-rate discriminator: raw-100-but-slow ships before
         # raw-80-but-fast (the S4a/S5 raw/second order would invert them)
@@ -1035,19 +1051,29 @@ def test_sibling_floor():
         f for f in attack.FIREHOSE_FAMILIES
         if len(FAMILY_BUILDERS[f](1)) == 1
     )
-    assert multi_f is not None, "no multi-message family in active pool"
-    win_len = len(FAMILY_BUILDERS[multi_f](1))
-    attack._STATE["family_stats"] = {
-        multi_f: {"probes": 2, "raw": [250.0, 260.0], "lat": [50.0, 50.0]},
-        single_f: {"probes": 2, "raw": [100.0, 100.0], "lat": [50.0, 50.0]},
-    }
-    shipw = algo._compose([], {}, 60)
-    assert len(shipw) == 60, len(shipw)
-    assert all(len(m) == win_len for m in shipw[:57]), \
-        "fill slots not all from the winner"
-    print(f"  [ok] sibling floor: cut {attack.SIBLING_FLOOR_FRAC}x -- below-cut"
-          " family excluded, at-cut kept, all-zero degenerate admits all,"
-          " 2-msg winner fills to target")
+    if multi_f is None:
+        # Pure-singles mode (S15_SINGLEPURE): all families are single-message,
+        # so the multi-message cap is irrelevant. Verify the fill still works.
+        attack._STATE["family_stats"] = {
+            single_f: {"probes": 2, "raw": [250.0, 260.0], "lat": [50.0, 50.0]},
+        }
+        shipw = algo._compose([], {}, 60)
+        assert len(shipw) == 60, len(shipw)
+        print(f"  [ok] sibling floor: pure-singles mode,"
+              " all families single-message -- fill works")
+    else:
+        win_len = len(FAMILY_BUILDERS[multi_f](1))
+        attack._STATE["family_stats"] = {
+            multi_f: {"probes": 2, "raw": [250.0, 260.0], "lat": [50.0, 50.0]},
+            single_f: {"probes": 2, "raw": [100.0, 100.0], "lat": [50.0, 50.0]},
+        }
+        shipw = algo._compose([], {}, 60)
+        assert len(shipw) == 60, len(shipw)
+        assert all(len(m) == win_len for m in shipw[:57]), \
+            "fill slots not all from the winner"
+        print(f"  [ok] sibling floor: cut {attack.SIBLING_FLOOR_FRAC}x -- below-cut"
+              " family excluded, at-cut kept, all-zero degenerate admits all,"
+              " 2-msg winner fills to target")
 
 
 def test_two_sequential_runs():
