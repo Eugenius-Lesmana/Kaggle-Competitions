@@ -5,10 +5,43 @@
 (submission log + decode tables), `docs/history/` (v1 branch archive: v1
 HANDOFF/FINDINGS/submissions log; v1 code on git branch `timmy`).
 
-## Current status (2026-08-26 evening UTC) — S14_SINGLEFILE READY
+## Current status (2026-08-27 late UTC) — S16 pending, S17_HYBRIDULTRA READY
 
-- **BANKED BEST: 51.265** (S11_TOPTIER d2, ref 55765054). Top-10 ≈ 122.6;
+- **BANKED BEST: 72.095** (S15_SINGLEPURE, ref 55794899). Top-10 ≈ 122.6;
   #1 = 138.89.
+- **S15v1 decoded 72.095**: single-post thesis confirmed; gemma arm weak
+  (forge inert there) + sibling fill wasted slots. Analyses in
+  `glm52findings/` + `qwen38maxfindings/` (both contain arithmetic errors —
+  see dev_notes/submissions.md § S17 for the corrected model).
+- **S16 (submitted as S15v2, ref PENDING)**: universal bare ultra-short,
+  keep-only-fired. Realistic decode 72–85 — the "180" promise assumes
+  2000 fired/row at ≤4.4s/cand, but the rival's own fill loop measured
+  ~9.7s/cand hosted (shipped ~890 → 80 LB). Do NOT expect 180.
+- **S17_HYBRIDULTRA BUILT & GATED** (`submission_S17_HYBRIDULTRA.ipynb`,
+  attack.py sha `0c53dfee60c7d8a7…`): keeps S16's chassis (keep-only-fired,
+  VERIFY_REPS=1, no stage A, density ranking) but restores the arm split —
+  gpt arm {fx1_ultra forge-ultra, fx2_ultra k=2 hedge (34 raw/cand), f1_close};
+  gemma arm {rival_plain VERBATIM (the 80k notebook's v11 template), f1_ultra}.
+  Gates: units ✅ ×20 ×15 modes · validate ✅ · local_check ✅ (public row
+  2000 cands / 3998 exfil ≈ 2/cand — k=2 fires its 2nd post / 2000 cells;
+  gemma-arm session 2000×18) · gateway relay ✅ · sync ✅ byte-exact.
+  Predicted 80–95 (upside 95–110 if k=2 transfers). Decode rules in
+  dev_notes/submissions.md § S17. Upload when a slot opens; decode S16 vs
+  S17 together.
+- ⚠ Frozen scoring bytes: submission_S11_TOPTIER.ipynb (51.265 era) and
+  submission_S15_SINGLEPURE.ipynb (72.095) — never rebuild.
+- Watch for the COMPLETE-with-blank-score zombie anomaly → immediate re-upload.
+
+## Key arithmetic (SDK-verified, use this not the agents' versions)
+
+1 EXFIL single = 16 + 2 (unique cell) = 18 raw; row_norm = raw/200;
+LB = (raw_gpt + raw_gemma)/400. LB 80 = ~890 fired/row; LB 120 ≈ 1333;
+LB 180 = 2000 (the evaluator cap — only reachable if per-candidate replay
+cost ≤ 4.4s, which NO hosted measurement supports). Hosted per-candidate
+cost ≈ 9.7s fixed-overhead dominated (rival's own fill-loop data). k=2
+candidates: 34 raw at ~+1 generation ⇒ ~2.7 raw/s vs 1.9 for singles — the
+one untested lever with real upside (S17 ships it).
+
 - **RIVAL AUTOPSY** (`dev_notes/rival_v11/`): a public ~80-LB notebook ships
   ONE url per candidate, keep-only-fired, measured replay-cost packing —
   alone in our census's empty band (57–92.5). Thesis: hosted replay is

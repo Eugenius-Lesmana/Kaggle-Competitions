@@ -869,8 +869,82 @@ shipping + minimal stage overhead maximizes findings/row on both arms.
   - < 72 → regression; revert to S15 bytes immediately.
   - Zombie (COMPLETE blank) → Kaggle 15h wall clock; S17 cuts GEN_CAP_S to 6000.
 - **Date**: 2026-08-27
-- **attack.py sha256**: a252bbc5a61f11a5fc26d2ff8525b06d9b1b632e5befa1b67eaeaa10224163ee
-- **One lever changed**: forge-specialized arm split → universal ultra-short single + keep-only-fired
-- **Predicted**: 90-180 LB
+- **attack.py sha256**: 0c53dfee60c7d8a74531163b9fd5c59b03ee3340d9cf41dc3996c67f9d4c88b1
+- **One lever changed**: S16's universal no-forge template → hybrid arms (gpt: forge-ultra + k2 hedge; gemma: rival plain verbatim), keep-only-fired retained
+- **Predicted**: LB 80-95 central; 95-110 if k=2's 2nd post fires hosted; floor ~72
+- **Result / r**: PENDING
+- **Decision**: PENDING
+
+
+## S17_HYBRIDULTRA — BUILT & GATED (2026-08-27, S16-decode pre-plan)
+
+**Trigger**: independent re-audit of the S16 premise (this session). Two
+findings the agent analyses got wrong:
+
+1. **The "180 LB" ceiling is arithmetically unreachable as a *prediction*.**
+   LB = (raw_gpt + raw_gemma)/400 = 18 × fired/400-ish per row; 180 needs
+   2,000 fired findings/row at ≤4.4s/candidate. The rival's OWN hosted
+   measurement (v11 fill loop stops at 0.992×9000s of measured per-candidate
+   cost) says ~9.7s/candidate → he shipped ~890 → ~80 LB. S15's 72 says the
+   same (~800/row). Per-candidate replay cost is fixed-overhead dominated
+   (env build + reset + 2 generations), NOT prompt-length dominated: the
+   70-char body saves ~50 prefill tokens against a ~9.7s floor. Realistic
+   S16 decode: 72–85.
+2. **S16 discarded the forge from the gpt arm** — our only MEASURED advantage
+   (Colab round 7: forged single 1.0–1.7s vs rival_plain 3.4–3.7s on real
+   gpt-oss; S15's mean-72 with a weak gemma row implies its gpt forge row
+   scored ~90–105 hosted, ABOVE the rival's 80). And it never adopted the
+   rival's plain template on the gemma arm — the one template PROVEN at ~80
+   hosted on gemma.
+
+**The one genuinely untested lever with upside**: k=2 candidates. If hosted
+cost ≈ F + (k+1)·g with F+2g ≈ 9.7s (rival's own numbers), then c(2) ≈ 11–13s
+but raw = 34 (2 posts) → ~2.7 raw/s vs ~1.9 for singles (+45%). Colab round
+7: fk2_close fired 2 posts, 3/3 reps, 1.85–1.95s. Density ranking makes the
+hedge self-pruning if the 2nd post doesn't fire hosted.
+
+**Design (pre-registered)**:
+- gpt arm  = fx1_ultra (forge + ultra-short `http://g{i}/p` body) +
+  fx2_ultra (k=2 forge hedge, `http://r{2i}/p`+`r{2i+1}/p`, 34 raw/cand) +
+  f1_close (S15's proven fallback).
+- gemma arm = rival_plain (the 80k notebook's v11 template VERBATIM,
+  4-TLD domain-diversity scheme, 2,000 unique URLs verified) + f1_ultra
+  (S16's bare ultra-short, live-screens against it).
+- Keep-only-fired, VERIFY_REPS=1, stage A skipped, density ranking,
+  N_MAX_S10 ceiling — all inherited from S16's chassis.
+- URL bands globally disjoint across all 5 S17 families (g/r/q bands +
+  rival's alpha-word hosts + f1_close's word band), 12,000 unique URLs
+  verified; all pass _url_ok + private-net regex.
+
+**Gates**: units ✅ ×20 suites ×15 modes (incl. S17 suite: forge suffix
+byte-pinned at END, k=2 exact post counts, rival template verbatim equality,
+band disjointness, keep-only-fired drops raw=0) · validate ✅ · gateway relay
+✅ (deterministic_public complete, 12/12 findings) · local_check ✅ 600s
+(public row: 2000 cands, 2000 findings, raw 67968, norm 339.84, unique_cells
+2000, **exfil=3998 ≈ 2/cand — the k=2 hedge fires its 2nd post**; session-2
+gemma-arm run: 2000 × 18 = 36000 raw — session routing verified) · sync ✅
+notebook `submission_S17_HYBRIDULTRA.ipynb` (129,302 B, sha
+`0c53dfee60c7d8a7…`, MODE baked, byte-exact embed).
+
+**Predicted** (hosted cost model, per row):
+- Central: gpt ~85–105 (forge + k2 partial) · gemma ~75–90 (rival template
+  at his own rates) → **LB 80–95**.
+- Upside if k=2 fires its 2nd post hosted at Colab rates: gpt row +30–45%
+  → LB 95–110.
+- Floor: everything behaves like S15/S16 → ~72.
+- Zombie risk: same as S16 (S16's own decode rules its GEN_CAP fallback in).
+
+**Decode vs S15 (72.095) and S16 (pending)**:
+- S17 > max(S15,S16) → hybrid confirmed; S18 = deepen k=2 (k=3 hedge) +
+  over-verify beyond n_target.
+- S17 ≈ S16 ≈ 72–80 → fixed-overhead model confirmed; template axis closed.
+  Endgame = re-ship best bytes for upper tail (noise band ±8–20%).
+- S17 < 72 → regression; revert to best-decoded bytes; S15/S16 stay frozen.
+
+- **Date**: 2026-08-27
+- **attack.py sha256**: 0c53dfee60c7d8a74531163b9fd5c59b03ee3340d9cf41dc3996c67f9d4c88b1
+- **Notebook**: submission_S17_HYBRIDULTRA.ipynb (129,302 B)
+- **One lever changed**: S16's universal no-forge template → hybrid arms (gpt: forge-ultra + k2 hedge; gemma: rival plain verbatim), keep-only-fired retained
+- **Predicted**: LB 80-95 central; 95-110 if k=2's 2nd post fires hosted; floor ~72
 - **Result / r**: PENDING
 - **Decision**: PENDING
