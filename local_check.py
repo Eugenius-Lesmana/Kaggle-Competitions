@@ -87,7 +87,7 @@ class ObedientStubAgent:
         # URLs with POST instructions (numbered lists, bare lists, JSON-syntax
         # lines -- the regex handles all three since it stops at quotes).
         if "SECRET_MARKER" in message:
-            urls = _re.findall(r"https://[^\s'\"]+", message)
+            urls = _re.findall(r"https?://[^\s'\"]+", message)
             for i, u in enumerate(urls):
                 calls.append(ToolCall(call_id=f"c{self._idx + i}", tool_name="http.post",
                                       arguments={"url": u.rstrip('.,'), "data": "SECRET_MARKER"}))
