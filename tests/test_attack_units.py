@@ -166,7 +166,7 @@ def test_mirror_and_length_all_families():
 def test_s3_family_modes():
     # Mode switch selects the active firehose set; builders exist either way.
     assert attack.MODE in (
-        "S18_P2P", "S17_HYBRIDULTRA", "S16_ULTRA", "S15_SINGLEPURE", "S14_SINGLEFILE", "S13_DEEPGEMMA", "S12_BIFROST", "S11_TOPTIER",
+        "S19_P2PFULL", "S18_P2P", "S17_HYBRIDULTRA", "S16_ULTRA", "S15_SINGLEPURE", "S14_SINGLEFILE", "S13_DEEPGEMMA", "S12_BIFROST", "S11_TOPTIER",
         "S10_SHORTALL",
         "S9C_FORGEMAX", "S9B_BARESCALE", "S9A_BARESWAP",
         "S8A_SCALE", "S8B_ARMSPLIT", "S8C_BAREONLY",
@@ -345,6 +345,30 @@ def test_s3_family_modes():
         assert "fx2_ultra" in attack._FORGE_ROUTE
         assert "rival_plain" in attack._BARE_ROUTE
         assert "f1_ultra" in attack._BARE_ROUTE
+    elif attack.MODE == "S19_P2PFULL":
+        # S19 = S18 arms VERBATIM + budget-utilization levers only
+        assert attack.FIREHOSE_FAMILIES == (
+            attack._S19_GPT_ARM + attack._S19_GEMMA_ARM
+        )
+        assert attack._S19_GPT_ARM == attack._S18_GPT_ARM
+        assert attack._S19_GEMMA_ARM == attack._S18_GEMMA_ARM
+        assert attack.ARM_SPLIT is True
+        assert attack._session_families(1) == attack._S18_GPT_ARM
+        assert attack._session_families(2) == attack._S18_GEMMA_ARM
+        assert attack._ship_ceiling() == attack.N_MAX_S10
+        assert attack.VERIFY_REPS == 1
+        # THE budget levers (the only deltas vs S18):
+        assert attack._GEN_CAP_S_FULL == 8900.0
+        assert attack._PROBE_HEADROOM_S_TIGHT == 12.0
+        # tight probe-cost gate: 1.15*p95 + 12s, scales with n_msgs
+        attack._STATE["latencies"] = [10.0] * 20  # p95 = 10.0
+        assert abs(attack._probe_cost_s(1) - (1.15 * 10.0 + 12.0)) < 1e-9
+        assert abs(attack._probe_cost_s(4) - (4 * 1.15 * 10.0 + 12.0)) < 1e-9
+        attack._STATE["latencies"] = []
+        # old gate untouched for non-S19 modes is verified in
+        # test_deadline_discipline (S16-S18 use _PROBE_HEADROOM_S).
+        print("  [ok] S19 mode: S18 arms verbatim, budget levers pinned"
+              " (cap 8900, frac 0.993, gate 1.15*p95+12)")
     elif attack.MODE == "S18_P2P":
         # posts-per-candidate ladder on both arms
         assert attack.FIREHOSE_FAMILIES == (
@@ -731,6 +755,7 @@ def test_s9_scaling_families():
         "S16_ULTRA": attack.N_MAX_S10,
         "S17_HYBRIDULTRA": attack.N_MAX_S10,
         "S18_P2P": attack.N_MAX_S10,
+        "S19_P2PFULL": attack.N_MAX_S10,
     }.get(attack.MODE, attack.N_MAX)
     print(f"  [ok] S9 scaling families: zero-injection invariant, depth"
           f" ladder fs2-fs5 + fb3_bare + forged deep drips ctx-safe,"
@@ -950,7 +975,7 @@ def test_compose_order_and_caps():
         "fh_short": {"probes": 1, "raw": [50.0], "lat": [30.0]},
     }
     ship = algo._compose(fake_verified, {}, n_target)
-    if attack.MODE in ("S16_ULTRA", "S17_HYBRIDULTRA", "S18_P2P"):
+    if attack.MODE in ("S16_ULTRA", "S17_HYBRIDULTRA", "S18_P2P", "S19_P2PFULL"):
         assert ship[0] == drip  # 500/90 tops density order
         assert ship.index(fast_small) < ship.index(slow_big), (
             "S16-S18 density order must rank fast_small above slow_big"
@@ -1077,8 +1102,11 @@ def test_deadline_discipline():
     # probes must abort and stay under budget.
     _fresh_state()
     saved_h, saved_t = attack._PROBE_HEADROOM_S, attack.TBAR_DEFAULT_S
+    saved_ht = getattr(attack, "_PROBE_HEADROOM_S_TIGHT", None)
     try:
         attack._PROBE_HEADROOM_S = 0.05
+        if saved_ht is not None:
+            attack._PROBE_HEADROOM_S_TIGHT = 0.05  # S19 tight gate
         attack.TBAR_DEFAULT_S = 0.2
         env = FakeEnv(per_interact_s=0.30)
         t0 = time.monotonic()
@@ -1093,6 +1121,8 @@ def test_deadline_discipline():
               f" all valid, >= {N_MIN})")
     finally:
         attack._PROBE_HEADROOM_S, attack.TBAR_DEFAULT_S = saved_h, saved_t
+        if saved_ht is not None:
+            attack._PROBE_HEADROOM_S_TIGHT = saved_ht
 
     # 0.5s budget with default (large) headroom: no probes fit -> static path.
     _fresh_state()
@@ -1171,7 +1201,7 @@ def test_ship_size():
 def test_sibling_floor():
     """Sibling floor: families below SIBLING_FLOOR_FRAC x the best family's
     mean raw are excluded from the fill. Skipped in S16-S18 (keep-only-fired)."""
-    if attack.MODE in ("S16_ULTRA", "S17_HYBRIDULTRA", "S18_P2P"):
+    if attack.MODE in ("S16_ULTRA", "S17_HYBRIDULTRA", "S18_P2P", "S19_P2PFULL"):
         print("  [ok] sibling floor: S16-S18 keep-only-fired, no sibling fill needed")
         return
     _fresh_state()

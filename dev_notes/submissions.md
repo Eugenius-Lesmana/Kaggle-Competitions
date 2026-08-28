@@ -874,7 +874,8 @@ shipping + minimal stage overhead maximizes findings/row on both arms.
 - **One lever changed**: S16's universal no-forge template → hybrid arms (gpt: forge-ultra + k2 hedge; gemma: rival plain verbatim), keep-only-fired retained
 - **Predicted**: LB 80-95 central; 95-110 if k=2's 2nd post fires hosted; floor ~72
 - **Result / r**: PENDING (ref 55832324, uploaded 2026-08-28 03:18 UTC)
-- **Decision**: PENDING
+- **Decision**: **DECODED 2026-08-28 ~15:15 UTC: 70.895** — see § AUG-28 S17
+  DECODE (appended at end of file). REVERT-CLASS per pre-registered rules.
 
 ## AUG-27/28 DECODE SWEEP (2026-08-28, pulled via kaggle CLI) — S16 FALSIFIED, TEAM PLATEAU CONFIRMED
 
@@ -1179,3 +1180,149 @@ land they decode directly: gemma row ≈ plain/bare template rate (tests our
 rival_plain assumption independently); gpt row tests forge-long-URL vs our
 forge-ultra-short. His submission is a free A/B against S17's arms.
 
+
+## AUG-28 S17 DECODE — 70.895, AND THE RIVAL-GAP AUTOPSY (2026-08-28 ~15:15 UTC)
+
+**S17_HYBRIDULTRA = 70.895** (ref 55832324). Below S15 (72.095), teammate A
+(77.31), rival (80+). Fired ≈ 70.895×400/36 ≈ 788/row — SAME singles-class
+count as S15 (~800). Both S17 arms shipped p=1-class counts: **the k=2
+hedge did not lift the row total hosted**.
+
+**Also landed**: two uploads 05:45 + 06:05 Aug-28 UTC from kernel `s18bro`
+(last run 06:03) = **S18_P2P ALREADY IN FLIGHT** (refs 55835257, 55835686,
+both PENDING at decode time). Do NOT re-upload S18 bytes; wait for scores.
+
+### Decode of the rival gap (80+ vs our 72-77 cluster)
+
+The gap is NOT templates, NOT forge, NOT p>=2 mechanics. It is **generation
+budget utilization**. Code facts (attack.py + SDK, both re-audited today):
+
+1. **We stop at GEN_CAP_S=7800s; the SDK spends the full 8750s.** The
+   evaluator wraps run() in `_run_until_deadline` with the FULL phase
+   budget; only exceeding it raises TimeoutError (run() returning early is
+   never punished). The rival runs `search_time_left()` down to
+   `slowest*1.35` margin and fills until `0.992*9000`. We leave
+   **~950s×2 sessions idle** ≈ 19% of the generation phase — ≈170 missed
+   probes/row × 36 raw ≈ 6,120 raw ≈ **15+ LB** of pure idle budget.
+2. **Even inside 7800s we idle the tail.** `_probe_cost_s` =
+   `n_msgs*(2.2*p95)+90s` headroom is over-conservative vs measured
+   costs. With hosted p95 ≈ 10s: a 1-msg probe needs ~112s of remaining
+   budget, fb4 (4 msgs) ~178s → probes stop at ~7688s. Combined with the
+   7800 cap, effective generation ≈ 7,690s of 8,750 = 87.9%.
+   **Rival: ~8,690s of 8,750 = 99.3% (60s margin, empirically survived
+   at 80 LB). Utilization ratio 8690/7690 = 1.128 vs fired ratio
+   889/788 = 1.128 — EXACT match. The S17→rival gap is ~100% budget
+   utilization.**
+3. **The 92.5-147.5 island = higher posts/candidate, lower count** — same
+   total posts, split differently across candidates. Arithmetic: island
+   bottom 92.5 = 1,028 fired posts; our 70.895 = 788. The gap to the
+   island floor is +240 fired posts ≈ 30% more posts through the SAME
+   window. p=2 at ~1.5-1.7 raw/s p95-normalized density vs singles 1.86
+   (T4 measured: fx2 2 posts/1.86s med = 1.08 raw/s vs f1_close 1.0s →
+   18 raw/s... wait, see corrected table below).
+4. **f1_ultra on the gemma arm (S17) was a known S16-killer shape** —
+   un-framed bare line on gpt: 169-237 tok reasoning. On gemma (S17's
+   gemma arm) it was shipped as a live-screen family; gemma battery med
+   1.17s — fine on gemma. Not the S17 regression driver.
+
+### Corrected density table (T4 med lat, raw = 16*posts + 2*unique_cell≈18/pair)
+
+| shape | med lat | raw | raw/s (med) | raw/s (p95-priced) |
+|---|---| _---_|---|---|
+| gpt fx4_ultra (k=4) | 4.8s | 66 | 13.7 | 9.6 |
+| gpt fx3_ultra | 2.7s | 50 | 18.5 | 13.3 |
+| gpt fx2_ultra | 1.6s | 34 | 21.2 | 16.9 |
+| fx1_ultra (forge 1) | 1.0s | 18 | 18 | 15.5 |
+| gemma fb3_msg3 | 5.1s | 50 | 9.8 | 7.3 |
+| gemma fb2_msg2 | 5.1s* | 34 | 6.7 | 5.0 |
+| gemma fb4_msg4 | 7.3s | 66 | 9.0 | 7.5 |
+| gemma f1_ultra (bare) | 0.98s | 9*  | 9.9 | 9.0 |
+| rival_plain (gpt) | 3.2s | 16 | 5.9 | 5.0 |
+
+(*fb2 med 3.23s per s18 battery; f1_ultra gemma raw=16+2=18 not 9.)
+
+### Verdict: the S19 recipe (pending S18 decode, pre-registered)
+
+S18 already tests the p-ladder. If S18 lands 85-95+: island mechanism
+partially confirmed → S19 = S18 arms + **budget-utilization fix**: (a)
+GEN_CAP_S 7800→8650 (deadline = min(budget*0.985, 8650); the SDK only
+punishes exceeding, not early return), (b) `_probe_cost_s` →
+`n_msgs*(1.15*p95)+12s` (tight, p95 of the same session's measured
+latencies), (b2) keep a 60s absolute final-margin. Target: +15-20 LB on
+top of S18's landing point (zero new shapes, pure wall-clock arithmetic).
+If S18 flops (<77): S19 = teammate-A-class plain-single arms + the same
+budget fix — still the best singles-wall play available.
+
+Corrections to my first-draft table: fx2 raw = 32 (2×16, not 34: cell +2
+is per-unique-cell, only once per candidate — see next section); fb2_msg2
+med lat 3.23s not 5.1s; f1_ultra on gemma raw = 18 not 9. Core arithmetic
+(889/788 = 8690/7690 = 1.128) unchanged.
+
+### Why the +2 unique-cell term is NOT the rival's edge
+
+Rival's v11 alpha-word hosts (aa.co, aa.io, aa.dev, aa.net, ab.co, ...)
+maximize unique score cells (+2 raw each). But our families also mint a
+unique URL per candidate index → unique cell → +2. Both score ≈ 18/cand
+at p=1. The cell term is neutral; not the gap.
+
+## S19_P2PFULL — BUILT & GATED (2026-08-28, S17-decode pre-plan)
+
+**Trigger**: Aug-28 S17 decode (70.895; § above). The rival gap is ~100%
+generation-budget utilization: our effective window ≈ 7,690s/session
+(GEN_CAP_S 7800 − gate-idle from `2.2·p95+90s` headroom) vs the rival's
+≈ 8,690s (fill to 0.992·9000 with 60s margin). Utilization ratio 1.128 ==
+fired ratio 889/788 — the shapes are equal, the clock is not.
+
+**Design (single lever, pure A/B vs S18)**: arms/chassis byte-identical to
+S18_P2P. Only the budget levers change:
+- `g_deadline = t0 + min(budget·0.993, 8900)` (was min(budget·0.90, 7800));
+  the SDK's `_run_until_deadline` kills run() only on EXCEED — early
+  return is never punished. Rival survived 8750−60 at 80 LB.
+- `_probe_cost_s → n_msgs·(1.15·p95) + 12s` (was 2.2·p95 + 90s). p95 is
+  of the SAME session's measured latencies → self-widening if hosted
+  actually runs slow.
+- Final probe-stop margin 60s at hosted budgets (min(60, 0.05·budget) so
+  test budgets still probe).
+Effective window: 8750 − 61 ≈ 8,690s/session = the rival's utilization.
+
+**Expected gain**: +12–13% fired vs S18-at-same-shapes (the 1.128 ratio).
+On top of S18's landing: if S18 = X, S19 ≈ min(X·1.128, ceiling by p).
+If the p-ladder also transfers, S19 ≈ 115–146. If the ladder flops to
+singles (S18 ≈ 72–77), S19 ≈ 81–87 — clearing the singles wall via the
+clock alone.
+
+**Zombie/wall risk**: S19 runs ~2×8,690s generation + 6 replay phases
+→ ~14.8h worker time, same class as S18 (S18's own worker survived
+06:03→PENDING, watch its score as the dress rehearsal). The 60s margin +
+p95-scaled gate bound the exceed-risk from above.
+
+**Gates** (2026-08-28): units ✅ ×21 suites ×4 modes (S19 suite: arms ==
+S18 verbatim, cap 8900, tight-gate formula pinned, frac 0.993; S16/S17/
+S18 regression green) · aicomp validate ✅ · local_check ✅ 600s (public:
+2000 cands, raw 131,856, norm 659.28, unique_cells 2000, exfil 7,991 ≈
+4/cand — identical shape to S18's gate; permissive identical) · gateway
+relay ✅ (deterministic_public 207.9, complete in 163.2s) · notebook +
+sync ✅ byte-exact (`submission_S19_P2PFULL.ipynb` 141,806 B; attack.py
+sha256 `6822377e6630397124ea66a3c215586b8bc932a12b0f2fc90ced55e06c967bda`).
+
+**Decode rules** (vs S18 when both land):
+- S19 ≥ S18 + 8 → utilization lever confirmed; endgame = re-ship S19
+  bytes for tail draws; S20 only if a decode band demands it.
+- S19 ≈ S18 ± 3 → hosted per-probe cost is NOT latency-bound but
+  request-count-bound (queue serialization) → clock levers exhausted;
+  endgame = best-bytes re-ship.
+- S19 < S18 − 8 → budget exceed killed a phase (zombie/blank or halved
+  row) → revert to S18 bytes; never touch the clock again.
+- Zombie (COMPLETE blank) → one identical re-upload (S8C protocol), then
+  revert if it zombies again.
+
+- **Date**: 2026-08-28
+- **attack.py sha256**: 6822377e6630397124ea66a3c215586b8bc932a12b0f2fc90ced55e06c967bda
+- **Notebook**: submission_S19_P2PFULL.ipynb (141,806 B)
+- **One lever changed**: S18's budget discipline (0.90·budget cap 7800,
+  2.2·p95+90s gate) → full-utilization (0.993·budget cap 8900,
+  1.15·p95+12s gate, 60s margin)
+- **Predicted**: S18·1.128 if shapes fire equally; 81–87 floor if the
+  ladder collapses to singles
+- **Result / r**: PENDING
+- **Decision**: PENDING

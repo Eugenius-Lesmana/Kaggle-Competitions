@@ -39,29 +39,34 @@ as of that date; anything contradicting them elsewhere is stale.
   re-measured and softened in round 5).
 - Auto-memory `kaggle-ai-agent-security.md` — v1 era; this file supersedes.
 
-## Current status (2026-08-28 early UTC) — S17 pending, S18_P2P READY
+## Current status (2026-08-28 late UTC) — S17 DECODED 70.895, S18 PENDING, S19 READY
 
-- **TEAM BEST: 77.310** (teammate A's plain-single config, ref 55810506,
-  HIS account). Our banked best: **72.095** (S15_SINGLEPURE, ref 55794899).
-  Team decode: A 77.31 / our S16 **50.52** / teammate C 75.06 / D 72.09 /
-  D-v2 **44.935** (his heavy-challenger variant −38%: multi-post is a trap
-  under HIS chassis — sibling-filled, no keep-fired — not universally).
-- **S17_HYBRIDULTRA PENDING** (ref 55832324, uploaded 03:18 Aug-28). Its
-  gpt row is the hosted k=2 calibration. Decode rules: submissions.md § S17.
-- **S18_P2P BUILT & GATED, awaiting upload** (`submission_S18_P2P.ipynb`
-  136,454 B; attack.py sha256 `773e2e07…`): posts-per-candidate ladder,
-  gpt {fx4,fx3,fx2,fx1_ultra, rival_plain} / gemma {fb4,fb3,fb2_msg,
-  rival_plain, f1_ultra} on the S16/S17 chassis. Predicted 102–130 central,
-  floor 72–77. **Decode rules: submissions.md § S18_P2P — read them before
-  building anything after it lands.**
-- Deadline **Sep 1 23:59 UTC**; ~5 uploads/day. After S17+S18 decode, the
-  calendar is: 1–2 refinement submissions max, then re-ship best-decoded
-  bytes for upper-tail draws + keep one diverse config as the private-row
-  lottery pick (Aug-6 refresh made final-selection diversity valuable).
-- Colab VM flaky (tunnels die hourly; box sometimes survives): current
-  tunnel is in the newest user message, NOT in this file. Everything is
-  restorable from `dev_notes/colab/` (bootstrap + probes) — ask the user
-  for a fresh CONNECT line when needed.
+- **TEAM BEST: 77.310** (teammate A, ref 55810506, his account). Our banked
+  best: **72.095** (S15_SINGLEPURE, ref 55794899).
+- **S17_HYBRIDULTRA = 70.895** (ref 55832324, decoded Aug-28 ~15:15 UTC) —
+  below its 72 floor. REVERT-CLASS. Decode + rival-gap autopsy: submissions.md
+  § AUG-28 S17 DECODE. **TL;DR the rival's 80+ vs our 72-77 = generation
+  budget utilization (99.3% vs our 87.9%; fired ratio 889/788 == clock ratio
+  8690/7690 == 1.128), NOT templates/forge/shapes.**
+- **S18_P2P PENDING** ×2 (refs 55835257 + 55835686, kernel `s18bro`
+  06:03 UTC) — posts-per-candidate ladder. When it lands, decode per
+  submissions.md § S18_P2P rules, BUT discount the pre-registered bands by
+  ~12% for the budget cap S18 still carries (7800s/0.90 frac) — that is
+  exactly what S19 fixes.
+- **S19_P2PFULL BUILT & GATED, awaiting slot** (`submission_S19_P2PFULL.ipynb`
+  141,806 B; attack.py sha256 `6822377e…`): S18 arms VERBATIM + full budget
+  utilization (cap 8900, frac 0.993, gate 1.15·p95+12s, 60s margin).
+  Predicted S18·1.128 (≈ +12-13%); floor 81-87 if the ladder collapses to
+  singles. Pure A/B vs S18 — any delta IS the utilization lever. Decode
+  rules: submissions.md § S19_P2PFULL.
+- Deadline **Sep 1 23:59 UTC**; ~5 uploads/day. Calendar after S18 lands:
+  upload S19 (same day if slots allow), then decode → endgame = re-ship
+  best-decoded bytes for upper-tail draws + one diverse runner-up as the
+  private-row lottery pick.
+- Upload priority if slots are scarce: S19 (new lever) > S18-bytes re-ship
+  (tail draw) > anything else. Never re-upload S16/S17-class bytes.
+- Colab VM flaky (tunnels die hourly): current tunnel is in the newest user
+  message, NOT in this file. Restorable from `dev_notes/colab/`.
 - Watch for the COMPLETE-with-blank-score zombie anomaly → immediate
   identical re-upload (S8C protocol; teammate hit it twice).
 
@@ -100,7 +105,7 @@ rival's ~80 fill-loop). Consequences:
 |---|---|
 | `attack.py` | THE submission source. `ATTACK_MODE` env selects config; hosted default comes from the notebook's baked cell. |
 | `make_notebook.py` | `make_notebook.py attack.py <out>.ipynb <MODE>` — BAKES the mode into notebook cell 1. Always build variants this way. |
-| `submission_S18_P2P.ipynb` | Current ready build. Frozen scoring bytes: `submission_S11_TOPTIER.ipynb`, `submission_S15_SINGLEPURE.ipynb` — NEVER rebuild those two. |
+| `submission_S19_P2PFULL.ipynb` | Current ready build (S18 arms + full budget utilization). Frozen scoring bytes: `submission_S11_TOPTIER.ipynb`, `submission_S15_SINGLEPURE.ipynb` — NEVER rebuild those two. |
 | `check_notebook_sync.py` | `check_notebook_sync.py <notebook> attack.py` — byte-exact embed check. Run before EVERY upload. |
 | `tests/test_attack_units.py` | 21 suites; MUST pass under the active mode + S17/S16 regression (see gate ritual). |
 | `local_check.py --budget 600` | Stub-agent e2e vs public+permissive guardrails (NOT hosted-predictive — shape ratios only). |
@@ -133,7 +138,7 @@ rival's ~80 fill-loop). Consequences:
 ## Gate ritual before ANY upload (current)
 
 ```
-for m in S18_P2P S17_HYBRIDULTRA S16_ULTRA:
+for m in S19_P2PFULL S18_P2P S17_HYBRIDULTRA S16_ULTRA:
     ATTACK_MODE=$m ./.venv/bin/python tests/test_attack_units.py
 PYTHONPATH=sdk ./.venv/bin/python -c "from aicomp_sdk.cli.main import main; import sys; sys.argv=['aicomp','validate','redteam','attack.py']; main()"
 ATTACK_MODE=<MODE> ./.venv/bin/python local_check.py --budget 600
@@ -177,13 +182,14 @@ sibling-filled chassis (teammate D-v2 44.935) · agent analyses promising
 LB numbers without the c(p) cost model (the "90–180" failure mode —
 always re-derive from the model above).
 
-## Endgame protocol (after S17 + S18 decode)
+## Endgame protocol (after S18 + S19 decode)
 
-- If S18 ≥ 95: island mechanism confirmed → ONE refinement (S19 = deeper
-  gemma ladder fb5/fb6 + fx4-heavy arms per decode band), then re-ship
-  S19/S18-best bytes for tail draws.
-- If S18 72–85: singles wall holds for us → re-ship best-decoded bytes;
-  final-day selection = champion + one diverse runner-up (private-row
-  lottery; pool composition differences ARE the diversity).
-- If S18 < 72 or zombie: re-upload once (zombie protocol), then revert.
+- S19 is built and gated — upload it the moment a slot opens (it is the
+  utilization A/B; its decode rules are in submissions.md § S19_P2PFULL).
+- If S19 ≥ S18+8: utilization lever confirmed → re-ship S19 bytes 2-3x
+  for upper-tail draws; final selection = S19-best + one diverse runner.
+- If S19 ≈ S18: clock levers exhausted → re-ship best bytes; final
+  selection = champion + diverse runner-up (private-row lottery).
+- If S19 < S18−8 or zombie: one identical re-upload (S8C protocol), then
+  revert to S18-class bytes permanently.
 - Last 2 days: no new builds. Upper-tail riding + final selection only.
