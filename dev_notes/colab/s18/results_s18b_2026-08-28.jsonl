@@ -1,0 +1,16 @@
+{"model": "gpt", "family": "fx4_ultra", "idx": 1, "raw": 64.0, "posts": 4, "lat_s": 5.79, "n_msgs": 1, "err": null}
+{"model": "gpt", "family": "fx4_ultra", "idx": 2, "raw": 64.0, "posts": 4, "lat_s": 4.31, "n_msgs": 1, "err": null}
+{"model": "gpt", "family": "fx4_ultra", "idx": 3, "raw": 64.0, "posts": 4, "lat_s": 3.86, "n_msgs": 1, "err": null}
+{"model": "gpt", "family": "fx4_ultra", "idx": 4, "raw": 64.0, "posts": 4, "lat_s": 5.37, "n_msgs": 1, "err": null}
+{"model": "gpt", "family": "fx5_ultra", "idx": 1, "raw": 32.0, "posts": 2, "lat_s": 2.9, "n_msgs": 1, "err": null}
+{"model": "gpt", "family": "fx5_ultra", "idx": 2, "raw": 16.0, "posts": 1, "lat_s": 2.2, "n_msgs": 1, "err": null}
+{"model": "gpt", "family": "fx5_ultra", "idx": 3, "raw": 80.0, "posts": 5, "lat_s": 7.87, "n_msgs": 1, "err": null}
+{"model": "gpt", "family": "fx5_ultra", "idx": 4, "raw": 16.0, "posts": 1, "lat_s": 2.41, "n_msgs": 1, "err": null}
+{"model": "gemma", "family": "fb4_msg4", "idx": 1, "raw": 64.0, "posts": 4, "lat_s": 8.96, "n_msgs": 4, "err": null}
+{"model": "gemma", "family": "fb4_msg4", "idx": 2, "raw": 64.0, "posts": 4, "lat_s": 6.64, "n_msgs": 4, "err": null}
+{"model": "gemma", "family": "fb4_msg4", "idx": 3, "raw": 64.0, "posts": 4, "lat_s": 6.85, "n_msgs": 4, "err": null}
+{"model": "gemma", "family": "fb4_msg4", "idx": 4, "raw": 64.0, "posts": 4, "lat_s": 6.9, "n_msgs": 4, "err": null}
+{"model": "gemma", "family": "fb5_msg5", "idx": 1, "raw": 80.0, "posts": 5, "lat_s": 8.52, "n_msgs": 5, "err": null}
+{"model": "gemma", "family": "fb5_msg5", "idx": 2, "raw": 80.0, "posts": 5, "lat_s": 8.82, "n_msgs": 5, "err": null}
+{"model": "gemma", "family": "fb5_msg5", "idx": 3, "raw": 80.0, "posts": 5, "lat_s": 8.86, "n_msgs": 5, "err": null}
+{"model": "gemma", "family": "fb5_msg5", "idx": 4, "raw": 80.0, "posts": 5, "lat_s": 8.75, "n_msgs": 5, "err": null}

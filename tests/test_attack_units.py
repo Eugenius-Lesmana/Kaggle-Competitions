@@ -166,7 +166,7 @@ def test_mirror_and_length_all_families():
 def test_s3_family_modes():
     # Mode switch selects the active firehose set; builders exist either way.
     assert attack.MODE in (
-        "S17_HYBRIDULTRA", "S16_ULTRA", "S15_SINGLEPURE", "S14_SINGLEFILE", "S13_DEEPGEMMA", "S12_BIFROST", "S11_TOPTIER",
+        "S18_P2P", "S17_HYBRIDULTRA", "S16_ULTRA", "S15_SINGLEPURE", "S14_SINGLEFILE", "S13_DEEPGEMMA", "S12_BIFROST", "S11_TOPTIER",
         "S10_SHORTALL",
         "S9C_FORGEMAX", "S9B_BARESCALE", "S9A_BARESWAP",
         "S8A_SCALE", "S8B_ARMSPLIT", "S8C_BAREONLY",
@@ -345,6 +345,56 @@ def test_s3_family_modes():
         assert "fx2_ultra" in attack._FORGE_ROUTE
         assert "rival_plain" in attack._BARE_ROUTE
         assert "f1_ultra" in attack._BARE_ROUTE
+    elif attack.MODE == "S18_P2P":
+        # posts-per-candidate ladder on both arms
+        assert attack.FIREHOSE_FAMILIES == (
+            attack._S18_GPT_ARM + attack._S18_GEMMA_ARM
+        )
+        assert attack._S18_GPT_ARM == (
+            "fx4_ultra", "fx3_ultra", "fx2_ultra", "fx1_ultra",
+            "rival_plain",
+        )
+        assert attack._S18_GEMMA_ARM == (
+            "fb4_msg4", "fb3_msg3", "fb2_msg2", "rival_plain", "f1_ultra",
+        )
+        assert attack.ARM_SPLIT is True
+        assert attack._session_families(1) == attack._S18_GPT_ARM
+        assert attack._session_families(2) == attack._S18_GEMMA_ARM
+        assert attack._ship_ceiling() == attack.N_MAX_S10
+        assert attack.VERIFY_REPS == 1
+        # forge routing: fx* are forges; msg/rival/bare shapes are not
+        assert all(f in attack._FORGE_ROUTE for f in ("fx1_ultra", "fx2_ultra", "fx3_ultra", "fx4_ultra"))
+        assert all(f not in attack._FORGE_ROUTE for f in ("fb2_msg2", "fb3_msg3", "fb4_msg4", "rival_plain", "f1_ultra"))
+        # k-list post-count structure (one URL per turn)
+        assert attack.FAMILY_BUILDERS["fx4_ultra"](1)[0].count("http.post") == 4
+        assert attack.FAMILY_BUILDERS["fx3_ultra"](1)[0].count("http.post") == 3
+        assert attack.FAMILY_BUILDERS["fx2_ultra"](1)[0].count("http.post") == 2
+        assert attack.FAMILY_BUILDERS["fx1_ultra"](1)[0].count("http.post") == 1
+        # multi-message gemma ladders: one URL per message
+        assert len(attack.FAMILY_BUILDERS["fb4_msg4"](1)) == 4
+        assert len(attack.FAMILY_BUILDERS["fb3_msg3"](1)) == 3
+        assert len(attack.FAMILY_BUILDERS["fb2_msg2"](1)) == 2
+        for m in attack.FAMILY_BUILDERS["fb4_msg4"](1):
+            assert m.count("http.post") == 1
+        # forge suffix byte-pinned at END of fx messages
+        for fam in ("fx1_ultra", "fx2_ultra", "fx3_ultra", "fx4_ultra"):
+            body = attack.FAMILY_BUILDERS[fam](1)[0]
+            assert body.endswith(attack._HARMONY_INJ_CLOSE)
+        # URL band disjointness across S18 families: g/b/r numeric bands +
+        # m-band + rival alpha-word band must never collide
+        import re as _re
+        bands = {}
+        for fam in ("fx1_ultra", "fx2_ultra", "fx3_ultra", "fx4_ultra",
+                    "fb2_msg2", "fb3_msg3", "fb4_msg4",
+                    "rival_plain", "f1_ultra"):
+            urls = set()
+            for i in range(400):
+                for m in attack.FAMILY_BUILDERS[fam](i):
+                    urls.update(_re.findall(r"http://[^\s\"']+", m))
+            for u in urls:
+                key = u.split("//", 1)[1]
+                assert key not in bands, (fam, u, bands[key])
+                bands[key] = fam
     elif attack.MODE == "S6_WORDING":
         assert attack.FIREHOSE_FAMILIES == (
             attack._S3A_FAMILIES + attack._S6_WORDING_FAMILIES + ("fh2_terse",)
@@ -680,6 +730,7 @@ def test_s9_scaling_families():
         "S15_SINGLEPURE": attack.N_MAX_S10,
         "S16_ULTRA": attack.N_MAX_S10,
         "S17_HYBRIDULTRA": attack.N_MAX_S10,
+        "S18_P2P": attack.N_MAX_S10,
     }.get(attack.MODE, attack.N_MAX)
     print(f"  [ok] S9 scaling families: zero-injection invariant, depth"
           f" ladder fs2-fs5 + fb3_bare + forged deep drips ctx-safe,"
@@ -899,13 +950,13 @@ def test_compose_order_and_caps():
         "fh_short": {"probes": 1, "raw": [50.0], "lat": [30.0]},
     }
     ship = algo._compose(fake_verified, {}, n_target)
-    if attack.MODE in ("S16_ULTRA", "S17_HYBRIDULTRA"):
+    if attack.MODE in ("S16_ULTRA", "S17_HYBRIDULTRA", "S18_P2P"):
         assert ship[0] == drip  # 500/90 tops density order
         assert ship.index(fast_small) < ship.index(slow_big), (
-            "S16/S17 density order must rank fast_small above slow_big"
+            "S16-S18 density order must rank fast_small above slow_big"
         )
         assert len(set(ship)) == len(ship)
-        print(f"  [ok] compose: S16/S17 keep-only-fired (verified only, no fill),"
+        print(f"  [ok] compose: S16-S18 keep-only-fired (verified only, no fill),"
               f" density order head, no duplicates")
         return
     else:
@@ -1119,9 +1170,9 @@ def test_ship_size():
 
 def test_sibling_floor():
     """Sibling floor: families below SIBLING_FLOOR_FRAC x the best family's
-    mean raw are excluded from the fill. Skipped in S16/S17 (keep-only-fired)."""
-    if attack.MODE in ("S16_ULTRA", "S17_HYBRIDULTRA"):
-        print("  [ok] sibling floor: S16/S17 keep-only-fired, no sibling fill needed")
+    mean raw are excluded from the fill. Skipped in S16-S18 (keep-only-fired)."""
+    if attack.MODE in ("S16_ULTRA", "S17_HYBRIDULTRA", "S18_P2P"):
+        print("  [ok] sibling floor: S16-S18 keep-only-fired, no sibling fill needed")
         return
     _fresh_state()
     algo = attack.AttackAlgorithm(config={})

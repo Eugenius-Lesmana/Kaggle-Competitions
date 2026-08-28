@@ -5,31 +5,36 @@
 (submission log + decode tables), `docs/history/` (v1 branch archive: v1
 HANDOFF/FINDINGS/submissions log; v1 code on git branch `timmy`).
 
-## Current status (2026-08-27 late UTC) — S16 pending, S17_HYBRIDULTRA READY
+## Current status (2026-08-28 early UTC) — S17 pending, S18_P2P READY
 
-- **BANKED BEST: 72.095** (S15_SINGLEPURE, ref 55794899). Top-10 ≈ 122.6;
-  #1 = 138.89.
-- **S15v1 decoded 72.095**: single-post thesis confirmed; gemma arm weak
-  (forge inert there) + sibling fill wasted slots. Analyses in
-  `glm52findings/` + `qwen38maxfindings/` (both contain arithmetic errors —
-  see dev_notes/submissions.md § S17 for the corrected model).
-- **S16 (submitted as S15v2, ref PENDING)**: universal bare ultra-short,
-  keep-only-fired. Realistic decode 72–85 — the "180" promise assumes
-  2000 fired/row at ≤4.4s/cand, but the rival's own fill loop measured
-  ~9.7s/cand hosted (shipped ~890 → 80 LB). Do NOT expect 180.
-- **S17_HYBRIDULTRA BUILT & GATED** (`submission_S17_HYBRIDULTRA.ipynb`,
-  attack.py sha `0c53dfee60c7d8a7…`): keeps S16's chassis (keep-only-fired,
-  VERIFY_REPS=1, no stage A, density ranking) but restores the arm split —
-  gpt arm {fx1_ultra forge-ultra, fx2_ultra k=2 hedge (34 raw/cand), f1_close};
-  gemma arm {rival_plain VERBATIM (the 80k notebook's v11 template), f1_ultra}.
-  Gates: units ✅ ×20 ×15 modes · validate ✅ · local_check ✅ (public row
-  2000 cands / 3998 exfil ≈ 2/cand — k=2 fires its 2nd post / 2000 cells;
-  gemma-arm session 2000×18) · gateway relay ✅ · sync ✅ byte-exact.
-  Predicted 80–95 (upside 95–110 if k=2 transfers). Decode rules in
-  dev_notes/submissions.md § S17. Upload when a slot opens; decode S16 vs
-  S17 together.
-- ⚠ Frozen scoring bytes: submission_S11_TOPTIER.ipynb (51.265 era) and
-  submission_S15_SINGLEPURE.ipynb (72.095) — never rebuild.
+- **TEAM BEST: 77.310** (teammate A's plain-single config, ref 55810506 —
+  his account, not ours). Our banked best stays **72.095** (S15, ref
+  55794899). Full team decode: A 77.31 / our S16 **50.52** / C 75.06 /
+  D 72.09 / D-v2 **44.935** (his heavy-challenger experiment flopped −38%:
+  multi-post = throughput trap UNDER HIS CHASSIS, not universally).
+- **Singles wall ≈ 81 LB** (c≈9.7s @ p=1 ⇒ ~902 fired/row max). The census
+  gap (nobody 57–92.5) = the p≥2 posts/candidate mechanism. Full arithmetic
+  + p-curve: `dev_notes/submissions.md` § AUG-27/28 DECODE SWEEP.
+- **S16 autopsy (50.52)**: f1_ultra's un-framed line fires 100% locally but
+  lets gpt_oss's analysis channel run (169–237 tok vs 51 forged) → 2–7s/hop
+  variance → generation+replay starvation. A LATENCY death, not fire-rate.
+  Never ship un-framed bare lines on the gpt arm again.
+- **S17 (ref 55832324, uploaded 03:18 Aug-28) PENDING** — its gpt row is
+  the live k=2 calibration; decode rules in submissions.md § S17.
+- **S18_P2P BUILT & GATED** (`submission_S18_P2P.ipynb` 136,454 B, attack.py
+  sha `773e2e07…`): posts-per-candidate ladder on both arms — gpt
+  {fx4,fx3,fx2,fx1_ultra, rival_plain}, gemma {fb4,fb3,fb2_msg, rival_plain,
+  f1_ultra}. Colab-validated (s18 batteries): gpt k-ladder saturates at k=4
+  (fx5 variance-collapses), gemma pins at 1 post/message through 5 msgs
+  (fb4 shipped over fb5 for zombie-wall safety). Gates: units ✅ ×21 ×3
+  modes · validate ✅ · local_check ✅ (exfil 7,991 ≈ 4/cand) · gateway ✅
+  551.77 · sync ✅. **Predicted 102–130 central; floor 72–77.** Upload when
+  a slot opens; decode rules in submissions.md § S18_P2P.
+- Colab VM flaky (dies hourly): new tunnel tcp://0.tcp.ngrok.io:23827
+  (same box, models intact). All battery data backed up at
+  `dev_notes/colab/s18/`. ⚠ Frozen scoring bytes: submission_S11_TOPTIER
+  .ipynb (51.265 era) and submission_S15_SINGLEPURE.ipynb (72.095) — never
+  rebuild.
 - Watch for the COMPLETE-with-blank-score zombie anomaly → immediate re-upload.
 
 ## Key arithmetic (SDK-verified, use this not the agents' versions)
