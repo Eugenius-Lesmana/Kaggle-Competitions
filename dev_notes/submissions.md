@@ -1326,3 +1326,61 @@ sha256 `6822377e6630397124ea66a3c215586b8bc932a12b0f2fc90ced55e06c967bda`).
   ladder collapses to singles
 - **Result / r**: PENDING
 - **Decision**: PENDING
+
+## S18_P2P — DECODED 63.070 (2026-08-28)
+
+**Ref 55835686 (kernel s18bro, 06:05 UTC) = 63.070**. The p-ladder is
+**negative-value hosted** — fourth datapoint confirming multi-post collapses
+under the hosted clock (S11 plateau 43–51, S16 50.52, teammate D-v2 44.935,
+now S18 63.07). ~700 fired posts/row vs S15's 800 — the ladder cost more
+generation budget than the posts it delivered.
+
+The two earlier PENDING uploads (55835257 05:45 + 55835686 06:05) were
+identical S18 runs; one scored, the other remains PENDING (free zombie-draw,
+no action needed). The two newer PENDING (16:42 + 17:08) with no matching
+kernel run need investigation — if manual re-uploads of S18 bytes, fine;
+if something else, check before burning slots.
+
+**Decision**: S19_P2PFULL (S18 arms + budget) → ABANDONED. Arms reverted to
+S17's proven single-post config as S19B_SINGLEFULL.
+
+## S19B_SINGLEFULL — BUILT & GATED (2026-08-28, post-S18-decode)
+
+**Trigger**: S18 63.070 confirms the p-ladder is dead hosted. S19B =
+S17's proven single-post arms + S19's budget levers untouched.
+
+**Arms** (= S17 verbatim): gpt = fx1_ultra, fx2_ultra (k=2 hedge only),
+f1_close; gemma = rival_plain, f1_ultra.
+
+**Budget levers** (= S19_P2PFULL): cap 8900 / frac 0.993 / gate
+1.15·p95+12s / 60s margin.
+
+**Predicted**: S17 scored 70.895 on the old clock (88% utilization). Full
+clock (+12.8% utilization) → 70.895 × 1.128 ≈ **80.0 central**. Floor = S15
+72.095 (S17/S15-class single-post shapes).
+
+**Gates** (2026-08-28): units ✅ ×22 suites ×5 modes (incl. S19B branch:
+arms == S17 verbatim, budget levers pinned) · aicomp validate ✅ ·
+local_check ✅ 600s (public: 2000 cands, raw 67968, norm 339.84,
+unique_cells 2000, exfil 3,998 ≈ 2/cand — S17-class shape; permissive:
+36000/180/2000 exfil=2000) · gateway relay ✅ (deterministic_public 110.16,
+complete 163.2s) · notebook + sync ✅ byte-exact
+(`submission_S19B_SINGLEFULL.ipynb` 144,326 B; attack.py sha256
+`c1fa4ecabc153e3e…`).
+
+**Decode rules** (pre-registered):
+- S19B ≥ 80: utilization lever confirmed + singles-wall cleared. Re-ship
+  S19B bytes for tail draws; endgame.
+- S19B 72–80: partial utilization gain; endgame = re-ship best bytes.
+- S19B < 72: budget exceed killed a phase → revert to S15 bytes (72.095
+  banked). Never touch the clock again.
+- Zombie (COMPLETE blank): one identical re-upload.
+
+- **Date**: 2026-08-28
+- **attack.py sha256**: c1fa4ecabc153e3e9a7e83ec993794d530722ae45025ef5a0737b870d469cfa7
+- **Notebook**: submission_S19B_SINGLEFULL.ipynb (144,326 B)
+- **One lever changed**: S17's arms (proven single-post) × S19's full budget
+  utilization (cap 8900, frac 0.993, gate 1.15·p95+12s, 60s margin)
+- **Predicted**: ~80 central (70.895 × 1.128); floor 72
+- **Result / r**: PENDING
+- **Decision**: PENDING

@@ -155,7 +155,7 @@ N_MAX = 700               # ship overshoot: replay truncation is graceful AND
                           # S8A_SCALE raises this to N_MAX_SCALE (1100).
 SHIP_UNCAPPED = True      # n_target = N_MAX, bypassing the tbar clamp.
 MODE = os.environ.get("ATTACK_MODE", "S7_FORGE")
-# "S19_P2PFULL" | "S18_P2P" | "S17_HYBRIDULTRA" | "S16_ULTRA" | "S15_SINGLEPURE" | "S14_SINGLEFILE" | "S10_SHORTALL" | "S9C_FORGEMAX" | "S9B_BARESCALE" | "S9A_BARESWAP"
+# "S19B_SINGLEFULL" | "S19_P2PFULL" | "S18_P2P" | "S17_HYBRIDULTRA" | "S16_ULTRA" | "S15_SINGLEPURE" | "S14_SINGLEFILE" | "S10_SHORTALL" | "S9C_FORGEMAX" | "S9B_BARESCALE" | "S9A_BARESWAP"
 # | "S8A_SCALE" | "S8B_ARMSPLIT" | "S8C_BAREONLY" | "S7_FORGE"
 # | "S6_WORDING" | "S5_KNEE" | "S5_KNEE" | "S4A_LADDER" | "S3A_DENSITY" | "S3B_VOLUME"
 # (env override is a build/test convenience; the hosted rerun never sets it)
@@ -170,7 +170,7 @@ TBAR_DEFAULT_S = 30.0     # assumed 8-hop probe latency before any measurement
                           # (forge-era prior: fast shapes exist; self-measures)
 HOPS_SCREEN = 4
 HOPS_FULL = 8
-VERIFY_REPS = 1 if MODE in ("S16_ULTRA", "S17_HYBRIDULTRA", "S18_P2P", "S19_P2PFULL") else 3  # stage-C verify reps per family (S8A_SCALE: 4, S16-S18: 1)
+VERIFY_REPS = 1 if MODE in ("S16_ULTRA", "S17_HYBRIDULTRA", "S18_P2P", "S19_P2PFULL", "S19B_SINGLEFULL") else 3  # stage-C verify reps per family (S8A_SCALE: 4, S16-S18: 1)
 N_MAX_SCALE = 1100        # S8A ship ceiling (generation budget still binds)
 N_MAX_S9 = 1400           # S9B/S9C ship ceiling: replay truncation stays
                           # graceful, synthesizing extra siblings is free,
@@ -352,6 +352,16 @@ _S18_GEMMA_ARM = ("fb4_msg4", "fb3_msg3", "fb2_msg2", "rival_plain", "f1_ultra")
 # N_MAX_S10 ceiling, _ctx_ guard, mirror validation -- is S18 byte-for-byte.
 _S19_GPT_ARM = _S18_GPT_ARM
 _S19_GEMMA_ARM = _S18_GEMMA_ARM
+# S19B_SINGLEFULL arms (2026-08-28, post-S18-decode): S17's arms VERBATIM
+# (S18 decoded 63.070 < 72 -- the fx4/fb4-heavy p-ladder is NEGATIVE-value
+# hosted, fourth multi-post datapoint).  S19B = best-decoded single-post
+# shapes (S17 arms scored 70.895 at 87.9% clock) + the S19 budget levers
+# (cap 8900, frac 0.993, gate 1.15*p95+12s, 60s margin -- the rival's
+# entire edge per the Aug-28 autopsy: fired 889/788 == clock 8690/7690
+# == 1.128).  k=2 fx2_ultra stays as the one hedge (34 raw/cand when it
+# fires; density-ranked, self-pruning if it doesn't).
+_S19B_GPT_ARM = _S17_GPT_ARM
+_S19B_GEMMA_ARM = _S17_GEMMA_ARM
 # S7-era aliases (tests + exact rebuilds).
 _FORGE_FAMILIES = ("fj_close8", "fj_last8")
 _BARE_FAMILIES = ("fh_bare8", "fg_turn8", "fb2_bare")
@@ -491,6 +501,14 @@ elif MODE == "S19_P2PFULL":
     # 60s final margin.  Pure A/B vs S18: any score delta = the
     # utilization lever.
     FIREHOSE_FAMILIES = _S19_GPT_ARM + _S19_GEMMA_ARM
+    ARM_SPLIT = True
+elif MODE == "S19B_SINGLEFULL":
+    # S19B (post-S18-decode 63.070): S17's proven single-post arms + the
+    # S19 budget levers.  The p-ladder is dead hosted (4th datapoint);
+    # the utilization lever is orthogonal and measured.  Prediction:
+    # 70.895 * 1.128 ~ 80 central, floor ~72 (S15-class bytes), i.e. the
+    # rival's 80 reached with our own hygiene + screening on top.
+    FIREHOSE_FAMILIES = _S19B_GPT_ARM + _S19B_GEMMA_ARM
     ARM_SPLIT = True
 elif MODE == "S12_BIFROST":
     # Gemma-row overhaul (dev_notes/colab/gemma battery 2026-08-25): the
@@ -1654,7 +1672,7 @@ def _family_metric(family: str) -> float:
     window that ~17 singles could have filled.  Every other mode keeps the
     S3a-proven mean-raw ranking byte-for-byte."""
     mean_raw = _family_mean_raw(family)
-    if MODE not in ("S14_SINGLEFILE", "S15_SINGLEPURE", "S16_ULTRA", "S17_HYBRIDULTRA", "S18_P2P", "S19_P2PFULL") or mean_raw <= 0.0:
+    if MODE not in ("S14_SINGLEFILE", "S15_SINGLEPURE", "S16_ULTRA", "S17_HYBRIDULTRA", "S18_P2P", "S19_P2PFULL", "S19B_SINGLEFULL") or mean_raw <= 0.0:
         return mean_raw
     st = _STATE["family_stats"].get(family) or {}
     lats = [float(x) for x in st.get("lat", []) if float(x) > 0]
@@ -1673,7 +1691,7 @@ def _session_families(session: int) -> tuple[str, ...]:
     session and measured raw alone decides (S7 semantics).
     """
     fams = FIREHOSE_FAMILIES
-    if MODE in ("S12_BIFROST", "S13_DEEPGEMMA", "S14_SINGLEFILE", "S15_SINGLEPURE", "S16_ULTRA", "S17_HYBRIDULTRA", "S18_P2P", "S19_P2PFULL"):
+    if MODE in ("S12_BIFROST", "S13_DEEPGEMMA", "S14_SINGLEFILE", "S15_SINGLEPURE", "S16_ULTRA", "S17_HYBRIDULTRA", "S18_P2P", "S19_P2PFULL", "S19B_SINGLEFULL"):
         if MODE == "S12_BIFROST":
             return _S12_GPT_ARM if session % 2 == 1 else _S12_GEMMA_ARM
         if MODE == "S13_DEEPGEMMA":
@@ -1688,6 +1706,8 @@ def _session_families(session: int) -> tuple[str, ...]:
             return _S18_GPT_ARM if session % 2 == 1 else _S18_GEMMA_ARM
         if MODE == "S19_P2PFULL":
             return _S19_GPT_ARM if session % 2 == 1 else _S19_GEMMA_ARM
+        if MODE == "S19B_SINGLEFULL":
+            return _S19B_GPT_ARM if session % 2 == 1 else _S19B_GEMMA_ARM
         return _S16_GPT_ARM  # S16: same for both sessions
     if not ARM_SPLIT:
         return fams
@@ -1727,7 +1747,7 @@ def _ship_ceiling() -> int:
         return N_MAX_S9
     if MODE in ("S10_SHORTALL", "S11_TOPTIER", "S12_BIFROST", "S13_DEEPGEMMA",
                 "S14_SINGLEFILE", "S15_SINGLEPURE", "S16_ULTRA", "S17_HYBRIDULTRA",
-                "S18_P2P", "S19_P2PFULL"):
+                "S18_P2P", "S19_P2PFULL", "S19B_SINGLEFULL"):
         return N_MAX_S10
     return N_MAX
 
@@ -1765,7 +1785,7 @@ def _probe_cost_s(n_msgs: int) -> float:
     the old gate idling ~600s/session.  p95-of-session self-corrects: the
     gate widens automatically if the hosted model actually runs slow.
     """
-    if MODE == "S19_P2PFULL":
+    if MODE in ("S19_P2PFULL", "S19B_SINGLEFULL"):
         return max(1, n_msgs) * (1.15 * _p95()) + _PROBE_HEADROOM_S_TIGHT
     return max(1, n_msgs) * (2.2 * _p95()) + _PROBE_HEADROOM_S
 
@@ -1842,6 +1862,16 @@ def _build_static_fallback() -> list[tuple[str, ...]]:
                 + [_fb4_msg4(970 + k) for k in range(3)]
                 + [_fx1_ultra(980 + k) for k in range(2)]
                 + [_rival_plain(990 + k) for k in range(3)]
+            )
+        if MODE == "S19B_SINGLEFULL":
+            # S19B: S17's arms verbatim (fx1_ultra, fx2_ultra, f1_close,
+            # rival_plain, f1_ultra).  Bands 940+ disjoint.
+            plan = (
+                [_fx1_ultra(940 + k) for k in range(4)]
+                + [_fx2_ultra(950 + k) for k in range(3)]
+                + [_f1_close(960 + k) for k in range(2)]
+                + [_rival_plain(970 + k) for k in range(3)]
+                + [_f1_ultra(980 + k) for k in range(3)]
             )
         for msgs in plan:
             # Firehose messages only rely on EXFILTRATION (no user-intent
@@ -1966,11 +1996,12 @@ class AttackAlgorithm(AttackAlgorithmBase):
         _STATE["latencies"] = []
         _STATE["family_stats"] = {}
 
+        _is_s19 = MODE in ("S19_P2PFULL", "S19B_SINGLEFULL")
         # S19: min(budget*0.993, 8900).  The 0.90 factor was the real cap
         # (8750*0.90 = 7875!); the SDK kills run() only on EXCEED.
         # Rival survived 8750-60 at 80 LB.
-        _s19_frac = 0.993 if MODE == "S19_P2PFULL" else 0.90
-        _s19_cap = _GEN_CAP_S_FULL if MODE == "S19_P2PFULL" else GEN_CAP_S
+        _s19_frac = 0.993 if _is_s19 else 0.90
+        _s19_cap = _GEN_CAP_S_FULL if _is_s19 else GEN_CAP_S
         g_deadline = t0 + min(budget * _s19_frac, _s19_cap)
         # S19 final absolute margin: stop issuing probes ~60s before the
         # deadline at hosted budgets (rival's empirically-survived
@@ -1979,7 +2010,7 @@ class AttackAlgorithm(AttackAlgorithmBase):
         _S19_FINAL_MARGIN_S = min(60.0, 0.05 * budget)
 
         def g_left() -> float:
-            margin = _S19_FINAL_MARGIN_S if MODE == "S19_P2PFULL" else 0.0
+            margin = _S19_FINAL_MARGIN_S if _is_s19 else 0.0
             return g_deadline - time.monotonic() - margin
 
         def can_probe(cost_s: float) -> bool:
@@ -1987,7 +2018,7 @@ class AttackAlgorithm(AttackAlgorithmBase):
 
         # -- Stage A: smoke (skip in S16/S17 — families not in pool) ---------
         smoke: list[dict[str, Any]] = []
-        if MODE not in ("S16_ULTRA", "S17_HYBRIDULTRA", "S18_P2P", "S19_P2PFULL"):
+        if MODE not in ("S16_ULTRA", "S17_HYBRIDULTRA", "S18_P2P", "S19_P2PFULL", "S19B_SINGLEFULL"):
             for fam, idx in (("fh_bare8", 1), ("fh_terse8", 2)):
                 if not can_probe(_probe_cost_s(1)):
                     break
@@ -2202,7 +2233,7 @@ class AttackAlgorithm(AttackAlgorithmBase):
         #    probe latency): under window truncation the kept prefix must
         #    buy the most findings per replay-second, and homogeneous
         #    singles make that order the natural head.
-        if MODE in ("S14_SINGLEFILE", "S15_SINGLEPURE", "S16_ULTRA", "S17_HYBRIDULTRA", "S18_P2P", "S19_P2PFULL"):
+        if MODE in ("S14_SINGLEFILE", "S15_SINGLEPURE", "S16_ULTRA", "S17_HYBRIDULTRA", "S18_P2P", "S19_P2PFULL", "S19B_SINGLEFULL"):
             ordered = sorted(
                 verified,
                 key=lambda r: -(r["raw"] / max(r["lat"], 0.5)),
@@ -2213,7 +2244,7 @@ class AttackAlgorithm(AttackAlgorithmBase):
         # siblings, no lottery tail. Every shipped candidate was probed and
         # known to fire. Static-fallback floor below still applies (N_MIN
         # safety).
-        if MODE in ("S16_ULTRA", "S17_HYBRIDULTRA", "S18_P2P", "S19_P2PFULL"):
+        if MODE in ("S16_ULTRA", "S17_HYBRIDULTRA", "S18_P2P", "S19_P2PFULL", "S19B_SINGLEFULL"):
             ordered = [r for r in ordered if r["raw"] > 0]
             for res in ordered:
                 push(res["messages"], res.get("cell"))
