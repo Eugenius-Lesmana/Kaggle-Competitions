@@ -28,8 +28,10 @@ as of that date; anything contradicting them elsewhere is stale.
   their central predictions were FALSIFIED (S16 decoded 50.52, not their
   90–126; the "180 LB" ceiling was never arithmetic — see the model below).
 - **Older sections of any doc describing k=2 as "the one untested lever"** —
-  the s18 battery measured the whole k-ladder locally; S17 (pending) is the
-  hosted calibration; S18 ships it.
+  the s18 battery measured the whole k-ladder locally; S18's hosted decode
+  (63.070) confirmed the p-ladder is dead hosted — fourth datapoint after
+  S11 plateau, S16 50.52, teammate D-v2 44.935. Multi-post per candidate
+  is a throughput trap under this evaluator. Never ship p≥2 arms again.
 - **S7/S8-era decode shortcuts and the "strategy in one paragraph"**
   (sibling floor, overpack, wording axes) — superseded by the S16/S17/S18
   chassis: keep-only-fired, VERIFY_REPS=1, density ranking, no siblings,
@@ -39,22 +41,25 @@ as of that date; anything contradicting them elsewhere is stale.
   re-measured and softened in round 5).
 - Auto-memory `kaggle-ai-agent-security.md` — v1 era; this file supersedes.
 
-## Current status (2026-08-28 evening UTC) — S18 DECODED 63.070, S19B READY
+## Current status (2026-08-28 evening UTC) — S19_P2PFULL IN FLIGHT, S19B READY
 
 - **TEAM BEST: 77.310** (teammate A, ref 55810506, his account). Our banked
   best: **72.095** (S15_SINGLEPURE, ref 55794899).
 - **S18_P2P = 63.070** (ref 55835686, kernel `s18bro` 06:03 UTC). The
   p-ladder is dead hosted (4th datapoint). Arms reverted to single-post.
-- **S19B_SINGLEFULL BUILT & GATED** (`submission_S19B_SINGLEFULL.ipynb`
+- **S19_P2PFULL (S18 arms + budget levers) ALREADY UPLOADED** — kernel
+  `s19bro` ran 17:07 UTC, matches ref 55849734 (17:08, PENDING). This is
+  the old build: S18's p-ladder arms scored 63.070 → with budget levers
+  it'll reach ~71 (63.07 × 1.128), below S15's 72.095. Not catastrophic,
+  just not the winner. Decode when it lands and ignore — S19B supersedes.
+- **S19B_SINGLEFULL IS THE CORRECT BUILD** (`submission_S19B_SINGLEFULL.ipynb`
   144,326 B; attack.py sha256 `c1fa4ecabc…`): S17's proven single-post
-  arms × S19's full budget levers (cap 8900/frac 0.993/gate 1.15·p95+12s/
-  60s margin). Predicted ~80 (70.895 × 1.128). Decode rules:
-  submissions.md § S19B_SINGLEFULL.
-- Deadline **Sep 1 23:59 UTC**; ~5 uploads/day. Upload S19B the moment a
-  slot opens — it's the only remaining lever.
-- **55835257** (05:45, identical S18 bytes) still PENDING — free zombie
-  draw, no action. Two PENDING uploads at 16:42/17:08 UTC have no matching
-  kernel run — investigate before burning more slots.
+  arms × full budget levers (cap 8900/frac 0.993/gate 1.15·p95+12s/60s
+  margin). Predicted ~80 (70.895 × 1.128). **Upload this one next slot.**
+- Deadline **Sep 1 23:59 UTC**; ~5 uploads/day.
+- PENDING submissions map: 55835257 (05:45) = S18 zombie-draw; 55849126
+  (16:42) = unknown; 55849734 (17:08) = S19_P2PFULL (old build, matched to
+  kernel s19bro). The 16:42 one has no kernel match — ask the user.
 - Colab VM flaky: current tunnel in newest user message, NOT in this file.
 - Zombie (COMPLETE blank) → one identical re-upload (S8C protocol).
 
@@ -126,7 +131,7 @@ rival's ~80 fill-loop). Consequences:
 ## Gate ritual before ANY upload (current)
 
 ```
-for m in S19_P2PFULL S18_P2P S17_HYBRIDULTRA S16_ULTRA:
+for m in S19B_SINGLEFULL S18_P2P S17_HYBRIDULTRA S16_ULTRA:
     ATTACK_MODE=$m ./.venv/bin/python tests/test_attack_units.py
 PYTHONPATH=sdk ./.venv/bin/python -c "from aicomp_sdk.cli.main import main; import sys; sys.argv=['aicomp','validate','redteam','attack.py']; main()"
 ATTACK_MODE=<MODE> ./.venv/bin/python local_check.py --budget 600
