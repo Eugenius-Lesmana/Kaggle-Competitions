@@ -1,143 +1,170 @@
-# S22 plan — recover causality, then clear 90
+# V19-anchored endgame plan — beat 92.475 without losing causality
 
-**Status:** proposed; implementation requires teammate review.
-**Deadline:** 2026-09-01 23:59 UTC.
-**Control:** Eugene S18/V18 at commit `002a038`, ref `55870282`, score 88.155.
-**Rule:** one scoring mechanism per submission; freeze source/notebook hashes.
+**Status:** active evidence plan; no upload authorized.  
+**Updated:** 2026-08-31 10:16 WIB.  
+**Deadline:** 2026-09-01 23:59 UTC.  
+**Bank:** Eugene V19, ref `55883308`, script `345982069`, **92.475**.  
+**Operational source control:** repo S19 at `archive/eugene-s19`, attack SHA-256
+`3169466cc3a2f01fafaf6a0ca4adb335f7a5698334e18b89711eea7daf82ae32`.
 
-**Execution override (2026-08-30 16:48 WIB):** the user directed work to proceed
-without waiting for V19 or the real-model battery. S22 is therefore being built
-as a logic-based conditional artifact. T1 and T3 remain evidence gaps and must
-not be represented as passed; they no longer block deterministic packaging.
+This supersedes the S22 frame plan. S22 scored 87.390 and rejected its only
+new mechanism; S23 combined that failed mechanism with the positive V19 tail
+and must not be submitted.
 
-## Outcome
+## Assumptions and evidence limits
 
-First target 90 with a measured single-post throughput gain. Keep 95 as the
-conditional combined target. A 100-point attempt proceeds only after evidence
-for a higher-density arm; current evidence does not justify one.
+1. Repo S19 is the intended V19 source. Kaggle blocks historical private
+   revision pulls, so the scored upload cannot be hash-bound independently.
+2. Only aggregate public scores are available. Historical raw CSVs are gone;
+   no claim may assign a gain or loss to one model row.
+3. Clean replay deadline truncation preserves the ordered prefix in the frozen
+   SDK gateway. A notebook wall timeout or replay exception remains a downside.
+4. V21 finished at 90.900; V22 remains pending. V22 must be decoded before
+   building or choosing the next upload.
+
+## What the score gap requires
+
+One successful unique single-post candidate in one model row contributes 0.045
+aggregate leaderboard points.
+
+| Target | Gap from 92.475 | Successful single-row equivalents | Balanced illustration only |
+|---:|---:|---:|---:|
+| 100 | 7.525 | 168 total | 84/model |
+| 110 | 17.525 | 390 total | 195/model |
+
+V19's 64-tail adds at most 128 candidates across both model runs. Its observed
+gain, +4.320, equals 96 successful-single equivalents: 75% of the +5.760
+ceiling. This does **not** prove symmetric rows or linear scaling.
+
+Changing only the tail from 64 to 192 adds 256 possible candidates across both
+runs. Its incremental theoretical ceiling is +11.520, or 103.995 from V19. If
+the historical 75% capture repeated, the heuristic score would be 101.115.
+Replay saturation makes that heuristic optimistic; a flat result is plausible.
+No single-post tail result at this size can reach 110 without a new density or
+throughput mechanism.
 
 ## Decision tree
 
-1. Decode V19/ref `55883308` before uploading S22.
-2. If V19 >= 90, bank it; run S22 as a frame-only experiment for 95.
-3. If V19 is 88.155–89.999, treat the tail as weak-positive; still isolate the
-   frame experiment before combining.
-4. If V19 < 88.155 or blank, reject the tail; use frame-only S22. Exact S18 is
-   the fallback if no frame passes the battery.
-5. Never combine an unscored frame change, tail, and multipost change.
+1. Record V21/ref `55892238` = 90.900 and refresh V22/ref `55895453`
+   immediately before work.
+2. If either beats 92.475, bank it and recover its exact source before adopting
+   any mechanism. Do not infer source from title or score.
+3. If V22 is merely above S18, treat its six-miss failover as a lead, not an
+   automatic additive win; it was tested without V19's tail and can interact
+   with which frame the tail uses.
+4. If neither pending submission beats V19, build `V19_TAIL192`: exact repo V19
+   with only `OVERPACK_TAIL_N = 64` changed to `192` plus matching test/manifest
+   expectations.
+5. Do not upload a frame expansion, S23, the old Stage-E chassis, or an
+   unrecovered V20/V21 mechanism.
+6. Consider a density experiment only after tail expansion plateaus and only
+   with real-model score-per-replay-second evidence. Existing Timmy multipost
+   scores are negative evidence, not a reusable path to 110.
 
-## Phase 0 — freeze evidence
+## Phase 0 — pending-result intake
 
-### T1. Record V19 decode [XS]
+### T0. Refresh and bind V21/V22 [XS]
 
-- **Depends on:** Kaggle scoring completion.
-- **Files:** `dev_notes/submissions.md`, `dev_notes/S22_investigation.md`.
-- **Work:** record ref, score, artifact SHA, delta from S18, and decision band.
-- **Accept:** no `PENDING` remains for V19; score maps to exact S19 manifest.
-- **Verify:** authenticated submission history plus release SHA manifest.
+**Current:** V21 is complete at 90.900 with source unavailable; V22 is pending.
 
-### T2. Materialize the S18 control on `timmyv2` [M]
-
-- **Depends on:** T1 and human approval.
-- **Files:** one attack source, one test file, one generated notebook, manifest.
-- **Work:** copy the frozen S18 payload, not S21's multi-mode chassis.
-- **Accept:** source and notebook payload hashes match Eugene S18 before any
-  experimental edit; exact three-frame race and 0.99 cap are preserved.
-- **Verify:** SHA checks, notebook sync, SDK validation, unit suite.
+- **Depends on:** Kaggle scorer.
+- **Work:** record final score/status for refs `55892238` and `55895453`; pull
+  the then-current notebook; record source and notebook hashes.
+- **Accept:** score/ref/script/owner mapping is exact. A source claim is marked
+  `closed`, `current-snapshot`, or `unavailable`; never silently upgraded.
+- **Verify:** authenticated API plus notebook-embedded SHA.
 
 ### Checkpoint A
 
-Human verifies V19 decode, S18 provenance, and the one-mechanism rule.
+Teammates choose the best scored control. If neither pending artifact exceeds
+92.475, proceed with repo V19 and keep its upload-hash caveat visible.
 
-## Phase 1 — S22 frame experiment
+## Phase 1 — one-variable tail-capacity test
 
-### T3. Run a pre-registered real-model frame battery [M]
+### T1. Materialize the V19 control [S]
+
+- **Depends on:** Checkpoint A.
+- **Work:** copy the frozen V19 attack source into a new experiment directory.
+- **Accept:** source hash equals `3169466c…` before editing; three-frame race,
+  0.99 packing, replay accounting, single-post shape, and tail64 all match.
+- **Verify:** byte hash, inverse transform to S18, deterministic source diff.
+
+### T2. Add tail192 tests before changing source [S]
+
+- **Depends on:** T1.
+- **Work:** require exactly 192 fresh winner-frame candidates after only an
+  eligible replay cutoff.
+- **Accept:** tests fail on V19 tail64 and cover: validated-prefix identity,
+  unique indices, SDK cap, no tail after environment fault/all-zero race/cap or
+  wall stop, and ordered prefix preservation.
+- **Verify:** focused RED run captured in the experiment record.
+
+### T3. Build `V19_TAIL192` as one effective change [M]
 
 - **Depends on:** T2.
-- **Files:** one battery script, one raw result file, investigation log.
-- **Work:** compare S18's three complete frames with at most two terse
-  single-post candidates. Use both competition models, seed 123, identical
-  URLs/payload bands, and at least 12 repetitions/frame/model.
-- **Metrics:** fire rate, median, p90, and `median_latency / fire_rate`.
-- **Accept:** a candidate wins on both models or is selected by the existing
-  per-model race; fire loss <=1 percentage point, p90 regression <=5%, primary
-  metric improvement >=3% versus the S18 winner.
-- **Stop:** if no candidate clears all gates, do not build S22-FRAME.
-
-### T4. Add effect-level regression tests first [S]
-
-- **Depends on:** T3 winner.
-- **Files:** one test file.
-- **Work:** prove warm-up exclusion, retained race hits, winning-frame fill,
-  accumulated replay-cost stop, and non-zero exploitation output.
-- **Accept:** each test fails against the known S21 defect and passes on the S18
-  control/approved frame variant.
-- **Verify:** focused tests plus full attack suite.
-
-### T5. Build S22-FRAME as one diff [M]
-
-- **Depends on:** T3 pass, T4.
-- **Files:** attack source, test file, generated notebook, manifest.
-- **Work:** change only the frame-race set. Keep S18 warm-up, fill, replay
-  accounting, 0.99 cap, tail absence, and single-post shape unchanged.
-- **Accept:** mechanical diff contains only the approved frame constants and
-  corresponding exactness tests; notebook embeds source byte-exact.
-- **Verify:** full unit suite, SDK validation, deterministic trace, notebook
-  sync, SHA manifest, `git diff --check`.
+- **Work:** change only `OVERPACK_TAIL_N = 64` to `192`; update exactness tests,
+  generated notebook, manifest, and experiment record.
+- **Accept:** reverse `192 -> 64` recovers exact V19 bytes. No frame, budget,
+  replay coefficient, hop, multipost, fallback, or margin value changes.
+- **Verify:** full tests, deterministic trace, SDK validation, notebook/source
+  byte sync, manifest checker, compile check, and `git diff --check`.
 
 ### Checkpoint B
 
-Human reviews raw battery rows, diff, test trace, and frozen hashes before upload.
+Human reviews the one-line effective diff, prefix trace, frozen hashes, pending
+scores, and the unrecoverable V19 upload-hash caveat before authorizing upload.
 
-### T6. Upload once and decode causally [S]
+### T4. Upload once and decode [S]
 
-- **Depends on:** Checkpoint B and available submission slot.
-- **Files:** append-only submission and investigation logs.
-- **Accept:** Kaggle ref maps to the frozen hash; result is classified:
-  - >=90: frame lever accepted.
-  - 88.155–89.999: weak-positive/variance; do not overclaim.
-  - <88.155: reject and restore S18 control.
+- **Depends on:** Checkpoint B and an available submission slot.
+- **Preregistered interpretation:**
+  - `>92.925`: positive capacity evidence; bank if it is the new best.
+  - `92.025–92.925`: practical plateau/inconclusive band (±0.450); retire
+    simple tail-length expansion.
+  - `<92.025`, NULL, or runtime failure: harmful; restore V19.
+  - `>=100`: stretch target reached; do not stack another untested mechanism.
+- **Caveat:** the ±0.450 band is an operational threshold, not a statistical
+  confidence interval; only one hosted draw exists for each control.
 
-## Phase 2 — conditional 95–100 work
+## Phase 2 — conditional failover combination
 
-### T7. Estimate the V19 tail marginal [S]
+### T5. Decode the six-miss failover [M, conditional]
 
-- **Depends on:** T1.
-- **Work:** compare V19−S18 against the +5.760 theoretical ceiling and run
-  simulator traces for how many tail items can enter the replay prefix.
-- **Accept:** decision is `tail-positive`, `inconclusive`, or `rejected`, with
-  an observed/theoretical capture ratio. No tail-size extrapolation otherwise.
+- **Depends on:** V22 complete and current-snapshot source binding credible.
+- **Work:** compare V22 to S18 because V22 omits the V19 tail. Inspect exact
+  code before interpreting the score.
+- **Gate:** only if V22 beats S18 by more than 0.450 without runtime anomalies,
+  build a V19-control experiment whose sole diff is the same failover.
+- **Stop:** V22 below 87.705 rejects failover; the middle ±0.450 band is
+  inconclusive. Do not combine on an inconclusive result.
+- **Interaction test:** prove tail candidates use the final active frame and
+  the original validated prefix stays ordered under stable-winner traces.
 
-### T8. Combine only two proven positives [M]
+## Phase 3 — 110 requires density, not more untested singles
 
-- **Depends on:** T6 >=90 and T7 `tail-positive`.
-- **Work:** combine the frozen winning frame diff with the unchanged V19 tail.
-- **Accept:** combined artifact is the union of exactly two already-scored
-  diffs; simulator proves prefix identity and graceful deadline truncation.
+### T6. Gate one density/throughput experiment [L, optional]
 
-### T9. Gate any 100-point density experiment [L, optional]
-
-- **Depends on:** no safe path to 100 from T8 and remaining time/slots.
-- **Work:** isolate one k=2 or burst frame in the S18 race; do not pre-route by
-  model. Require real-model raw-points/second and p90 replay-cost evidence.
-- **Accept:** >=15% modeled aggregate gain, no context overflow, stable exact
-  post count, and a downside-approved upload slot. Otherwise stop at the banked
-  90–95 artifact.
-
-## Risks and mitigations
-
-| Risk | Mitigation |
-|---|---|
-| V19 remains pending | Prepare battery only; do not upload a confounded build. |
-| Public notebook titles imply unverified scores | Use their shapes as leads only. |
-| Hosted variance masquerades as improvement | Freeze hashes; require isolated diffs and bands. |
-| S21 complexity hides dead paths | Start from 460-line S18 payload; effect tests. |
-| 100 target causes reckless stacking | T9 is optional and evidence-gated. |
+- **Depends on:** tail192 plateau or positive result below 100, remaining time,
+  and real-model access.
+- **Candidate class:** one V19-based score-per-replay-second mechanism, selected
+  by measurement; no fixed model routing and no multi-mechanism bundle.
+- **Required evidence:** both competition models, identical payload/URL bands,
+  at least 12 repetitions per arm/model, >=15% better raw-points per estimated
+  replay second, <=1 percentage-point fire-rate loss, <=5% p90 regression, and
+  a simulator ceiling capable of covering the remaining target gap.
+- **Negative prior:** Timmy S17 single 70.895, P2P S18 63.070, and P2P S19
+  66.565. Do not upload another multipost variant without contrary measurements.
+- **Stop:** no real-model evidence or no clean single-diff build means bank the
+  best result. Colab is optional only for this phase; save raw rows locally
+  after every batch because the VM is expected to disconnect.
 
 ## Definition of done
 
-- V19 decoded and mapped to exact bytes.
-- S22 has one isolated lever, passing effect-level tests and artifact sync.
-- Submission result and decision are appended to both durable logs.
-- Best-scoring frozen notebook and SHA are named in `HANDOFF.md`.
-- Graphify is refreshed only if implementation changes source structure.
+- Pending V21/V22 results are recorded with honest source-binding status.
+- The best frozen scored artifact and its exact known hashes are named in
+  `HANDOFF.md` and `dev_notes/kaggle_versions/README.md`.
+- Any next artifact is one effective diff from the best understood control,
+  passes its source/notebook/test/SDK gates, and has a preregistered decode.
+- Every score updates the submission ledger, investigation log, handoff, todo,
+  and Graphify before another mechanism is selected.
+- No upload or remote push occurs without explicit teammate authorization.

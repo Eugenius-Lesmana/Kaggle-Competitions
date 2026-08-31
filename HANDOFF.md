@@ -1,7 +1,211 @@
 # HANDOFF — AI Agent Security competition (timmyv2 branch, next agent session)
 
+<!-- BEGIN 2026-08-31 S24 TAIL256 SUBMITTED — recorded 2026-08-31 11:32 WIB -->
+## 2026-08-31 S24 tail256 submission checkpoint (newest session-state authority)
+
+- **Causal gap analysis complete:** The full V19(92.475) − S22(87.390) = 5.085
+  gap is explained by two isolated deltas: tail64 (+4.320) vs 2 extra frames
+  (-0.765). Eugene's winning formula is the compact S18/V19 chassis: untimed
+  warm-up, 6-probe 3-frame race, retain calibration hits, select by
+  median(latency)/fire_rate, fill immediately, measured replay-cost packing at
+  0.99, and a guarded tail.
+- **S24 built and submitted:** Eugene V19 with `OVERPACK_TAIL_N` increased from
+  64 to 256. Only change is the tail constant. All V19 mechanisms preserved.
+- **Gates passed:** 16/16 tests, SDK validation, gateway test (deterministic
+  public 338.36), release checker, manifest.
+- **Notebook pushed to Kaggle:** `timsurreal/s24-tail256-submission` — go to
+  that kernel page and click "Submit to Competition" for it to score.
+- **Prediction:** V19 captured 75% of theoretical tail64 ceiling (+4.320). A
+  256-tail has 4x capacity → theoretical ceiling +23.04, realistic capture
+  ~+11-17 → projected **103-110**.
+- **V22 still pending** at ref 55895453. Monitor before next submission.
+- **Next levers** if S24 underperforms: (1) PROBE_HOPS=1 with REPLAY_COST_COEF
+  scaling for 1.5-2x faster fill; (2) MARGIN_S 47→37 for tighter deadline;
+  (3) S23 frame+tail union if frame race shows positive.
+
+Full detail: `S24/EXPERIMENT.md`, `S24/README.md`.
+<!-- END 2026-08-31 S24 TAIL256 SUBMITTED -->
+
+<!-- BEGIN 2026-08-31 RECOVERY CHECKPOINT 4 — recorded 2026-08-31 10:56 WIB -->
+## 2026-08-31 recovery checkpoint 4 (newest session-state authority)
+
+- Recovered Iterations 1–17, the exact submission/ref map, the dirty worktree,
+  the V19-anchored plan, and the existing Graphify outputs after another cutoff.
+- Preserved `timmyv2`; inspect `Eugene` and `archive/eugene-s19` with read-only
+  Git commands only. No worktree checkout, upload, push, or attack-source edit.
+- Causal authority is unchanged: V19 tail64 **+4.320** from S18; S22's two
+  extra race frames **-0.765** from S18; V20/V21 remain source-unavailable
+  bundles; V22 was pending at the last authenticated refresh.
+- Active task: refresh V22, finish the evidence/confounder table, then select
+  one V19-based experiment with offline invariants and a preregistered decode.
+
+Full detail: `dev_notes/S22_investigation.md` Iteration 18.
+<!-- END 2026-08-31 RECOVERY CHECKPOINT 4 -->
+
 **Read this first.** Rewritten 2026-08-29. Sections in this file are current
 as of that date; anything contradicting them elsewhere is stale.
+
+<!-- BEGIN 2026-08-31 CAUSAL CHECKPOINT 3 — recorded 2026-08-31 10:52 WIB -->
+## 2026-08-31 causal checkpoint 3 (newest strategy authority)
+
+- S18 is the exact shared control for the decisive comparison:
+  - Eugene V19 = S18 plus guarded tail64: **+4.320**;
+  - Timmy S22 = S18 plus two extra race frames: **-0.765**.
+- Their difference is `4.320 - (-0.765) = 5.085`, exactly
+  `92.475 - 87.390`. The whole observed V19-over-S22 gap is therefore
+  accounted for by the two isolated deltas, subject to single-run variance and
+  the open V19 scored-upload hash caveat.
+- S21→S22 gained 10.410, but that comparison changes the entire chassis. The
+  causal read is that transplanting Eugene S18 recovered the score; Timmy's
+  own five-frame expansion slightly hurt it.
+- Eugene's repeatable advantage is the compact active path: untimed warm-up,
+  six-probe complete-frame race, retain calibration hits, fill the winner
+  immediately, keep only fired singles, account returned-prefix replay cost,
+  and append capacity experiments after the ordered validated prefix.
+- Timmy's S21 path spent complexity on discarded screen hits and an unreachable
+  Stage E; S22 then added unmeasured choices to a two-sample-per-frame selector.
+  Do not return to either design.
+
+No implementation or upload occurred. Next decision: size the V19 tail follow-up
+for the 100–110 target while preserving the V19 prefix and clean replay cutoff.
+<!-- END 2026-08-31 CAUSAL CHECKPOINT 3 -->
+
+<!-- BEGIN 2026-08-31 LIVE REFRESH CHECKPOINT 2 — recorded 2026-08-31 10:49 WIB -->
+## 2026-08-31 live refresh checkpoint 2 (newest score authority)
+
+- Authenticated Kaggle history at 10:49 WIB still shows V22/ref `55895453`,
+  script `346092100`, pending. V21 remains complete at **90.900**; V19 remains
+  the team best at **92.475**.
+- The current leaderboard has 4,207 teams. `TimmyTurner` is rank **277**, with
+  46 submissions and members `timsurreal,zombiespecz`. There are 108 teams at
+  100+ and 55 at 110+; the leader is 147.530. The 100–110 target is therefore
+  competitive but demonstrably reachable.
+- An authenticated historical V19 pull by script-version ID again returned
+  HTTP 403. V20/V21 historical code remains unavailable. Their aggregate
+  scores must stay classified as unknown-bundle evidence.
+- The latest downloadable Eugene notebook remains the presumed V22 snapshot:
+  S18 plus a one-time runner-up-frame switch after six consecutive misses, no
+  V19 tail. Do not bind this code to V20 or V21.
+
+No attack source, upload, push, or branch switch occurred.
+<!-- END 2026-08-31 LIVE REFRESH CHECKPOINT 2 -->
+
+<!-- BEGIN 2026-08-31 RESUME CHECKPOINT 1 — recorded 2026-08-31 10:40 WIB -->
+## 2026-08-31 resume checkpoint 1 (newest session-state authority)
+
+- Recovered the existing dirty `timmyv2` worktree, all prior score/provenance
+  notes, the V19-anchored plan, archived Kaggle artifacts, and the existing
+  Graphify graph before analysis. No branch checkout was needed; Eugene sources
+  remain available through git objects and archived files.
+- Current banked evidence remains Eugene V19 **92.475**, Timmy S22 **87.390**,
+  Eugene V20 **79.020**, Eugene V21 **90.900**, and Eugene V22 pending at the
+  last authenticated refresh. V19's bounded tail is the only positive isolated
+  hosted delta; S22's frame expansion is a negative isolated delta.
+- Queried the existing graph for the V19–V22/S22 comparison. It identifies the
+  relevant seams—replay cutoff/tail capacity, frame selection, candidate
+  packing, model arms, and score accounting—but does not close missing V20–V22
+  historical source provenance.
+- Adopted an evidence-first iterative plan: refresh hosted facts, compare exact
+  recoverable source, separate causal deltas from unknown bundles, then design
+  one V19-based next submission. No attack source, upload, push, or active-branch
+  switch occurred in this iteration.
+
+New work from this resumed session is recorded in
+`dev_notes/S22_investigation.md` Iteration 15 onward.
+<!-- END 2026-08-31 RESUME CHECKPOINT 1 -->
+
+<!-- BEGIN 2026-08-31 RESUME CHECKPOINT 0 — recorded 2026-08-31 10:23 WIB -->
+## 2026-08-31 resume checkpoint 0 (newest session-state authority)
+
+- Resumed on `timmyv2`, eight commits ahead of `origin/timmyv2`, preserving all
+  pre-existing dirty and untracked work. No submission source was changed.
+- Graphify lessons were current and the existing graph query completed. Its
+  evidence route remains: Eugene score ladder -> S18/V18 control -> V19 tail64
+  versus Timmy S22 frame expansion -> replay cutoff/tail tests.
+- Graphify package `0.9.46` warned that the installed skill text is `0.9.17`;
+  traversal still completed normally. Treat this as tooling provenance, not a
+  competition finding.
+- Active unknowns remain V22's final score and historical V20/V21/V22 source
+  recovery. No Colab, Kaggle upload, remote push, or branch checkout occurred.
+
+This block is new work from the resumed session; older checkpoints below are
+prior-session evidence.
+<!-- END 2026-08-31 RESUME CHECKPOINT 0 -->
+
+<!-- BEGIN 2026-08-31 V21 SCORE CHECKPOINT — recorded 2026-08-31 10:16 WIB -->
+## 2026-08-31 V21 score checkpoint (newest score authority)
+
+- Authenticated team history now shows Eugene V21/ref `55892238`, script
+  `346063944`, complete at **90.900**.
+- V21 is **+2.745** versus Eugene V18 but **-1.575** versus V19. V19 remains
+  the banked control at **92.475**.
+- V21's historical source is unavailable, so its aggregate score rejects or
+  accepts only the unknown bundle; it does not identify a reusable mechanism.
+- Eugene V22/ref `55895453`, script `346092100`, remains pending. The current
+  pulled source is only a presumed V22 snapshot until that binding is closed.
+- No next artifact is authorized until V22 finishes and Checkpoint A is reviewed.
+
+No Kaggle upload, push, or working-tree branch checkout occurred.
+<!-- END 2026-08-31 V21 SCORE CHECKPOINT -->
+
+<!-- BEGIN 2026-08-31 PROVENANCE CHECKPOINT — recorded 2026-08-31 10:00 WIB -->
+## 2026-08-31 provenance and source checkpoint (newest authority)
+
+- Authenticated `GetSubmission` metadata closes the version/ref ownership map:
+  Eugene V19 `345982069`/`55883308` = **92.475**; Timmy S22
+  `346026772`/`55888268` = **87.390**; Eugene V20
+  `346033952`/`55889026` = **79.020**; Eugene V21
+  `346063944`/`55892238` and V22 `346092100`/`55895453` remain pending.
+- Timmy's scored S22 payload is closed byte-for-byte at attack SHA-256
+  `c94487df48ed4be22d7753cbb7fca7dc925ac16218f4f1ea7a9a86ce27ac90cb`.
+  Relative to exact S18 it only adds two frame candidates, so its **-0.765**
+  result rejects that lever.
+- Eugene's reconstructed V19 release source is
+  `3169466cc3a2f01fafaf6a0ca4adb335f7a5698334e18b89711eea7daf82ae32`:
+  exact S18 plus the bounded 64-candidate post-cutoff tail and an inert default
+  cap clamp. Historical private-revision download returns 403, so the scored
+  upload's byte identity remains the one open provenance edge; do not describe
+  it as cryptographically closed.
+- The current pulled Eugene notebook has attack SHA-256
+  `366ff1346b5d89a3545814abad8c4d765b2d8568a714b32bff99a4b00e61c826`.
+  It is S18 plus a six-consecutive-miss switch to the race runner-up, with no
+  V19 tail. It is the current/latest snapshot and presumed V22; historical V20
+  and V21 sources are still unavailable, so V20's large loss cannot be assigned
+  to a mechanism.
+- Kaggle no longer serves the historical raw submission CSVs, and its episode
+  API returns zero rows for these refs. Per-model effects are therefore unknown.
+- The otherwise dangling Eugene S17-S19 commit is protected locally by branch
+  `archive/eugene-s19`; no remote was changed.
+- Operational decision: bank V19, retire S22/S23, wait for V21/V22 decode, and
+  run any next upload as one change from V19. The revised gates live in
+  `tasks/plan.md`; durable artifact metadata lives in
+  `dev_notes/kaggle_versions/README.md`.
+
+No Kaggle upload, push, or working-tree branch checkout occurred.
+<!-- END 2026-08-31 PROVENANCE CHECKPOINT -->
+
+<!-- BEGIN 2026-08-31 SCORE INTAKE CHECKPOINT — recorded 2026-08-31 09:42 WIB -->
+## 2026-08-31 score intake checkpoint (newest score authority)
+
+- Authenticated Kaggle history now shows Eugene V19/ref `55883308` complete at
+  **92.475**. Against frozen S18/ref `55870282` = **88.155**, the isolated
+  64-tail gain is **+4.320**, exactly **75%** of its +5.760 theoretical ceiling.
+  T1 and T7 therefore pass; classify the bounded tail `tail-positive`.
+- Timmy S22 is **87.390** (chronological ref `55888268`, exact notebook/ref
+  metadata cross-check still in progress): **-0.765** versus S18. Reject the
+  two added frames as a hosted scoring lever; deterministic packaging remains
+  valid but does not imply superiority.
+- Eugene V20 is **79.020** (chronological ref `55889026`, provenance
+  cross-check in progress): **-13.455** versus V19. Do not inherit its new
+  mechanism until the exact V19→V20 diff is isolated.
+- The two newest refs, `55892238` and `55895453`, remain pending and are the
+  likely V21/V22 slots. Exact version/ref mapping is still being verified.
+- S23 stays blocked: its tail dependency passed, but its S22-frame dependency
+  failed. The next artifact must start from scored V19, not S22/S23.
+
+Full evidence is being appended as `dev_notes/S22_investigation.md`
+Iteration 12. No upload, push, or branch checkout occurred in this intake.
+<!-- END 2026-08-31 SCORE INTAKE CHECKPOINT -->
 
 <!-- BEGIN LOCAL COMMIT CHECKPOINT — recorded 2026-08-30 17:14 WIB -->
 ## Local commit checkpoint (newest authority)

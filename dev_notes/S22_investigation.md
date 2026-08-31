@@ -339,3 +339,198 @@ the isolated source/release commit.
   or sensitive fixture was staged.
 - Created one local atomic commit for the S22/S23 release work. No push and no
   Kaggle upload occurred.
+
+## Iteration 12 — fresh hosted-score intake
+
+**Recorded:** 2026-08-31 09:42 WIB
+
+- Authenticated `kaggle competitions submissions` returned:
+  - ref `55883308`: complete, **92.475** (user identifies this as Eugene V19);
+  - ref `55888268`: complete, **87.390** (chronological/user-label match for
+    Timmy S22; notebook metadata verification remains open);
+  - ref `55889026`: complete, **79.020** (user identifies Eugene V20 as the
+    ~79 result; exact version/ref metadata verification remains open);
+  - refs `55892238` and `55895453`: pending (likely Eugene V21/V22 in order;
+    exact mapping remains open).
+- V19's isolated tail marginal is `92.475 - 88.155 = +4.320`. Relative to its
+  preregistered maximum `+5.760`, observed/theoretical capture is `0.75`.
+  Classify T7 as `tail-positive`.
+- S22's frame marginal is `87.390 - 88.155 = -0.765`. Its hosted acceptance
+  gate failed; the two extra frames must not be carried into the next build.
+- V20 lost `13.455` versus V19 and `9.135` versus S18. Until its exact code
+  delta is inspected, this is a stop signal rather than evidence for any one
+  suspected mechanism.
+- S23 cannot activate because its required frame dependency failed even though
+  the tail dependency passed. The next experiment must branch from exact V19.
+
+Next: prove version/ref/source hashes, isolate V19→V20/V21/V22 diffs, and rank
+one-variable V19-based experiments. No upload or source implementation yet.
+
+## Iteration 13 — exact API mapping and source provenance
+
+**Recorded:** 2026-08-31 10:00 WIB
+
+- Authenticated Kaggle API metadata maps refs to script versions directly:
+  - Eugene V19 `345982069` / ref `55883308` / **92.475**;
+  - Timmy S22 `346026772` / ref `55888268` / **87.390**;
+  - Eugene V20 `346033952` / ref `55889026` / **79.020**;
+  - Eugene V21 `346063944` / ref `55892238` / pending;
+  - Eugene V22 `346092100` / ref `55895453` / pending.
+  This supersedes Iteration 12's chronological qualifiers.
+- Timmy S22's scored notebook embeds the exact local source hash
+  `c94487df48ed4be22d7753cbb7fca7dc925ac16218f4f1ea7a9a86ce27ac90cb`.
+  Its only effective delta from S18 is the five-frame expansion, so that lever
+  failed its hosted acceptance gate.
+- Repo V19/S19 source hash is
+  `3169466cc3a2f01fafaf6a0ca4adb335f7a5698334e18b89711eea7daf82ae32`.
+  It is exact S18 plus the 64-tail mechanism and a default-inert cap clamp.
+  Kaggle rejects historical private-version pulls with 403, so the scored
+  upload cannot be cryptographically rebound to this hash from the API.
+- The current pulled Eugene notebook embeds
+  `366ff1346b5d89a3545814abad8c4d765b2d8568a714b32bff99a4b00e61c826`:
+  S18 plus a one-time runner-up-frame failover after six consecutive misses,
+  with no V19 tail. It is presumed V22 from the current/latest pull; V20 and
+  V21 source diffs remain unavailable.
+- Historical raw submission files now resolve to deleted objects, and the
+  submission-episode endpoint returns no rows. Per-model score attribution is
+  unavailable and must remain unknown.
+- Preserved dangling Eugene commit `002a03830b66e228bdb65daab2a79565d38f72cb`
+  as local branch `archive/eugene-s19`. This touched no working-tree file and
+  no remote.
+
+Target arithmetic from the banked 92.475 uses the documented 0.045 aggregate
+per successful single in one model row: 100 requires 168 additional successful
+single-row equivalents in total (84/model only if perfectly balanced), while
+110 requires 390 total (195/model only if balanced). These are ceilings math,
+not forecasts.
+
+Durable details: `dev_notes/kaggle_versions/README.md`. Next: replace the stale
+S22 plan with V19-based decision gates, then refresh Graphify.
+
+## Iteration 14 — resumed-state audit and V21 decode
+
+**Recorded:** 2026-08-31 10:16 WIB
+
+- Recovered the existing handoff, V19-anchored plan, artifact ledger, prior
+  Graphify queries, and dirty-worktree state before making any implementation
+  change. The prior causal decision remains valid: V19 tail64 gained +4.320;
+  Timmy S22's frame expansion lost 0.765; V20's unknown bundle lost 13.455.
+- Refreshed authenticated Kaggle team history. Eugene V21/ref `55892238`,
+  script `346063944`, is now complete at **90.900**. V22/ref `55895453`, script
+  `346092100`, remains pending.
+- V21 is +2.745 versus S18 and -1.575 versus V19. Since its historical source
+  is unavailable, this is bundle-level evidence only. V19 remains the banked
+  control and no V21 mechanism may be inferred from the score.
+- Queried the existing graph using vocabulary-constrained terms. It confirmed
+  the relevant seams—scoring, replay packing, model-specific arms, and the
+  Eugene/Timmy control lineage—but introduced no stronger causal evidence than
+  the hosted one-diff results above.
+
+Next: wait for or refresh V22, attempt source recovery without guessing, then
+execute Checkpoint A. No new attack source, upload, push, or branch checkout.
+
+## Iteration 15 — resumed inventory and evidence plan
+
+**Recorded:** 2026-08-31 10:40 WIB
+
+- Preserved the dirty `timmyv2` worktree and recovered prior handoff, score log,
+  V19-anchored plan, artifact ledger, graph memories, and branch history.
+- The latest established score ladder is V19 92.475, S22 87.390, V20 79.020,
+  V21 90.900, with V22 pending at the last authenticated refresh.
+- Queried the existing Graphify graph. Its useful comparison seams are replay
+  cutoff/tail capacity, frame selection, candidate packing, model-specific
+  arms, and SDK score accounting. Graph traversal is navigation evidence, not
+  proof of a causal score effect.
+- Selected an iterative experiment plan: refresh scores and notebook sources;
+  build an exact code/score delta table; retain only isolated hosted effects;
+  choose one V19-based next change with offline invariants and a rollback.
+- No attack source, Kaggle upload, remote push, or active worktree switch was
+  performed.
+
+Next: refresh V22 and linked notebook metadata, then bind all recoverable
+V19–V22 sources before interpreting score differences.
+
+## Iteration 16 — live score, rank, and source-access refresh
+
+**Recorded:** 2026-08-31 10:49 WIB
+
+- Authenticated submissions still report V22/ref `55895453` pending. The
+  completed comparison remains V19 92.475, S22 87.390, V20 79.020, and V21
+  90.900.
+- Downloaded the current leaderboard: 4,207 teams; `TimmyTurner` rank 277,
+  best 92.475, 46 submissions, members `timsurreal,zombiespecz`. Counts are
+  108 teams at 100+ and 55 at 110+; leader 147.530.
+- Retried an authenticated historical pull for V19/script `345982069`; Kaggle
+  returned HTTP 403. V20/V21 code remains unavailable, so their scores cannot
+  support mechanism-level claims.
+- The latest Eugene download still supplies only the presumed V22 snapshot,
+  whose exact known delta from S18 is a six-consecutive-miss switch to the
+  race runner-up and removal/absence of V19's tail.
+- Competition documentation confirms replay-validated scoring across GPT-OSS
+  and Gemma, independent public/private guardrail replays, and a September 1,
+  2026 23:59 UTC deadline. Public reports independently reinforce the local
+  finding that separate short single-post candidates often beat multipost
+  chains on score per replay second; these reports are corroboration, not team
+  causal evidence.
+
+Next: compare the exact S18→V19, S18→S22, and S18→presumed-V22 diffs and
+separate proven levers from score noise and unknown bundles.
+
+## Iteration 17 — shared-control causal decomposition
+
+**Recorded:** 2026-08-31 10:52 WIB
+
+| Artifact | Exact known delta from S18 | Score | Delta from S18 | Evidence |
+|---|---|---:|---:|---|
+| Eugene S18/V18 | control | 88.155 | — | frozen source/hash |
+| Eugene V19 | guarded 64-candidate winner-frame tail; inert cap clamp | 92.475 | +4.320 | isolated hosted delta; scored-upload hash still open |
+| Timmy S22 | add two frames to the 3-frame race | 87.390 | -0.765 | isolated and byte-bound |
+| Eugene V20 | source unavailable | 79.020 | -9.135 | unknown bundle only |
+| Eugene V21 | source unavailable | 90.900 | +2.745 | unknown bundle only |
+| Eugene V22 | presumed latest: six-miss runner-up failover, no tail | pending | — | current snapshot, version binding not closed |
+
+The decisive arithmetic is exact:
+
+`(V19 - S18) - (S22 - S18) = 4.320 - (-0.765) = 5.085 = V19 - S22`.
+
+Subject to hosted variance and V19's remaining hash caveat, the full observed
+gap is accounted for: Eugene added replay-capacity tail and gained; Timmy added
+unmeasured frame choices and lost. S21→S22's +10.410 is not evidence for the
+new frames because that step also replaced Timmy's 2,433-line screen/verify/UCB
+chassis with Eugene's compact S18 path.
+
+Why the compact path transfers:
+
+1. one untimed model-load warm-up;
+2. six interleaved probes across three complete frames;
+3. retain all successful race probes;
+4. select by observed median latency/fire rate and fill immediately;
+5. return only fired single-post candidates;
+6. charge actual elapsed cost to the ordered replay prefix and stop safely;
+7. place blind capacity candidates after that prefix so replay truncation cannot
+   displace validated findings.
+
+S21 violated this discipline: screen hits were discarded, Stage D exhausted
+capacity before Stage E, and tests asserted Stage E's presence rather than its
+reachability/effect. S22 fixed the chassis but enlarged a noisy two-sample race
+from three to five frames without real-model evidence, spending four extra
+probes and increasing selection error.
+
+Next: choose the tail size using target arithmetic, observed V19 capture, and
+the gateway's prefix-preserving replay timeout behavior.
+
+## Iteration 18 — cutoff recovery and scope lock
+
+**Recorded:** 2026-08-31 10:56 WIB
+
+- Recovered all prior notes, the exact score/ref/script map, branch tips,
+  generated Graphify outputs, and the existing V19-based endgame plan.
+- The worktree contains prior/user changes and generated artifacts. Preserve it;
+  inspect teammate branches with `git show`/`git diff`, not checkout.
+- Working assumptions are explicit: scores are 92.475/87.390 on Kaggle's scale;
+  target is 100–110; this analysis may design but may not upload; only exact
+  shared-control deltas receive mechanism-level causal weight.
+- The next iteration will refresh hosted status and bind any new score before
+  changing the experiment ranking.
+
+No attack source, Kaggle upload, remote push, or branch checkout occurred.

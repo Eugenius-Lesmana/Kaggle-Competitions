@@ -1,16 +1,26 @@
-# S22 checklist
+# V19-anchored endgame checklist
 
-- [ ] T1: Decode V19/ref `55883308`; record score, SHA, and decision band.
-- [x] Checkpoint A: User directed conditional S18-control materialization without waiting.
-- [x] T2: Reproduce exact Eugene S18 payload/hash on `timmyv2`.
-- [ ] T3: Battery S18 frames + at most two terse singles on both models (unrun evidence gap).
-- [ ] Apply the >=3% and safety gates before recommending S22 as superior.
-- [x] T4: Add five-frame effect and exact-lineage tests RED on S18, GREEN on S22.
-- [x] T5: Build one-diff S22-FRAME; validate, sync, and freeze hashes.
-- [ ] Checkpoint B: Review battery rows, code diff, tests, and manifest.
-- [ ] T6: Upload once; map Kaggle ref to exact artifact and decode.
-- [ ] T7: Quantify V19 tail capture ratio.
-- [ ] T8: Combine frame + tail only if each scored positive alone.
-- [x] Prepare a frozen conditional S23 union; keep upload blocked until T8 dependencies pass.
-- [ ] T9: Attempt density only with >=15% modeled gain and approved downside.
-- [x] Update handoff, investigation, checklist, and Graphify; ledger unchanged because no upload scored.
+- [x] Map V19/V20/V21/V22 and Timmy S22 to exact refs/script versions/owners.
+- [x] Record V19 = 92.475, S22 = 87.390, V20 = 79.020.
+- [x] Reject S22's five-frame lever (-0.765 versus exact S18 control).
+- [x] Classify repo V19 tail64 as strong-positive evidence (+4.320; 75% of max),
+  while retaining the scored-upload hash caveat.
+- [x] Preserve dangling Eugene S17-S19 lineage as `archive/eugene-s19`.
+- [x] Pull and hash the current Eugene notebook; classify it as presumed V22,
+  S18 plus six-miss runner-up failover, with no V19 tail.
+- [x] Record that V20/V21 source and all per-model score rows remain unavailable.
+- [x] Replace the failed S22 plan with the V19-based tail192 decision tree.
+- [x] Record V21/ref `55892238` = 90.900; retain source-unavailable qualifier.
+- [ ] Refresh V22/ref `55895453`; record its final score.
+- [ ] Recover and hash-bind V20/V21/V22 historical sources if Kaggle makes them
+  accessible or Eugene supplies the notebook files.
+- [ ] Checkpoint A: teammate approves the best control after V21/V22 decode.
+- [ ] Materialize exact V19 control in a new experiment directory.
+- [ ] Add RED tail192 prefix/cap/fault/ordering tests.
+- [ ] Change only `OVERPACK_TAIL_N = 64` to `192`; build and gate the notebook.
+- [ ] Checkpoint B: review one-line effective diff, tests, hashes, and downside.
+- [ ] Upload only with explicit teammate authorization; decode against 92.475.
+- [ ] Combine V22 failover with V19 only if V22 independently clears its gate.
+- [ ] Attempt density work only with the real-model evidence required by T6.
+- [ ] Refresh Graphify after the Aug-31 evidence/plan update and verify integrity.
+- [ ] Update handoff, ledgers, investigation, and Graphify after every new score.

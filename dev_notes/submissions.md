@@ -1384,3 +1384,133 @@ complete 163.2s) · notebook + sync ✅ byte-exact
 - **Predicted**: ~80 central (70.895 × 1.128); floor 72
 - **Result / r**: PENDING
 - **Decision**: PENDING
+
+## S20_K2PURE — DECODED ~73 (2026-08-29)
+
+**Ref TBD, scored ~73k on the public LB**. k=2 forge (fx2_ultra on gpt) +
+teammate_plain (on gemma) did NOT move the needle vs S15 (72.095) or S17
+(70.895). Fired ≈ 730/row — same singles-class count.
+
+**Decode**: the k=2 hedge and teammate_plain template are NOT the gap. The
+gap is the fill loop. Our keep-only-fired path (stages C+D) ships only ~35-45
+verified probes per row. The rival/teammate-A ship ~889 candidates/row via a
+continuous fill loop (fire → keep if fires → repeat until budget exhaust).
+S20's tight budget levers (cap 8900, frac 0.993, gate 1.0·p95+8s) gave us
+the same budget utilization as the rival — but without a fill loop, the extra
+budget just idled. The gap is ~15 LB from ~160 more fired candidates/row.
+
+**Decision**: build S21 = same arms + pure exploitation fill loop after stage D.
+
+## S21_FILL — BUILT & GATED (2026-08-29, post-S20-decode)
+
+**Trigger**: Aug-29 S20 decode (~73). The gap vs the rival/teammate is NOT
+templates or forge — it's the fill loop. Our keep-only-fired path ships only
+~35-45 verified probes; the rival fills to ~889 candidates/row by firing the
+best family continuously until budget exhaust.
+
+**Design (single lever, pure A/B vs S20)**:
+- Arms identical to S20: gpt = fx2_ultra + fx1_ultra; gemma = teammate_plain
+  + rival_plain.
+- Chassis: keep-only-fired, VERIFY_REPS=1, density ranking, N_MAX_S10 ceiling,
+  _ctx_ guard, mirror validation — all inherited from S20.
+- Budget levers: S20 tight gate (cap 8900, frac 0.993, 1.0·p95+8s, 60s margin).
+- **NEW: Stage E pure exploitation fill loop**. After UCB converges, the
+  best-density family fires single-message probes repeatedly until n_target
+  (2000) or budget exhausts. Every probe that fires appends to verified →
+  keep-only-fired ships it. This matches the rival's fill strategy.
+- Fallback bands 3000+ (disjoint from screen/verify/UCB bands).
+
+**Expected gain**: +15-25 LB vs S20 (the rival gap was ~15 LB from ~889/row
+vs our ~788/row, and S20 was shipping only ~35-45 verified probes vs our
+earlier ~788 — the fill loop bridges this entirely). Predicted: ~85-100 LB
+central (73 + 12-27 from fill volume).
+
+**Gates** (2026-08-29): units ✅ ×22 suites ×6 modes (incl. S21_FILL branch:
+arms == S20 verbatim, fill loop structure, density ranking, keep-only-fired) ·
+aicomp validate ✅ · gateway relay ✅ (deterministic: 700 cands, 623 replayed,
+score 493.27; 90s budget) · notebook + sync ✅ byte-exact
+(`submission_S21_FILL.ipynb` 153,340 B; attack.py sha256
+`7254d222862ad04721b2b4d717102f91da0380f469734ae46bdb8167c791580f`).
+
+**Decode rules** (pre-registered):
+- S21 ≥ 85: fill loop confirmed + k=2 edge additive. Re-ship S21 bytes
+  for tail draws; endgame.
+- S21 77–85: fill loop works but k=2 inert on one arm. Keep S21 in rotation.
+- S21 72–77: fill loop inert hosted. Revert to S15 bytes (72.095 banked).
+- S21 < 72 or zombie: one identical re-upload, then revert to S15-class.
+
+- **Date**: 2026-08-29
+- **attack.py sha256**: 7254d222862ad04721b2b4d717102f91da0380f469734ae46bdb8167c791580f
+- **Notebook**: submission_S21_FILL.ipynb (153,340 B)
+- **One lever changed**: S20 arms + pure exploitation fill loop after stage D
+  (fires best-density family until n_target or budget exhaust)
+- **Predicted**: ~85-100 central (73 + 12-27 from fill volume); floor 72
+- **Result / r**: PENDING
+- **Decision**: PENDING
+
+## S20/S21 OFFICIAL DECODE CORRECTION — 2026-08-30
+
+This append-only correction supersedes the predictions above:
+
+- S20_K2PURE: ref `55856909`, **73.740**.
+- S21_FILL: ref `55871920`, **76.980**.
+- Eugene S18/V18: ref `55870282`, **88.155**.
+- Eugene S19/V19: ref `55883308`, pending at 2026-08-30 16:08 WIB.
+
+S21 did **not** prove its new Stage E fill. Stage D already loops until
+`n_target`, pool exhaustion, or the shared budget gate; Stage E comes later.
+A deterministic always-fire trace with cap 40 produced Stage B=0, Stage C=2,
+Stage D=38, Stage E=0. Stage B hits are discarded by `_compose()`. The passing
+unit suite checked that Stage E code existed, not that execution reached it.
+
+The earlier 35–45-candidate explanation is also impossible at a 76.980 score:
+Stage D already fills hundreds. Treat the +3.240 S20→S21 move as a near-control
+run, not evidence for the advertised lever. S22 planning is in `tasks/plan.md`.
+
+## AUG-31 HOSTED SCORE INTAKE — 2026-08-31 09:42 WIB
+
+Authenticated team history supersedes the pending state above:
+
+- Eugene V19/ref `55883308`: **92.475**. Tail marginal over S18 = **+4.320**;
+  capture ratio versus the preregistered +5.760 ceiling = **75%**.
+- Timmy S22: **87.390** (chronological ref `55888268`; exact notebook/ref
+  metadata check pending). Frame marginal versus S18 = **-0.765**: rejected.
+- Eugene V20: **79.020** (chronological ref `55889026`; exact version/ref
+  metadata check pending), down **13.455** from V19.
+- Newest refs `55892238` and `55895453` remain pending; likely V21/V22 in
+  chronological order, pending exact metadata verification.
+
+Decision: bank V19; do not upload S23 because S22's frame dependency failed.
+Start the next isolated experiment from exact V19 bytes.
+
+## AUG-31 PROVENANCE CORRECTION — 2026-08-31 10:00 WIB
+
+Authenticated Kaggle API metadata closes the version/ref mapping that the prior
+block left provisional:
+
+- Eugene V19: script `345982069`, ref `55883308`, **92.475**.
+- Timmy S22: script `346026772`, ref `55888268`, **87.390**; embedded source
+  exactly matches local SHA-256 `c94487df48ed4be22d7753cbb7fca7dc925ac16218f4f1ea7a9a86ce27ac90cb`.
+- Eugene V20: script `346033952`, ref `55889026`, **79.020**.
+- Eugene V21: script `346063944`, ref `55892238`, pending.
+- Eugene V22: script `346092100`, ref `55895453`, pending.
+
+Repo V19 source is `3169466c…`, but Kaggle's private historical revision cannot
+be pulled, so scored-upload hash identity remains open. V20/V21 sources are also
+unrecovered. The current Eugene pull (`366ff134…`, presumed V22) is an S18-based
+six-miss frame-failover build without V19's tail. Do not attribute V20's loss to
+that failover or any other individual mechanism.
+
+Historical raw score CSVs are gone and the episode API exposes no rows; no
+per-model score breakdown is available. Full hashes and retrieval limits:
+`dev_notes/kaggle_versions/README.md`.
+
+## AUG-31 V21 DECODE — 2026-08-31 10:16 WIB
+
+- Eugene V21: script `346063944`, ref `55892238`, **90.900**.
+- Delta versus V18: **+2.745**. Delta versus banked V19: **-1.575**.
+- Eugene V22: script `346092100`, ref `55895453`, still pending.
+- V21 source remains unavailable, so this is unknown-bundle evidence only.
+
+Decision unchanged: bank V19 at 92.475; do not adopt a V21 mechanism by
+inference. Wait for V22 and complete Checkpoint A before building the next diff.
