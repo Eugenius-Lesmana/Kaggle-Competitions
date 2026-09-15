@@ -1,0 +1,2 @@
+{"sequence":1,"timestamp":"2026-08-27T17:13:36.561146866+07:00","event_type":"state_change","task_id":"20260827-042748.699876741-alibaba-qwen3.8-max--bash-9","session_id":"20260827-042748.699876741-alibaba-qwen3.8-max","state":"running","runtime_state":"alive"}
+{"sequence":2,"timestamp":"2026-08-27T17:19:03.547124121+07:00","event_type":"state_change","task_id":"20260827-042748.699876741-alibaba-qwen3.8-max--bash-9","session_id":"20260827-042748.699876741-alibaba-qwen3.8-max","state":"succeeded","runtime_state":"exited"}

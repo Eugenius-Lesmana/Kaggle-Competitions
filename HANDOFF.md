@@ -1,5 +1,59 @@
 # HANDOFF — AI Agent Security competition (timmyv2 branch, next agent session)
 
+<!-- BEGIN 2026-09-01 S25/FIFTH-SLOT CHECKPOINT — recorded 2026-09-01 22:07 WIB -->
+## 2026-09-01 S25 and fifth-slot checkpoint (newest live authority)
+
+- Timmy S25 Tail96 was already submitted as ref `55932157` at **11:52 WIB**;
+  it remains pending. Do not submit another Tail96 copy.
+- A new Timmy submission, ref `55942688`, was accepted at **22:05 WIB** and is
+  pending. Authenticated limits now show **5 today / 57 lifetime / no remaining
+  daily slot**. Its script/source identity is not yet bound; do not assume it is
+  the recommended exact V19 rerun until hashes are recorded.
+- S25 is exact V19 with Tail64 -> Tail96. The 32 extra candidates per model row
+  give a maximum incremental ceiling of `64 * 0.045 = 2.880`, or **95.355**
+  from V19 before hosted variance. It is not an evidence-backed 100-point path.
+- Selection rule: keep original V19 unless S25 scores at least **92.925**. Even
+  if it wins publicly, Tail96 is a volume variant rather than a structural
+  private-guardrail hedge.
+
+Next: bind ref `55942688` to script/notebook/attack hashes, then monitor both
+pending refs. No further submission is possible today.
+<!-- END 2026-09-01 S25/FIFTH-SLOT CHECKPOINT -->
+
+<!-- BEGIN 2026-09-01 FINAL-SLOT AUTHORITY — recorded 2026-09-01 21:17 WIB -->
+## 2026-09-01 final-slot authority (newest strategy and live-state authority)
+
+- Authenticated refresh at **21:12 WIB**: refs `55932157`, `55933430`,
+  `55935763`, and `55935769` remain pending; quota is **4/5 today**, 56
+  lifetime, **one slot remaining**. Team `TimmyTurner` is rank **291** at
+  **92.475**; rank 200 is **95.680**, rank 100 is **101.965**.
+- Use the fifth slot **immediately** for a byte-exact V19 rerun. Preferred:
+  resubmit existing Eugene V19 script `345982069` if Kaggle permits. Fallback:
+  import only `archive/eugene-s19:S19/RELEASE/submission.ipynb`.
+- Frozen identity reverified: notebook SHA-256
+  `cd65fe8e4b44cf99ad289974b590ccba2fe095b44e0b4e66ef4ffff9ac78c670`;
+  embedded attack SHA-256
+  `3169466cc3a2f01fafaf6a0ca4adb335f7a5698334e18b89711eea7daf82ae32`.
+  The archive and live Eugene clone copies are byte-identical.
+- This is a **variance hedge**, not a credible expected 100–110 mechanism.
+  Exact V25 scored 88.875 versus V19's 92.475. The slot still has positive
+  option value because V19 stays banked and an unused slot cannot improve rank.
+- Rejected last-slot mechanisms: best-first V20 (79.020), frame-failover V22
+  (86.940), Tail128 V23 (81.945), Tail256 S24 (90.540), multipost-4 V26
+  (73.710), and any union/descendant. Tail96 is already pending as Timmy S25.
+- Final selection: keep V19/ref `55883308` as Final #1 unless a completed,
+  source-bound run clearly beats it. Choose Final #2 by the decision tree in
+  `dev_notes/final_day_submission_plan.md`; manually lock both by **05:30 WIB**.
+- Do not switch the dirty worktree, edit the frozen notebook, infer identities
+  for the three unbound Eugene pending scripts, or wait for their scores before
+  launching the fifth run. No Colab experiment can answer the hosted-variance
+  question within the remaining window.
+- Final no-change refresh at **21:32 WIB**: all four refs remain pending and
+  the quota remains 4/5 today with one slot available.
+
+Full live plan and evidence matrix: `dev_notes/final_day_submission_plan.md`.
+<!-- END 2026-09-01 FINAL-SLOT AUTHORITY -->
+
 <!-- BEGIN 2026-08-31 S24 TAIL256 SUBMITTED — recorded 2026-08-31 11:32 WIB -->
 ## 2026-08-31 S24 tail256 submission checkpoint (newest session-state authority)
 

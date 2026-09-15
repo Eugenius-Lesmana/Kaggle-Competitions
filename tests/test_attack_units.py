@@ -166,7 +166,7 @@ def test_mirror_and_length_all_families():
 def test_s3_family_modes():
     # Mode switch selects the active firehose set; builders exist either way.
     assert attack.MODE in (
-        "S19B_SINGLEFULL", "S19_P2PFULL", "S18_P2P", "S17_HYBRIDULTRA", "S16_ULTRA", "S15_SINGLEPURE", "S14_SINGLEFILE", "S13_DEEPGEMMA", "S12_BIFROST", "S11_TOPTIER",
+        "S21_FILL", "S20_K2PURE", "S19B_SINGLEFULL", "S19_P2PFULL", "S18_P2P", "S17_HYBRIDULTRA", "S16_ULTRA", "S15_SINGLEPURE", "S14_SINGLEFILE", "S13_DEEPGEMMA", "S12_BIFROST", "S11_TOPTIER",
         "S10_SHORTALL",
         "S9C_FORGEMAX", "S9B_BARESCALE", "S9A_BARESWAP",
         "S8A_SCALE", "S8B_ARMSPLIT", "S8C_BAREONLY",
@@ -385,6 +385,41 @@ def test_s3_family_modes():
         assert attack._GEN_CAP_S_FULL == 8900.0
         assert attack._PROBE_HEADROOM_S_TIGHT == 12.0
         print("  [ok] S19B mode: S17 arms verbatim, budget levers same as S19")
+    elif attack.MODE == "S20_K2PURE":
+        # S20 = k=2 on gpt + teammate's proven 84k template on gemma
+        assert attack.FIREHOSE_FAMILIES == (
+            attack._S20_GPT_ARM + attack._S20_GEMMA_ARM
+        )
+        assert attack._S20_GPT_ARM == ("fx2_ultra", "fx1_ultra")
+        assert attack._S20_GEMMA_ARM == ("teammate_plain", "rival_plain")
+        assert attack.ARM_SPLIT is True
+        assert attack._session_families(1) == attack._S20_GPT_ARM
+        assert attack._session_families(2) == attack._S20_GEMMA_ARM
+        assert attack._ship_ceiling() == attack.N_MAX_S10
+        assert attack.VERIFY_REPS == 1
+        # budget levers: tighter gate (1.0*p95+8s)
+        assert attack._GEN_CAP_S_FULL == 8900.0
+        # forge routing: fx2_ultra/fx1_ultra in FORGE_ROUTE; teammate_plain in BARE_ROUTE
+        assert "fx2_ultra" in attack._FORGE_ROUTE
+        assert "fx1_ultra" in attack._FORGE_ROUTE
+        assert "teammate_plain" in attack._BARE_ROUTE
+        assert "rival_plain" in attack._BARE_ROUTE
+        print("  [ok] S20 mode: k=2 gpt (fx2_ultra) + teammate 84k gemma template,"
+              " tighter gate (1.0*p95+8s)")
+    elif attack.MODE == "S21_FILL":
+        # S21 = S20 arms + pure exploitation fill loop
+        assert attack.FIREHOSE_FAMILIES == (
+            attack._S21_GPT_ARM + attack._S21_GEMMA_ARM
+        )
+        assert attack._S21_GPT_ARM == ("fx2_ultra", "fx1_ultra")
+        assert attack._S21_GEMMA_ARM == ("teammate_plain", "rival_plain")
+        assert attack.ARM_SPLIT is True
+        assert attack._session_families(1) == attack._S21_GPT_ARM
+        assert attack._session_families(2) == attack._S21_GEMMA_ARM
+        assert attack._ship_ceiling() == attack.N_MAX_S10
+        assert attack.VERIFY_REPS == 1
+        assert attack._GEN_CAP_S_FULL == 8900.0
+        print("  [ok] S21 mode: S20 arms + fill loop")
     elif attack.MODE == "S18_P2P":
         # posts-per-candidate ladder on both arms
         assert attack.FIREHOSE_FAMILIES == (
@@ -773,6 +808,8 @@ def test_s9_scaling_families():
         "S18_P2P": attack.N_MAX_S10,
         "S19_P2PFULL": attack.N_MAX_S10,
         "S19B_SINGLEFULL": attack.N_MAX_S10,
+        "S20_K2PURE": attack.N_MAX_S10,
+        "S21_FILL": attack.N_MAX_S10,
     }.get(attack.MODE, attack.N_MAX)
     print(f"  [ok] S9 scaling families: zero-injection invariant, depth"
           f" ladder fs2-fs5 + fb3_bare + forged deep drips ctx-safe,"
@@ -992,7 +1029,7 @@ def test_compose_order_and_caps():
         "fh_short": {"probes": 1, "raw": [50.0], "lat": [30.0]},
     }
     ship = algo._compose(fake_verified, {}, n_target)
-    if attack.MODE in ("S16_ULTRA", "S17_HYBRIDULTRA", "S18_P2P", "S19_P2PFULL", "S19B_SINGLEFULL"):
+    if attack.MODE in ("S16_ULTRA", "S17_HYBRIDULTRA", "S18_P2P", "S19_P2PFULL", "S19B_SINGLEFULL", "S20_K2PURE", "S21_FILL"):
         assert ship[0] == drip  # 500/90 tops density order
         assert ship.index(fast_small) < ship.index(slow_big), (
             "S16-S18 density order must rank fast_small above slow_big"
@@ -1218,8 +1255,8 @@ def test_ship_size():
 def test_sibling_floor():
     """Sibling floor: families below SIBLING_FLOOR_FRAC x the best family's
     mean raw are excluded from the fill. Skipped in S16-S18 (keep-only-fired)."""
-    if attack.MODE in ("S16_ULTRA", "S17_HYBRIDULTRA", "S18_P2P", "S19_P2PFULL", "S19B_SINGLEFULL"):
-        print("  [ok] sibling floor: S16-S18 keep-only-fired, no sibling fill needed")
+    if attack.MODE in ("S16_ULTRA", "S17_HYBRIDULTRA", "S18_P2P", "S19_P2PFULL", "S19B_SINGLEFULL", "S20_K2PURE", "S21_FILL"):
+        print("  [ok] sibling floor: S16-S20 keep-only-fired, no sibling fill needed")
         return
     _fresh_state()
     algo = attack.AttackAlgorithm(config={})

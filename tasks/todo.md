@@ -1,5 +1,20 @@
 # V19-anchored endgame checklist
 
+## Final-day override — authoritative
+
+- [x] Refresh authenticated submissions, quota, leaderboard thresholds, and
+  exact V19 artifact identity at 21:12 WIB.
+- [x] Consume slot five: ref `55942688`, submitted 22:05 WIB.
+- [ ] Bind ref `55942688` to script/notebook/attack hashes; confirm whether it
+  is the intended byte-exact V19 rerun.
+- [ ] Monitor at 22:00, 00:00, 03:00, and 05:00 WIB.
+- [ ] Apply the source-bound Final #2 decision tree and manually select both
+  finals by 05:30 WIB.
+- [ ] Record final outcomes in handoff/ledgers and refresh Graphify if the
+  persisted corpus changed materially.
+
+## Superseded tail192 checklist (historical only)
+
 - [x] Map V19/V20/V21/V22 and Timmy S22 to exact refs/script versions/owners.
 - [x] Record V19 = 92.475, S22 = 87.390, V20 = 79.020.
 - [x] Reject S22's five-frame lever (-0.765 versus exact S18 control).

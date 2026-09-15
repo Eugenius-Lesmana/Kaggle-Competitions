@@ -1,6 +1,66 @@
 # V19-anchored endgame plan — beat 92.475 without losing causality
 
-**Status:** active evidence plan; no upload authorized.  
+## Final-day override — 2026-09-01 21:17 WIB
+
+The tail192 build plan below is superseded by hosted results and the remaining
+quota. Tail128 and Tail256 both lost, Tail96 is already pending, four of five
+daily slots are consumed, and the scoring queue exceeds the safe remaining
+window. Do not implement new attack behavior.
+
+### Task F0: Bind live state [XS]
+
+**Acceptance criteria:** authenticated status and quota recorded; every pending
+ref mapped to owner/script where known; unproven source identities remain marked
+unknown.
+
+**Verification:** `kaggle competitions submissions` and `submission-limits`
+agree on four pending / one remaining.
+
+**Dependencies:** None. **Status:** complete at 21:12 WIB.
+
+### Task F1: Launch byte-exact V19 [XS, human action]
+
+**Acceptance criteria:** use existing script `345982069` if permitted, otherwise
+only the frozen notebook SHA `cd65fe8e...`; embedded attack SHA is
+`3169466c...`; no rebuild or source edit; record new ref/script/time/hashes.
+
+**Verification:** uploaded notebook and embedded attack match full hashes in
+`dev_notes/final_day_submission_plan.md`; quota becomes 5/5.
+
+**Dependencies:** explicit teammate authorization. **Status:** slot consumed by
+ref `55942688`; exact artifact identity still requires verification.
+
+### Checkpoint F: Fifth-slot identity
+
+- [ ] Exact hashes verified after Kaggle normalization.
+- [ ] New ref/script/upload time recorded in handoff and score ledger.
+- [ ] Original V19/ref `55883308` remains selectable.
+
+### Task F2: Monitor and lock final two [XS, human action]
+
+**Acceptance criteria:** refresh at 22:00, 00:00, 03:00, and 05:00 WIB; keep
+V19 as Final #1 unless a completed source-bound run clearly beats it; apply the
+Final #2 decision tree; manually lock both by 05:30 WIB.
+
+**Verification:** Kaggle UI shows two intended final selections before the
+06:59 WIB deadline.
+
+**Dependencies:** F1 accepted; pending score intake.
+
+### Task F3: Close the durable record [XS]
+
+**Acceptance criteria:** final scores, bindings, selection, and unresolved
+provenance recorded; Graphify result saved/refreshed if source docs changed.
+
+**Verification:** handoff, plan, task list, and graph memory agree.
+
+**Dependencies:** F2.
+
+---
+
+## Superseded tail192 plan (historical only)
+
+**Status:** superseded historical plan; do not execute.
 **Updated:** 2026-08-31 10:16 WIB.  
 **Deadline:** 2026-09-01 23:59 UTC.  
 **Bank:** Eugene V19, ref `55883308`, script `345982069`, **92.475**.  
